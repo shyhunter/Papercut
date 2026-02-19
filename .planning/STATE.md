@@ -10,9 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 2 of 4 (PDF Processing)
-Plan: 0 of 3 in current phase — PLANNED, ready to execute
-Status: Phase 2 planned. Ready to execute (3 plans: 02-01, 02-02, 02-03).
-Last activity: 2026-02-19 -- Phase 2 planning complete (research + 3 plans verified)
+**Current Plan:** 2
+**Total Plans in Phase:** 3
+Plan: 1 of 3 in current phase — 02-01 complete, ready for 02-02
+**Status:** Ready to execute
+**Last Activity:** 2026-02-19
 
 Progress: [██████░░░░] 33%
 
@@ -35,6 +37,10 @@ Progress: [██████░░░░] 33%
 
 *Updated after each plan completion*
 
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| 02-pdf-processing | 1/3 | 2 min | 2 min |
+
 ## Accumulated Context
 
 ### Decisions
@@ -53,6 +59,9 @@ Recent decisions affecting current work:
 - [Phase 01-app-shell-file-input]: Invalid drop signaled via empty string sentinel (onFileDrop('')) rather than separate callback — simpler hook API
 - [Phase 01-app-shell-file-input]: StepBar non-interactive in Phase 1 — steps only advance via file load/reset operations
 - [Phase 01-app-shell-file-input]: StepBar uses numbered circles (Claude Discretion) with inline checkmark SVG for completed states
+- [Phase 02-pdf-processing]: useObjectStreams-only save: never useCompression (pdf-lib bug #1445 corrupts output)
+- [Phase 02-pdf-processing]: usePdfProcessor run() uses Omit<PdfProcessingOptions, 'onProgress'> — hook owns progress callback wiring
+- [Phase 02-pdf-processing]: dialog:allow-save added in 02-01 alongside fs permissions so all capabilities are co-located
 
 ### Pending Todos
 
@@ -65,5 +74,5 @@ None. Note: Rust toolchain required — installed via rustup during plan 01-01 e
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: Phase 2 planning complete — 02-01, 02-02, 02-03 plans verified and ready to execute.
+Stopped at: Completed 02-pdf-processing 02-01-PLAN.md — ready for 02-02 (ConfigureStep.tsx PDF UI)
 Resume file: None

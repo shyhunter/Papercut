@@ -13,8 +13,8 @@
 
 ### PDF Processing
 
-- [ ] **PDF-01**: User can compress a PDF to a specified target file size (e.g. "under 2MB")
-- [ ] **PDF-02**: User can resize PDF page dimensions (preset sizes: A4, A3, Letter; or custom width × height)
+- [x] **PDF-01**: User can compress a PDF to a specified target file size (e.g. "under 2MB")
+- [x] **PDF-02**: User can resize PDF page dimensions (preset sizes: A4, A3, Letter; or custom width × height)
 - [ ] **PDF-03**: User sees estimated output file size before committing to save
 
 ### Image Processing
@@ -65,8 +65,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FINP-01 | Phase 1 | Complete |
 | FINP-02 | Phase 1 | Complete |
 | FINP-03 | Phase 4 | Pending |
-| PDF-01 | Phase 2 | Pending |
-| PDF-02 | Phase 2 | Pending |
+| PDF-01 | Phase 2 | Complete |
+| PDF-02 | Phase 2 | Complete |
 | PDF-03 | Phase 2 | Pending |
 | IMG-01 | Phase 3 | Pending |
 | IMG-02 | Phase 3 | Pending |
