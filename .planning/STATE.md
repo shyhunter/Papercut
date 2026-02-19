@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 1 of 4 (App Shell & File Input)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase (paused at checkpoint:human-verify)
 Status: In progress
-Last activity: 2026-02-19 -- Completed 01-01 scaffold
+Last activity: 2026-02-19 -- Completed 01-02 tasks 1+2 (file picker + drag-drop); awaiting Task 3 human-verify
 
 Progress: [█░░░░░░░░░] 8%
 
@@ -49,6 +49,8 @@ Recent decisions affecting current work:
 - 01-01: dragDropEnabled true (default) required for Tauri onDragDropEvent API
 - 01-01: minWidth AND minHeight both set — Tauri known issue: minWidth alone has no effect
 - 01-01: shadcn/ui Neutral theme with CSS variables for consistent theming
+- [Phase 01-app-shell-file-input]: useFileDrop uses ref pattern for stable Tauri event listener callback — prevents re-registration on every render
+- [Phase 01-app-shell-file-input]: Invalid drop signaled via empty string sentinel (onFileDrop('')) rather than separate callback — simpler hook API
 
 ### Pending Todos
 
@@ -61,5 +63,5 @@ None. Note: Rust toolchain required — installed via rustup during plan 01-01 e
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: Completed 01-01-PLAN.md (scaffold + window config + shared types)
+Stopped at: Checkpoint Task 3 in 01-02-PLAN.md — awaiting human-verify of file picker + drag-drop
 Resume file: None
