@@ -28,12 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can select a PDF or image file (JPG, PNG, WebP) via the native file picker dialog and see it loaded into the app
   3. User can drag a supported file onto the app window and see it loaded (same result as file picker)
   4. User can see a step progress indicator (Pick, Configure, Compare, Save) with the current step highlighted
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Tauri + React project scaffold and dev tooling
-- [ ] 01-02: File input (picker + drag-and-drop) with format detection
-- [ ] 01-03: Step progress indicator and navigation shell
+- [ ] 01-01-PLAN.md — Tauri + React project scaffold, Tailwind v4, shadcn/ui, window config, shared types
+- [ ] 01-02-PLAN.md — File input: native picker + whole-window drag-and-drop, LandingCard, format detection
+- [ ] 01-03-PLAN.md — StepBar component (Pick → Configure → Compare → Save) and App.tsx integration
 
 ### Phase 2: PDF Processing
 **Goal**: Users can take any PDF, compress it to a target size or resize its pages, preview the result size, and save the output locally
