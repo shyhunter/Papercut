@@ -44,12 +44,12 @@ Plans:
   2. User can resize PDF page dimensions using presets (A4, A3, Letter) or custom width x height values
   3. User can see the estimated output file size before committing to save
   4. User can save the processed PDF to a chosen local path via a Save As dialog
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: PDF compression engine (pdf-lib integration, target size logic)
-- [ ] 02-02: PDF page resize and size estimation UI
-- [ ] 02-03: Save dialog and output flow
+- [ ] 02-01-PLAN.md — PDF processing engine: pdf-lib + pdfjs-dist dependencies, pdfProcessor.ts, usePdfProcessor hook, Tauri plugin-fs wiring
+- [ ] 02-02-PLAN.md — Configure and Compare UI: ConfigureStep.tsx, CompareStep.tsx, pdfThumbnail.ts, App.tsx integration
+- [ ] 02-03-PLAN.md — Save flow: SaveStep.tsx, native Save As dialog, file write, post-save toast
 
 ### Phase 3: Image Processing
 **Goal**: Users can compress, resize, convert, and visually compare images before saving -- the complete image workflow
