@@ -62,7 +62,7 @@ completed: 2026-02-19
 - **Duration:** 10 min
 - **Started:** 2026-02-19T17:18:46Z
 - **Completed:** 2026-02-19T17:28:00Z
-- **Tasks:** 2 (Task 3 is checkpoint:human-verify — awaiting user)
+- **Tasks:** 3 (Tasks 1–2 auto, Task 3 checkpoint:human-verify — approved)
 - **Files modified:** 4 (2 created hooks, 1 created component, 1 modified App.tsx)
 
 ## Accomplishments
@@ -79,7 +79,7 @@ Each task was committed atomically:
 1. **Task 1: File input hooks (picker + drag-drop) and validation wiring** - `2c5a7a4` (feat)
 2. **Task 2: LandingCard component and App.tsx wiring** - `427c684` (feat)
 
-Task 3 (checkpoint:human-verify) is pending user approval.
+3. **Task 3: Human verify — file input (picker + drag-and-drop)** - checkpoint:human-verify, approved by user
 
 ## Files Created/Modified
 
@@ -134,6 +134,14 @@ None - no external service configuration required. App runs locally via `npm run
 - fileEntry (path, format, name) stored in App.tsx state — ready for Phase 2 (PDF/image processing)
 - currentStep advances to 1 on valid file selection — plan 01-03 StepBar can read this value
 - Sonner toast infrastructure in place for all future error feedback
+
+## Self-Check: PASSED
+
+- 01-02-SUMMARY.md: FOUND
+- STATE.md: FOUND
+- ROADMAP.md: FOUND
+- Commit 2c5a7a4 (Task 1): FOUND
+- Commit 427c684 (Task 2): FOUND
 
 ---
 *Phase: 01-app-shell-file-input*

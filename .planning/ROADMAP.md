@@ -31,8 +31,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Tauri + React project scaffold, Tailwind v4, shadcn/ui, window config, shared types
-- [ ] 01-02-PLAN.md — File input: native picker + whole-window drag-and-drop, LandingCard, format detection
+- [x] 01-01-PLAN.md — Tauri + React project scaffold, Tailwind v4, shadcn/ui, window config, shared types
+- [x] 01-02-PLAN.md — File input: native picker + whole-window drag-and-drop, LandingCard, format detection
 - [ ] 01-03-PLAN.md — StepBar component (Pick → Configure → Compare → Save) and App.tsx integration
 
 ### Phase 2: PDF Processing
