@@ -7,8 +7,8 @@
 
 ### File Input
 
-- [ ] **FINP-01**: User can open a PDF or image file via a file picker dialog
-- [ ] **FINP-02**: User can open a file by dragging and dropping it onto the app window
+- [x] **FINP-01**: User can open a PDF or image file via a file picker dialog
+- [x] **FINP-02**: User can open a file by dragging and dropping it onto the app window
 - [ ] **FINP-03**: App remembers recently used directories and offers them as shortcuts in the file picker
 
 ### PDF Processing
@@ -26,7 +26,7 @@
 
 ### UX & Output
 
-- [ ] **UX-01**: App shows a step progress indicator highlighting the current step (Pick → Configure → Compare → Save)
+- [x] **UX-01**: App shows a step progress indicator highlighting the current step (Pick → Configure → Compare → Save)
 - [ ] **UX-02**: User can save the processed file to a chosen local path (Save As dialog)
 - [ ] **UX-03**: No file data is ever sent to any external server or service (verified: no outbound network calls for processing)
 
@@ -62,8 +62,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FINP-01 | Phase 1 | Pending |
-| FINP-02 | Phase 1 | Pending |
+| FINP-01 | Phase 1 | Complete |
+| FINP-02 | Phase 1 | Complete |
 | FINP-03 | Phase 4 | Pending |
 | PDF-01 | Phase 2 | Pending |
 | PDF-02 | Phase 2 | Pending |
@@ -72,7 +72,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IMG-02 | Phase 3 | Pending |
 | IMG-03 | Phase 3 | Pending |
 | IMG-04 | Phase 3 | Pending |
-| UX-01 | Phase 1 | Pending |
+| UX-01 | Phase 1 | Complete |
 | UX-02 | Phase 2 | Pending |
 | UX-03 | Phase 4 | Pending |
 
