@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 1 of 4 (App Shell & File Input)
-Plan: 3 of 3 in current phase (01-02 complete; starting 01-03)
-Status: In progress
-Last activity: 2026-02-19 -- Completed 01-02 (file picker + drag-drop + human-verify approved)
+Plan: 3 of 3 in current phase (01-03 tasks complete; awaiting human-verify checkpoint)
+Status: Awaiting checkpoint
+Last activity: 2026-02-19 -- Completed 01-03 tasks 1 and 2 (StepBar component + App.tsx integration)
 
-Progress: [██░░░░░░░░] 17%
+Progress: [███░░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -27,7 +27,7 @@ Progress: [██░░░░░░░░] 17%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-app-shell-file-input | 2/3 | 18 min | 9 min |
+| 01-app-shell-file-input | 3/3 (checkpoint) | 23 min | 8 min |
 
 **Recent Trend:**
 - Last 5 plans: 8 min, 10 min
@@ -51,6 +51,8 @@ Recent decisions affecting current work:
 - 01-01: shadcn/ui Neutral theme with CSS variables for consistent theming
 - [Phase 01-app-shell-file-input]: useFileDrop uses ref pattern for stable Tauri event listener callback — prevents re-registration on every render
 - [Phase 01-app-shell-file-input]: Invalid drop signaled via empty string sentinel (onFileDrop('')) rather than separate callback — simpler hook API
+- [Phase 01-app-shell-file-input]: StepBar non-interactive in Phase 1 — steps only advance via file load/reset operations
+- [Phase 01-app-shell-file-input]: StepBar uses numbered circles (Claude Discretion) with inline checkmark SVG for completed states
 
 ### Pending Todos
 
@@ -63,5 +65,5 @@ None. Note: Rust toolchain required — installed via rustup during plan 01-01 e
 ## Session Continuity
 
 Last session: 2026-02-19
-Stopped at: Completed 01-02-PLAN.md (all 3 tasks including human-verify approved)
+Stopped at: 01-03-PLAN.md Task 3 checkpoint:human-verify (tasks 1 and 2 committed; awaiting user approval)
 Resume file: None

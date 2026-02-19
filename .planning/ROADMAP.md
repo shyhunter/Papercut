@@ -12,7 +12,7 @@ Papercut delivers a privacy-first desktop app for compressing, resizing, and con
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: App Shell & File Input** - Tauri + React scaffold with file picker, drag-and-drop, and step navigation
+- [x] **Phase 1: App Shell & File Input** - Tauri + React scaffold with file picker, drag-and-drop, and step navigation (completed 2026-02-19)
 - [ ] **Phase 2: PDF Processing** - Compress, resize, and preview PDFs with save-to-disk output
 - [ ] **Phase 3: Image Processing** - Compress, resize, convert, and compare images before saving
 - [ ] **Phase 4: Polish & Trust** - Recent directory shortcuts and privacy verification
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. App Shell & File Input | 2/3 | In Progress|  |
+| 1. App Shell & File Input | 3/3 | Complete   | 2026-02-19 |
 | 2. PDF Processing | 0/3 | Not started | - |
 | 3. Image Processing | 0/3 | Not started | - |
 | 4. Polish & Trust | 0/2 | Not started | - |
