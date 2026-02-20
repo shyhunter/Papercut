@@ -42,6 +42,7 @@ Progress: [██████░░░░] 33%
 | 02-pdf-processing | 1/3 | 2 min | 2 min |
 | Phase 02-pdf-processing P02 | 3 | 3 tasks | 4 files |
 | Phase 03-image-processing P01 | 2 | 2 tasks | 5 files |
+| Phase 03-image-processing P02 | 3 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Recent decisions affecting current work:
 - [Phase 03-image-processing]: Use webp crate (not image crate) for lossy WebP — image crate's WebP encoder is lossless only
 - [Phase 03-image-processing]: Manual pixel compositing loop for PNG->JPEG white fill — imageops::overlay has known borrow issues
 - [Phase 03-image-processing]: getImageDimensions uses browser createImageBitmap — no extra Rust round-trip needed
+- [Phase 03-image-processing]: Slider fires handleSubmit on onMouseUp/onTouchEnd — same code path as Generate Preview button
+- [Phase 03-image-processing]: fileSizeBytes=0 from App.tsx; FileEntry has no sizeBytes field; component hides display when 0
 
 ### Pending Todos
 
