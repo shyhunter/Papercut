@@ -89,6 +89,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. App Shell & File Input | 3/3 | Complete   | 2026-02-19 |
-| 2. PDF Processing | 0/3 | Not started | - |
+| 2. PDF Processing | 2/3 | In Progress|  |
 | 3. Image Processing | 0/3 | Not started | - |
 | 4. Polish & Trust | 0/2 | Not started | - |
