@@ -60,12 +60,12 @@ Plans:
   2. User can resize image dimensions (width x height) with an aspect ratio lock toggle that prevents distortion
   3. User can convert between JPG, PNG, and WebP output formats
   4. User can see a side-by-side comparison of the original image vs the processed result before saving
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Image processing engine (Sharp integration: compress, resize, convert)
-- [ ] 03-02: Image configuration UI (quality slider, dimensions, format picker)
-- [ ] 03-03: Side-by-side comparison view
+- [ ] 03-01-PLAN.md — Rust image processing engine (image + webp crates), process_image Tauri command, ImageProcessingOptions/Result types, useImageProcessor hook
+- [ ] 03-02-PLAN.md — ImageConfigureStep: quality slider (mouse-up, % + size label, PNG remapping), format selector, resize toggle with W×H/aspect ratio lock/presets, App.tsx wiring
+- [ ] 03-03-PLAN.md — ImageCompareStep: side-by-side panels with Blob URLs, stale-result regenerating indicator, zoom, stats bar; SaveStep extended for images; App.tsx complete image flow
 
 ### Phase 4: Polish & Trust
 **Goal**: The app feels complete and trustworthy -- quick access to recent folders and verified zero-network-call operation
