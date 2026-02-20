@@ -13,7 +13,7 @@ Papercut delivers a privacy-first desktop app for compressing, resizing, and con
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: App Shell & File Input** - Tauri + React scaffold with file picker, drag-and-drop, and step navigation (completed 2026-02-19)
-- [ ] **Phase 2: PDF Processing** - Compress, resize, and preview PDFs with save-to-disk output
+- [x] **Phase 2: PDF Processing** - Compress, resize, and preview PDFs with save-to-disk output (completed 2026-02-20)
 - [ ] **Phase 3: Image Processing** - Compress, resize, convert, and compare images before saving
 - [ ] **Phase 4: Polish & Trust** - Recent directory shortcuts and privacy verification
 
@@ -47,9 +47,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — PDF processing engine: pdf-lib + pdfjs-dist dependencies, pdfProcessor.ts, usePdfProcessor hook, Tauri plugin-fs wiring
-- [ ] 02-02-PLAN.md — Configure and Compare UI: ConfigureStep.tsx, CompareStep.tsx, pdfThumbnail.ts, App.tsx integration
-- [ ] 02-03-PLAN.md — Save flow: SaveStep.tsx, native Save As dialog, file write, post-save toast
+- [x] 02-01-PLAN.md — PDF processing engine: pdf-lib + pdfjs-dist dependencies, pdfProcessor.ts, usePdfProcessor hook, Tauri plugin-fs wiring
+- [x] 02-02-PLAN.md — Configure and Compare UI: ConfigureStep.tsx, CompareStep.tsx, pdfThumbnail.ts, App.tsx integration
+- [x] 02-03-PLAN.md — Save flow: SaveStep.tsx, native Save As dialog, file write, post-save toast
 
 ### Phase 3: Image Processing
 **Goal**: Users can compress, resize, convert, and visually compare images before saving -- the complete image workflow
@@ -89,6 +89,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. App Shell & File Input | 3/3 | Complete   | 2026-02-19 |
-| 2. PDF Processing | 2/3 | In Progress|  |
+| 2. PDF Processing | 3/3 | Complete   | 2026-02-20 |
 | 3. Image Processing | 0/3 | Not started | - |
 | 4. Polish & Trust | 0/2 | Not started | - |
