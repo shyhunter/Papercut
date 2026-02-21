@@ -80,7 +80,16 @@ None.
 
 ### Blockers/Concerns
 
-None. Note: Rust toolchain required — installed via rustup during plan 01-01 execution.
+**QA Audit — 2026-02-21** (recorded as future phases 5–7 in ROADMAP.md):
+
+| Priority | Concern | Phase |
+|----------|---------|-------|
+| 🔴 Critical | PDF quality levels produce identical output — pdf-lib has no image recompression API | Phase 5 |
+| 🟠 High | No file size guard or cancellation — large/corrupt files cause silent hang | Phase 6 |
+| 🟠 High | Zero automated E2E coverage — full open→configure→compare→save path is manual-only | Phase 7 |
+| 🟢 Low | Connected integration test missing — tests verify params passed to Rust but not Rust output | Phase 6 |
+
+Note: Rust toolchain required — installed via rustup during plan 01-01 execution.
 
 ## Session Continuity
 

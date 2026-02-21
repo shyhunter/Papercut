@@ -81,6 +81,62 @@ Plans:
 - [ ] 04-01: Recent directories persistence and quick-access UI
 - [ ] 04-02: Privacy verification and edge-case hardening
 
+---
+
+### Phase 5: PDF Real Compression ⚠️ Critical
+**Goal**: PDF quality levels produce measurably different, smaller output — the core PDF compression promise is actually delivered
+**Depends on**: Phase 2 (PDF pipeline complete)
+**Origin**: QA audit 2026-02-21 — pdf-lib has no image recompression API; all quality levels currently produce identical output
+**Success Criteria** (what must be TRUE):
+  1. "Low quality" output is measurably smaller than "High quality" output on a photo-heavy PDF (≥ 20% difference)
+  2. Text-only PDFs still process correctly (no regression on structural resize)
+  3. The existing test `[PC-02/PC-03] all 4 quality levels produce identical output size` now FAILS — confirming real compression works — and is then updated to assert a real size difference
+  4. The "structural only" notice in CompareStep is removed or updated to reflect real compression now exists
+  5. Processing time is acceptable (< 30 s for a 10 MB PDF on a modern Mac)
+**Plans**: TBD
+
+Plans:
+- [ ] 05-01: Research Rust PDF compression options (Ghostscript via subprocess, lopdf, pdfium, poppler-rs) and choose approach
+- [ ] 05-02: Implement Rust compression command and wire into existing PDF pipeline
+- [ ] 05-03: Update tests (PC-02/03 now assert real size differences), update CompareStep UI notice
+
+---
+
+### Phase 6: Safety & Hardening 🟠 High
+**Goal**: The app never hangs, crashes, or silently fails — large files, corrupt inputs, and long operations all have a safe exit path
+**Depends on**: Phase 3 (all pipelines complete)
+**Origin**: QA audit 2026-02-21 — no file size guard, no cancellation, no error boundaries; a large file causes silent hang
+**Success Criteria** (what must be TRUE):
+  1. Dropping a file > 100 MB shows a clear warning before processing begins (user can cancel or proceed)
+  2. A long-running Rust operation can be cancelled mid-flight; UI returns to Configure step without requiring app restart
+  3. React error boundaries catch unexpected render failures and show a recoverable error state (not a blank screen)
+  4. A corrupt or zero-byte file shows an explicit error message instead of a silent failure or crash
+  5. All error paths are covered by automated tests (unit-level at minimum)
+**Plans**: TBD
+
+Plans:
+- [ ] 06-01: File size guard (pre-processing warning for large files) + corrupt/empty file error handling
+- [ ] 06-02: Rust processing cancellation (abort signal from TypeScript → Rust)
+- [ ] 06-03: React error boundaries + connected integration test (real file in → measured real output)
+
+---
+
+### Phase 7: E2E Test Automation 🟠 High
+**Goal**: The critical user paths (open → configure → compare → save) are covered by automated tests that run without a human
+**Depends on**: Phase 4 (app feature-complete)
+**Origin**: QA audit 2026-02-21 — Sections 1, 4, 5, 9, 10, 11 of TEST_PLAN.md are 100% manual; regressions in the full app flow are undetectable without running the app by hand
+**Success Criteria** (what must be TRUE):
+  1. At least one full PDF flow (open → configure → compare → save) runs as an automated test
+  2. At least one full image flow (open → configure → compare → save) runs as an automated test
+  3. Save dialog file-type filter is verified automatically (PDF flow uses PDF filter, image flow uses correct image filter)
+  4. Tests run in CI without a display server (headless)
+**Plans**: TBD
+
+Plans:
+- [ ] 07-01: Research and scaffold E2E test framework (Tauri WebDriver / Playwright with tauri-driver)
+- [ ] 07-02: Full PDF flow E2E test (E2E-01 from TEST_PLAN.md)
+- [ ] 07-03: Full image flow E2E test (E2E-02, E2E-03 from TEST_PLAN.md) and save dialog filter assertions
+
 ## Progress
 
 **Execution Order:**
@@ -88,7 +144,10 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. App Shell & File Input | 3/3 | Complete   | 2026-02-19 |
-| 2. PDF Processing | 3/3 | Complete   | 2026-02-20 |
-| 3. Image Processing | 2/3 | In Progress|  |
+| 1. App Shell & File Input | 3/3 | Complete | 2026-02-19 |
+| 2. PDF Processing | 3/3 | Complete | 2026-02-20 |
+| 3. Image Processing | 2/3 | In Progress | - |
 | 4. Polish & Trust | 0/2 | Not started | - |
+| 5. PDF Real Compression ⚠️ | 0/3 | Not started | - |
+| 6. Safety & Hardening 🟠 | 0/3 | Not started | - |
+| 7. E2E Test Automation 🟠 | 0/3 | Not started | - |
