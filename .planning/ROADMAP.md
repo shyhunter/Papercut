@@ -90,5 +90,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. App Shell & File Input | 3/3 | Complete   | 2026-02-19 |
 | 2. PDF Processing | 3/3 | Complete   | 2026-02-20 |
-| 3. Image Processing | 0/3 | Not started | - |
+| 3. Image Processing | 2/3 | In Progress|  |
 | 4. Polish & Trust | 0/2 | Not started | - |

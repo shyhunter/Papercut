@@ -13,8 +13,8 @@ Phase: 2 of 4 (PDF Processing)
 **Current Plan:** 3
 **Total Plans in Phase:** 3
 Plan: 1 of 3 in current phase — 02-01 complete, ready for 02-02
-**Status:** Ready to execute
-**Last Activity:** 2026-02-19
+**Status:** Phase complete — ready for verification
+**Last Activity:** 2026-02-20
 
 Progress: [██████░░░░] 33%
 
@@ -41,6 +41,8 @@ Progress: [██████░░░░] 33%
 |-------|-------|-------|----------|
 | 02-pdf-processing | 1/3 | 2 min | 2 min |
 | Phase 02-pdf-processing P02 | 3 | 3 tasks | 4 files |
+| Phase 03-image-processing P01 | 2 | 2 tasks | 5 files |
+| Phase 03-image-processing P02 | 3 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -66,6 +68,11 @@ Recent decisions affecting current work:
 - [Phase 02-pdf-processing]: pdfjs-dist v4 requires canvas (HTMLCanvasElement) as primary RenderParameters field — canvasContext is deprecated
 - [Phase 02-pdf-processing]: CompareStep target-not-met warning is informational only — Save button never disabled based on targetMet
 - [Phase 02-pdf-processing]: getPdfPageCount lazy-loads pdf-lib in App.tsx to avoid startup cost
+- [Phase 03-image-processing]: Use webp crate (not image crate) for lossy WebP — image crate's WebP encoder is lossless only
+- [Phase 03-image-processing]: Manual pixel compositing loop for PNG->JPEG white fill — imageops::overlay has known borrow issues
+- [Phase 03-image-processing]: getImageDimensions uses browser createImageBitmap — no extra Rust round-trip needed
+- [Phase 03-image-processing]: Slider fires handleSubmit on onMouseUp/onTouchEnd — same code path as Generate Preview button
+- [Phase 03-image-processing]: fileSizeBytes=0 from App.tsx; FileEntry has no sizeBytes field; component hides display when 0
 
 ### Pending Todos
 

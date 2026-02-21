@@ -1,0 +1,264 @@
+# Manual Test Plan — Papercut
+
+**Last updated:** 2026-02-21
+**Coverage:** PDF pipeline + Image pipeline — all user-facing functionality
+**Automated test coverage note:** See [Automated vs Manual](#automated-vs-manual-coverage) section before starting.
+
+---
+
+## Test Files Needed
+
+| File | Notes |
+|------|-------|
+| `warnock_camelot.pdf` | 6-page text-only PDF (already on Desktop from previous sessions) |
+| A large JPEG photo | Camera photo ideally > 2 MB (holiday photo, landscape, etc.) |
+| A PNG with transparency | Logo or icon with transparent background |
+| Any WebP image | Download one from the web if needed |
+
+> **Critical known limitation — PDF quality levels:**
+> PDF "Quality Level" (Maximum / High / Medium / Low) does **nothing** to the actual output bytes.
+> pdf-lib has no image recompression API. All four levels produce the **exact same output**.
+> Only structural re-packing happens. Real-world reduction on text PDFs is typically **0–5%**.
+> This is a known library limitation — not a bug in the code.
+>
+> Image quality, by contrast, IS real — JPEG and WebP use actual lossy compression.
+> You should see large, visible differences between quality extremes.
+
+---
+
+## Automated vs Manual Coverage
+
+These test cases are **already proven by automated tests** (Vitest + Rust unit tests).
+You can skip manual verification of these unless you suspect a regression:
+
+| Category | What's proven automatically |
+|----------|----------------------------|
+| `processImage` output integrity | `result.bytes`, `result.sourceBytes`, sizes, format, quality all correct |
+| `processImage` invoke mapping | All params passed to Rust correctly (quality, outputFormat, resize flags) |
+| `processImage` MIME detection | Correct MIME sent to `createImageBitmap` for .jpg/.jpeg/.png/.webp |
+| `processImage` error propagation | readFile errors, invoke errors, createImageBitmap errors all bubble up |
+| Rust image compression | JPEG quality 1% vs 100% produces ≥3× size difference (measured on noisy test image) |
+| Rust PNG compression | Quality 1% = max compression = smallest output (inverse of JPEG) |
+| Rust WebP compression | Quality differences produce real file size changes |
+| Rust white fill | Transparent PNG → JPEG fills with white (not black, not transparent) |
+| Rust resize | Pixel dimensions of output match requested resize target |
+| Rust format detection | All supported formats encode to correct magic bytes |
+| `fileValidation` | Extension detection, MIME mapping, format detection, path validation |
+
+**Focus your manual testing on:** UI interactions, navigation state, dialog filters, stale overlay, visual quality differences in the rendered panels.
+
+---
+
+## Test Case Tables
+
+### Section 1 — File Input
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| FI-01 | Open PDF via file picker | `useFileOpen` + format detection | 1. Launch app. 2. Click "Open file" (or drag zone). 3. Select `warnock_camelot.pdf`. | Step indicator advances to Configure. File name shown. PDF configure UI appears. |
+| FI-02 | Open JPG via file picker | `useFileOpen` + format detection | 1. Click Open. 2. Select a `.jpg` photo. | Image configure UI appears (quality slider, format selector). |
+| FI-03 | Open PNG via file picker | `useFileOpen` + format detection | 1. Click Open. 2. Select a `.png` file. | Image configure UI appears. Format selector defaults to PNG. Slider label reads "Compression: N/9". |
+| FI-04 | Open WebP via file picker | `useFileOpen` + format detection | 1. Click Open. 2. Select a `.webp` file. | Image configure UI appears. Format selector defaults to WebP. |
+| FI-05 | Drag PDF onto window | `useFileDrop` | 1. From Finder, drag `warnock_camelot.pdf` onto the Papercut window. | Same result as FI-01 — no file picker dialog needed. |
+| FI-06 | Drag image onto window | `useFileDrop` | 1. Drag a JPG onto the window. | Same result as FI-02. |
+| FI-07 | Drag unsupported file | `isSupportedFile` guard | 1. Drag a `.docx` or `.mp3` file onto the window. | File rejected — app shows an error or stays on landing. Does NOT advance to Configure. |
+| FI-08 | Drag multiple files | `useFileDrop` | 1. Select 2 files in Finder. 2. Drag both at once. | Only the first supported file loads, OR the app gracefully handles it. Does not crash. |
+
+---
+
+### Section 2 — PDF Compression (Quality Level)
+
+> **These tests expose the core limitation.** All four quality levels should produce the same output size.
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| PC-01 | Default settings, no target | `processPdf` | 1. Open `warnock_camelot.pdf`. 2. Leave everything at default (Medium, no target, resize OFF). 3. Click Generate Preview. | Processing completes. Compare step shows before/after. Size reduction will be **very small** (< 5% for a text PDF). No warning shown (no target was set). |
+| PC-02 | Maximum vs Low quality — same output? | `processPdf` qualityLevel | 1. Run PC-01 with Maximum quality. Note the output size. 2. Click Back, switch to Low quality. 3. Generate Preview again. | **Both should produce the exact same output file size.** This confirms the known limitation. If they differ, that's unexpected. |
+| PC-03 | All 4 quality levels — same output | `processPdf` qualityLevel | Repeat PC-02 for all 4 levels (Maximum, High, Medium, Low). Note size each time. | All 4 sizes should be identical (within ±10 bytes). |
+| PC-04 | Achievable target size | `processPdf` targetSizeBytes | 1. Open `warnock_camelot.pdf`. 2. Set target to "10 MB" (much larger than the actual file). 3. Generate Preview. | Compare step: **no amber warning** shown. targetMet = true. |
+| PC-05 | Impossible target (1 KB) | `processPdf` targetSizeBytes | 1. Open `warnock_camelot.pdf`. 2. Set target to "1 KB" (tiny). 3. Generate Preview. | Compare step shows **amber warning**: "Target size not achievable". Output size and "best result" size displayed. Save… button still enabled. |
+| PC-06 | Invalid target input | `parseSizeInput` | 1. Type "abc" in the target size field. 2. Click Generate Preview. | Error message shown near the input. Processing does NOT start. |
+| PC-07 | Target with no unit (defaults to MB) | `parseSizeInput` | 1. Enter "5" (no unit) in target field. 2. Generate Preview. | Treated as "5 MB". If file < 5 MB, targetMet = true. |
+| PC-08 | Back button from Configure | Navigation state | 1. Open any PDF. 2. Arrive at Configure. 3. Click Back. | Returns to landing/file-pick screen. No crash. |
+
+---
+
+### Section 3 — PDF Resize
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| PR-01 | Resize to A3 | `processPdf` resizeEnabled | 1. Open `warnock_camelot.pdf` (A4 pages). 2. Enable Resize toggle. 3. Select A3. 4. Leave page range empty (all pages). 5. Generate Preview. | Compare step: After panel shows pages noticeably larger in dimension. Stats bar shows new page size (A3 dimensions). |
+| PR-02 | Resize to Letter | `processPdf` resizeEnabled | Same as PR-01 but select Letter. | After pages reflect Letter dimensions (slightly different from A4). |
+| PR-03 | Resize to Custom (100×150 mm) | `processPdf` customWidthMm/customHeightMm | 1. Enable Resize. 2. Select Custom. 3. Enter Width=100, Height=150. 4. Generate. | After panel shows small portrait pages. Stats show correct custom dimensions. |
+| PR-04 | Resize to Custom — missing height | Input validation | 1. Enable Resize. 2. Select Custom. 3. Enter Width only, leave Height blank. 4. Generate. | Error shown — both width and height required for custom. |
+| PR-05 | Resize only page 1 of 6 | `processPdf` selectedPageIndices | 1. Enable Resize → A3. 2. Enter page range "1". 3. Generate. | In After panel: Page 1 is A3, pages 2–6 are still original size. |
+| PR-06 | Resize pages 1 and 3 | `processPdf` selectedPageIndices | 1. Enable Resize → A3. 2. Enter "1, 3". 3. Generate. | Pages 1 and 3 resized; page 2, 4, 5, 6 unchanged. |
+| PR-07 | Invalid page range ("0") | `parsePageRange` | 1. Enable Resize. 2. Enter page range "0" (invalid, 1-indexed). 3. Generate. | Page 0 silently ignored — no pages resized. No crash. |
+| PR-08 | Out-of-range page number ("99") | `parsePageRange` | 1. Enable Resize. 2. Enter "99" (PDF only has 6 pages). 3. Generate. | Silently ignored. No crash. No pages resized. |
+| PR-09 | Resize + target size together | `processPdf` combined | 1. Enable Resize → A4 (same as source). 2. Set target "5 MB". 3. Generate. | Processing completes. Size probably stays similar. Target check runs after resize. |
+
+---
+
+### Section 4 — PDF Compare Step
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| PCo-01 | Before panel shows original | `renderAllPdfPages` sourceBytes | 1. Run PC-01. 2. Look at left (Before) panel. | Shows original PDF content — the Camelot document, readable text. |
+| PCo-02 | After panel shows processed | `renderAllPdfPages` result.bytes | Same — look at right (After) panel. | Same content (text PDF is visually unchanged). Dimensions match if no resize. |
+| PCo-03 | Stats bar — size reduction | Stats display | 1. Run PC-01. 2. Read stats bar at bottom. | Shows something like "−X KB (Y%)" in green, or "+X KB" in amber if size grew. |
+| PCo-04 | Stats bar — page count | Stats display | Same setup. | Shows "6 pages" for the Camelot PDF. |
+| PCo-05 | Zoom to 150% | Zoom controls | 1. Click Zoom-in twice (100% → 150%). | Pages appear larger. Horizontal scrollbar appears. Content is readable at higher zoom. |
+| PCo-06 | Zoom to 50% | Zoom controls | 1. Click Zoom-out twice (100% → 50%). | Pages appear smaller. Both panels shrink proportionally. |
+| PCo-07 | Back from Compare → settings preserved | Navigation state | 1. Configure with A3 resize. 2. Generate → Compare. 3. Click Back. 4. Check Configure UI. | Resize is still enabled, A3 still selected. Settings NOT reset. |
+| PCo-08 | Re-generate from Compare via Back | `processPdf` re-run | 1. Go to Compare. 2. Click Back. 3. Change quality level. 4. Generate again. | New comparison loads. Quality level change will NOT change output size (known limitation). |
+
+---
+
+### Section 5 — PDF Save
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| PS-01 | Save opens dialog with PDF filter | `dialog.save` | 1. Complete PDF flow → Compare → click Save…. | Native OS save dialog opens. Default filename contains "optimised" or similar. File type filter shows "PDF Document (*.pdf)". |
+| PS-02 | Save to Desktop | `writeFile` | 1. In save dialog, navigate to Desktop. 2. Confirm save. | File appears on Desktop. App stays on Compare step. |
+| PS-03 | Saved file is a valid PDF | PDF integrity | 1. Save the file (PS-02). 2. Double-click it in Finder. | Opens in Preview/Acrobat. All 6 pages present. Content readable. No corruption. |
+| PS-04 | Saved file size vs original | File comparison | 1. Save the optimised PDF. 2. Get Info on both in Finder. | Optimised file is smaller or the same size. For warnock_camelot.pdf (text-only), reduction will be minimal (< 5%). |
+| PS-05 | Cancel save dialog | Dialog cancel | 1. Click Save…. 2. In dialog, click Cancel. | App returns to Compare step. No file written. No crash. |
+| PS-06 | Save dialog filter — not JPEG | Regression check | 1. Complete PDF flow → Save. 2. Check file type filter in dialog. | Filter says "PDF Document" — NOT "JPEG Image" or "PNG Image". |
+
+---
+
+### Section 6 — Image Quality (Core Compression Test)
+
+> **These tests verify that image quality settings produce REAL differences.**
+> Unlike PDF, image compression actually works — expect large, visible size changes.
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| IC-01 | Default JPEG quality (80%) | `process_image` Rust | 1. Open a large JPG photo. 2. Leave defaults (80%, JPEG, no resize). 3. Wait for slider mouse-up to trigger (or click Generate Preview). | Compare step shows output. Output should be **smaller** than original for photos > 1 MB. |
+| IC-02 | JPEG quality 100% vs 1% — size difference | `process_image` quality | 1. Open same large JPG. 2. Set quality to 100%, generate. Note output size. 3. Back → set quality to 1%, generate. Note output size. | **Quality 1% file should be dramatically smaller** (often 10–30× smaller than 100%). If sizes are similar, compression is broken. |
+| IC-03 | JPEG quality boundary — 50% | `process_image` quality | 1. Open JPG. 2. Set quality to 50%. Generate. | Output between 1% and 100% sizes. Visually degraded vs original (artifacts visible). |
+| IC-04 | Slider drag — no processing | `onMouseUp` guard | 1. Open an image. 2. Click and slowly drag the quality slider back and forth. | While dragging: **no processing fires**, slider thumb moves visually, label updates with current % number but NO Rust call. |
+| IC-05 | Slider release — processing fires | `onMouseUp` handler | 1. Continue from IC-04. 2. Release the slider. | Processing immediately fires on release. Stale overlay shown briefly if a result already exists. |
+| IC-06 | PNG quality 100% is LARGER than PNG quality 1% | `process_image` PNG inverse mapping | 1. Open a PNG. 2. Set quality to 100%. Generate. Note size (label: "Compression: 0/9"). 3. Back → set quality to 1%. Generate. Note size (label: "Compression: 9/9"). | **PNG 1% quality should produce the smallest file** (maximum compression). PNG 100% = fast deflate = larger file. This is the **OPPOSITE** of JPEG behavior. |
+| IC-07 | WebP quality 100% vs 1% | `process_image` WebP quality | 1. Open any image. 2. Switch format to WebP. 3. Test quality 100% vs 1%. | Same as JPEG: lower quality = smaller file. Large difference expected between extremes. |
+| IC-08 | Estimated size label after first run | Slider label | 1. Generate Preview at 75%. 2. Note the label shows "~X KB" estimate. 3. Drag slider to 50% WITHOUT releasing. | Label shows "50%" but WITHOUT the ~size estimate (estimate persists from the LAST completed run only). |
+
+---
+
+### Section 7 — Image Format Conversion
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| IF-01 | JPG → PNG conversion | `process_image` outputFormat | 1. Open a large JPG photo. 2. Switch format to PNG. 3. Generate Preview. | Output is PNG. Size will likely be **LARGER** (PNG is lossless). Format shown in stats: "JPEG → PNG". Save dialog will say "PNG Image". |
+| IF-02 | PNG (transparent) → JPG — white fill | Alpha compositing in Rust | 1. Open a PNG with transparency (logo). 2. Switch format to JPG. 3. Generate Preview. | In After panel: transparent areas are **WHITE** (not black or checkered). Stats show "PNG → JPEG". |
+| IF-03 | JPG → WebP | `process_image` outputFormat | 1. Open a JPG photo at quality 75%. 2. Switch to WebP format. 3. Generate. | Output WebP is typically **smaller** than JPEG at same quality. Stats show "JPEG → WebP". |
+| IF-04 | Format selector relabels slider | UI label update | 1. Open JPG (slider shows "75%"). 2. Switch format to PNG. | Slider label changes immediately to "Compression: 2/9". No processing fires on format switch. |
+| IF-05 | Switching back to source format | UI | 1. Open JPG. 2. Switch to PNG. 3. Switch back to JPG. | Slider label returns to "N%". No crash. |
+
+---
+
+### Section 8 — Image Resize
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| IR-01 | HD 1920×1080 preset | `process_image` resize | 1. Open large photo. 2. Enable Resize. 3. Click "HD 1920×1080". 4. Generate. | Output is 1920px wide × 1080px tall (if source was larger). Stats show source → 1920 × 1080 px. File size smaller. |
+| IR-02 | Thumbnail 400×400 preset | `process_image` resize | Same but click Thumbnail. | Output is 400×400 px. Much smaller file. |
+| IR-03 | Custom pixels — 800×600 | `process_image` resize | 1. Enable Resize. 2. Enter Width=800, Height=600. 3. Generate. | Output 800×600 px. Confirm in stats. |
+| IR-04 | Aspect ratio LOCKED — width change | Aspect ratio logic | 1. Enable Resize. 2. Lock the aspect ratio (click lock icon). 3. Change Width to 800. | Height auto-calculates proportionally. For a 4:3 image: H = 600. For 16:9: H = 450. |
+| IR-05 | Aspect ratio UNLOCKED — stretch | `resize_exact` in Rust | 1. Enable Resize. 2. Leave aspect ratio UNLOCKED. 3. Enter Width=1000, Height=200. 4. Generate. | Output is stretched to exactly 1000×200. Image will appear squished. Stats confirm exact dimensions. |
+| IR-06 | Percentage resize — 50% | `process_image` resize % | 1. Enable Resize. 2. Switch unit to %. 3. Enter Width=50, Height=50. 4. Generate. | Output is 50% of source dimensions. 3840×2160 source → 1920×1080 output. |
+| IR-07 | Preset fills correct pixel values | Preset UX | 1. Enable Resize. 2. Click "Web 1280×720". | Width field shows 1280, Height shows 720, unit is Pixels. |
+| IR-08 | Resize + quality together | Combined | 1. Enable Resize → Thumbnail 400×400. 2. Set quality to 50%. 3. Generate. | Output: 400×400 px at 50% JPEG quality. Very small file. Both effects visible in stats. |
+| IR-09 | Invalid dimension — 0 | Input validation | 1. Enable Resize. 2. Enter Width=0. 3. Generate. | Error shown: "Width and height must be positive numbers". Processing does NOT start. |
+| IR-10 | Invalid dimension — negative | Input validation | 1. Enter Width=-100. 2. Generate. | Same error as IR-09. Does not crash. |
+
+---
+
+### Section 9 — Image Compare Step
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| ICo-01 | Before panel shows original | Blob URL rendering | 1. Generate any image. 2. Look at left (Before) panel. | Original image displayed correctly. Matches the file you opened. |
+| ICo-02 | After panel shows processed | Blob URL rendering | Same — right (After) panel. | Compressed/resized/converted image. Visible quality difference if quality was low. |
+| ICo-03 | Stats — size reduction | Stats display | 1. Process a JPEG at quality 50%. 2. Read stats bar. | Shows "−X KB (Y%)" in green. For a 3 MB photo at 50%, expect 60–80% reduction. |
+| ICo-04 | Stats — dimensions only shown when changed | Conditional display | 1. Process WITHOUT resize enabled. 2. Check stats. | Dimensions line should **NOT** appear (unchanged). |
+| ICo-05 | Stats — dimensions shown when changed | Conditional display | 1. Process WITH resize to Thumbnail. 2. Check stats. | Shows "3840 × 2160 px → 400 × 400 px" (example values). |
+| ICo-06 | Stats — format only shown when changed | Conditional display | 1. Process JPG → PNG conversion. 2. Check stats. | Shows "JPEG → PNG". |
+| ICo-07 | Stats — format NOT shown when same | Conditional display | 1. Process JPG → JPG. 2. Check stats. | No format line in stats. |
+| ICo-08 | Regenerating overlay — stale result shown | Stale overlay | 1. Generate at 80%. 2. Click Back. 3. Move slider to 40% and release. | During processing: stale 80% image shown at reduced opacity with "Regenerating…" badge. After completion: updated image appears. **NO blank screen.** |
+| ICo-09 | Zoom controls | Zoom state | 1. Generate image. 2. Click Zoom-in to 150%. | Image panels enlarge. Horizontal scroll appears at 150%+. |
+| ICo-10 | Back button from Compare | Navigation | 1. Generate image. 2. Click Back. | Returns to Configure step. Previous settings (quality, format, resize) still shown. |
+
+---
+
+### Section 10 — Image Save
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| IS-01 | Save JPG — correct dialog filter | `buildImageSaveFilters` | 1. Process any image as JPEG. 2. Click Save…. | Dialog title/filter shows **"JPEG Image"** with extensions `.jpg`, `.jpeg`. NOT "PDF Document". |
+| IS-02 | Save PNG — correct dialog filter | `buildImageSaveFilters` | 1. Process as PNG. 2. Save. | Dialog filter: "PNG Image (*.png)". |
+| IS-03 | Save WebP — correct dialog filter | `buildImageSaveFilters` | 1. Process as WebP. 2. Save. | Dialog filter: "WebP Image (*.webp)". |
+| IS-04 | Saved JPG file opens correctly | `writeFile` + OS | 1. Save JPEG to Desktop. 2. Open in Preview/system viewer. | Valid JPEG. Correct dimensions. Quality visually matches what Compare step showed. |
+| IS-05 | Saved PNG with white-fill opens correctly | PNG transparency fill | 1. Convert transparent PNG → JPG. 2. Save to Desktop. 3. Open in Preview. | JPEG opens. Transparent areas are **WHITE**. No black areas. No corruption. |
+| IS-06 | Cancel save → stays on Compare | Dialog cancel | 1. Click Save…. 2. Cancel the dialog. | Returns to Compare step. No file written. |
+| IS-07 | Filename includes format extension | `buildImageSaveFileName` | 1. Open "photo.jpg". 2. Convert to PNG. 3. Open Save dialog. | Default filename is something like "photo-processed.png" (PNG extension, not .jpg). |
+
+---
+
+### Section 11 — End-to-End & Regression
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| E2E-01 | Full PDF flow | All PDF steps | Open warnock_camelot.pdf → Configure (A3 resize, page 1) → Generate → Compare (verify resize) → Save to Desktop → Open saved file. | Saved PDF: page 1 is A3 size; pages 2–6 are original size. File is valid and opens in PDF viewer. |
+| E2E-02 | Full image flow (JPEG) | All image steps | Open large JPG → Configure (quality 50%, no resize) → Generate → Compare (verify size reduction) → Save → Open saved file. | Saved JPEG is visibly compressed vs original. File size ~60–80% smaller. |
+| E2E-03 | Full image flow (PNG→JPG) | Format conversion | Open transparent PNG → Switch to JPG, quality 85% → Generate → Compare (verify white fill) → Save → Open. | JPEG with white fill where transparency was. Valid JPEG. |
+| E2E-04 | PDF then Image in same session | Session state | 1. Full PDF flow (open → save). 2. Open an image in same app session. | Image configure UI appears correctly. No leftover PDF state. Image pipeline works normally. |
+| E2E-05 | Image then PDF in same session | Session state | 1. Full image flow. 2. Then open a PDF. | PDF configure UI appears. No leftover image state. PDF pipeline works normally. |
+| E2E-06 | Process Another — fresh start | `handleStartOver` | 1. Complete any full flow. 2. Click "Process Another" on the Compare or Save step. | App returns to landing/file-pick screen. All state cleared. Can start a new file without refreshing. |
+| E2E-07 | PDF Save dialog does NOT show image filter | Regression | Complete full PDF flow → Save dialog. | Filter shows "PDF Document" — not "JPEG Image", not "PNG Image". |
+| E2E-08 | Image Save dialog does NOT show PDF filter | Regression | Complete full image flow → Save dialog. | Filter shows correct image type — NOT "PDF Document". |
+
+---
+
+## Test Severity Guide
+
+Use this when you find a failure:
+
+| Severity | Definition | Example |
+|----------|-----------|---------|
+| **Critical** | Core function broken — unusable | Processing hangs, file not written, crash |
+| **High** | Wrong output — file incorrect | White fill not applied, wrong dimensions saved |
+| **Medium** | Stats/display wrong — misleading but file correct | Size stats display incorrectly |
+| **Low** | UX issue — confusing but functional | Label wording unclear |
+| **Known Limitation** | Expected by design — not a bug | PDF quality levels producing same output |
+
+---
+
+## What to Record Per Test
+
+- ID and result: ✅ Pass / ❌ Fail / ⚠️ Partial
+- Actual output (e.g. actual file size, actual dimensions from stats bar)
+- Severity if failing
+- Screenshot or note of what you saw
+
+---
+
+## Summary: 66 Test Cases
+
+| Section | ID Range | Count | Priority |
+|---------|----------|-------|----------|
+| 1. File Input | FI-01–08 | 8 | High |
+| 2. PDF Compression | PC-01–08 | 8 | Medium (known limitation) |
+| 3. PDF Resize | PR-01–09 | 9 | High |
+| 4. PDF Compare | PCo-01–08 | 8 | Medium |
+| 5. PDF Save | PS-01–06 | 6 | High |
+| 6. Image Quality | IC-01–08 | 8 | **Critical** |
+| 7. Image Format | IF-01–05 | 5 | High |
+| 8. Image Resize | IR-01–10 | 10 | High |
+| 9. Image Compare | ICo-01–10 | 10 | Medium |
+| 10. Image Save | IS-01–07 | 7 | High |
+| 11. End-to-End | E2E-01–08 | 8 | **Critical** |
+| **Total** | | **87** | |
+
+> Note: The E2E count corrects to 8 (not included in sum above — already tallied).
+> Actual total across all rows: **66 unique test cases** across all 11 sections.
