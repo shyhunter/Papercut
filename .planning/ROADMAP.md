@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: App Shell & File Input** - Tauri + React scaffold with file picker, drag-and-drop, and step navigation (completed 2026-02-19)
 - [x] **Phase 2: PDF Processing** - Compress, resize, and preview PDFs with save-to-disk output (completed 2026-02-20)
-- [ ] **Phase 3: Image Processing** - Compress, resize, convert, and compare images before saving
+- [x] **Phase 3: Image Processing** - Compress, resize, convert, and compare images before saving (completed 2026-02-21)
 - [ ] **Phase 4: Polish & Trust** - Recent directory shortcuts and privacy verification
 
 ## Phase Details
@@ -33,7 +33,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [x] 01-01-PLAN.md — Tauri + React project scaffold, Tailwind v4, shadcn/ui, window config, shared types
 - [x] 01-02-PLAN.md — File input: native picker + whole-window drag-and-drop, LandingCard, format detection
-- [ ] 01-03-PLAN.md — StepBar component (Pick → Configure → Compare → Save) and App.tsx integration
+- [x] 01-03-PLAN.md — StepBar component (Pick → Configure → Compare → Save) and App.tsx integration
 
 ### Phase 2: PDF Processing
 **Goal**: Users can take any PDF, compress it to a target size or resize its pages, preview the result size, and save the output locally
@@ -63,9 +63,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Rust image processing engine (image + webp crates), process_image Tauri command, ImageProcessingOptions/Result types, useImageProcessor hook
-- [ ] 03-02-PLAN.md — ImageConfigureStep: quality slider (mouse-up, % + size label, PNG remapping), format selector, resize toggle with W×H/aspect ratio lock/presets, App.tsx wiring
-- [ ] 03-03-PLAN.md — ImageCompareStep: side-by-side panels with Blob URLs, stale-result regenerating indicator, zoom, stats bar; SaveStep extended for images; App.tsx complete image flow
+- [x] 03-01-PLAN.md — Rust image processing engine (image + webp crates), process_image Tauri command, ImageProcessingOptions/Result types, useImageProcessor hook
+- [x] 03-02-PLAN.md — ImageConfigureStep: quality slider (mouse-up, % + size label, PNG remapping), format selector, resize toggle with W×H/aspect ratio lock/presets, App.tsx wiring
+- [x] 03-03-PLAN.md — ImageCompareStep: side-by-side panels with Blob URLs, stale-result regenerating indicator, zoom, stats bar; SaveStep extended for images; App.tsx complete image flow
 
 ### Phase 4: Polish & Trust
 **Goal**: The app feels complete and trustworthy -- quick access to recent folders and verified zero-network-call operation
@@ -146,7 +146,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. App Shell & File Input | 3/3 | Complete | 2026-02-19 |
 | 2. PDF Processing | 3/3 | Complete | 2026-02-20 |
-| 3. Image Processing | 2/3 | In Progress | - |
+| 3. Image Processing | 3/3 | Complete | 2026-02-21 |
 | 4. Polish & Trust | 0/2 | Not started | - |
 | 5. PDF Real Compression ⚠️ | 0/3 | Not started | - |
 | 6. Safety & Hardening 🟠 | 0/3 | Not started | - |
