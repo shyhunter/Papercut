@@ -13,6 +13,16 @@ See `.claude/project_rules_decisions.md` for all architectural decisions and rul
 - **PDF processing:** pdf-lib
 - **DOCX processing:** docx (JS library)
 
+## QA Rules (enforced — do not skip)
+
+**Always read `.claude/project_rules_decisions.md` before starting work.** Key rules P007–P009 apply to every change:
+
+- **P007 — Committed fixtures:** Any new processing pipeline must have a real binary fixture in `test-fixtures/` (not synthetic stubs). Generate with the Rust binary: `cd src-tauri && cargo run --bin generate_fixtures`.
+- **P008 — Parallel TEST_PLAN.md entries:** When adding a test, add its ID to the "Automated vs Manual" table in `.planning/TEST_PLAN.md`.
+- **P009 — Bug-to-test:** Every bug fix must ship with a regression test that would have caught the original failure.
+
+Fixture files: `test-fixtures/sample.jpg`, `sample.png`, `sample.pdf` — committed real binary files used by automated tests.
+
 ## GSD Workflow (Pragmatic Mode)
 
 This project uses GSD for planning. The rule is:
