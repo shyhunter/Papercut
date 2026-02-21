@@ -22,7 +22,7 @@
 - [x] **IMG-01**: User can adjust image compression quality via a slider (1–100%)
 - [x] **IMG-02**: User can resize image dimensions (width × height) with an aspect ratio lock toggle
 - [x] **IMG-03**: User can convert image output format (JPG ↔ PNG ↔ WebP)
-- [ ] **IMG-04**: User can see a side-by-side comparison of original vs processed result before saving
+- [x] **IMG-04**: User can see a side-by-side comparison of original vs processed result before saving
 
 ### UX & Output
 
@@ -71,7 +71,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IMG-01 | Phase 3 | Complete |
 | IMG-02 | Phase 3 | Complete |
 | IMG-03 | Phase 3 | Complete |
-| IMG-04 | Phase 3 | Pending |
+| IMG-04 | Phase 3 | Complete |
 | UX-01 | Phase 1 | Complete |
 | UX-02 | Phase 2 | Pending |
 | UX-03 | Phase 4 | Pending |
