@@ -96,7 +96,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — GS sidecar setup (tauri-plugin-shell, gs binary, tauri.conf.json), compress_pdf Rust command, photo-heavy PDF fixture
+- [x] 05-01-PLAN.md — GS sidecar setup (tauri-plugin-shell, gs binary, tauri.conf.json), compress_pdf Rust command, photo-heavy PDF fixture
 - [ ] 05-02-PLAN.md — TypeScript pipeline update: PdfQualityLevel rename (web/screen/print/archive), pdfProcessor.ts GS invocation + pre-scan, quality recommendation logic, updated tests
 - [ ] 05-03-PLAN.md — UI update: ConfigureStep quality labels + target-driven recommendation, CompareStep structural notice removal + percentage display, CompareStep tests, TEST_PLAN.md
 
@@ -148,6 +148,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. PDF Processing | 3/3 | Complete | 2026-02-20 |
 | 3. Image Processing | 3/3 | Complete | 2026-02-21 |
 | 4. Polish & Trust | 2/2 | Complete    | 2026-02-23 |
-| 5. PDF Real Compression ⚠️ | 0/3 | Planned | - |
+| 5. PDF Real Compression ⚠️ | 1/3 | In progress | - |
 | 6. Safety & Hardening 🟠 | 0/3 | Not started | - |
 | 7. E2E Test Automation 🟠 | 0/3 | Not started | - |
