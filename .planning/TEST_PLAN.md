@@ -1,6 +1,6 @@
 # Manual Test Plan — Papercut
 
-**Last updated:** 2026-02-21
+**Last updated:** 2026-02-23
 **Coverage:** PDF pipeline + Image pipeline — all user-facing functionality
 **Automated test coverage note:** See [Automated vs Manual](#automated-vs-manual-coverage) section before starting.
 
@@ -105,7 +105,7 @@ You can skip manual verification of these unless you suspect a regression:
 | FI-04 | Open WebP via file picker | `useFileOpen` + format detection | 1. Click Open. 2. Select a `.webp` file. | Image configure UI appears. Format selector defaults to WebP. |
 | FI-05 | Drag PDF onto window | `useFileDrop` | 1. From Finder, drag `warnock_camelot.pdf` onto the Papercut window. | Same result as FI-01 — no file picker dialog needed. |
 | FI-06 | Drag image onto window | `useFileDrop` | 1. Drag a JPG onto the window. | Same result as FI-02. |
-| FI-07 | Drag unsupported file | `isSupportedFile` guard | 1. Drag a `.docx` or `.mp3` file onto the window. | File rejected — app shows an error or stays on landing. Does NOT advance to Configure. |
+| FI-07 | Drag unsupported file | `isSupportedFile` guard | 1. Drag a `.docx` or `.mp3` file onto the window. | File rejected — **inline error text appears on the drop zone card** (not a toast). Error auto-clears after ~2.5 s. Does NOT advance to Configure. |
 | FI-08 | Drag multiple files | `useFileDrop` | 1. Select 2 files in Finder. 2. Drag both at once. | Only the first supported file loads, OR the app gracefully handles it. Does not crash. |
 
 ---
@@ -264,6 +264,23 @@ You can skip manual verification of these unless you suspect a regression:
 
 ---
 
+### Section 12 — Phase 4: Recent Dirs, Privacy Footer, Error UX
+
+| ID | Test Name | Function | Steps | Expected Result |
+|----|-----------|----------|-------|-----------------|
+| P4-01 | Recent dir persists across relaunch | `useRecentDirs` + LazyStore | 1. Launch app. 2. Open any file. 3. Quit the app fully. 4. Relaunch. | The **Recent** button (clock icon) appears on the landing card. |
+| P4-02 | Recent dir opens file picker in that folder | `RecentDirsButton` → `openFromDir` | 1. After P4-01, click the **Recent** button. 2. Click the listed folder name. | Native file picker opens **pre-navigated to that directory** (not the default Documents folder). |
+| P4-03 | Recent list shows at most 5 dirs | `useRecentDirs` MAX_RECENT cap | 1. Open files from 6 different directories across multiple launches. 2. Open app → click Recent. | Dropdown lists **exactly 5** directories (oldest dropped). |
+| P4-04 | Stale dir is filtered out | `exists()` validation in `useRecentDirs` | 1. Open a file from a folder. 2. Delete that folder in Finder. 3. Relaunch app → open Recent. | The deleted folder is **absent** from the list. No error shown. |
+| P4-05 | Privacy footer visible on landing | `PrivacyFooter` | 1. Launch app (landing step). | Lock icon + "Processed locally" text is visible at the bottom of the window. |
+| P4-06 | Privacy footer visible on Configure | `PrivacyFooter` | 1. Open any file → reach Configure step. | Footer still visible at the bottom. |
+| P4-07 | Privacy footer visible on Compare | `PrivacyFooter` | 1. Generate a preview → reach Compare step. | Footer still visible. |
+| P4-08 | Privacy footer visible on Save | `PrivacyFooter` | 1. Click Save… → reach Save step. | Footer still visible. |
+| P4-09 | Unsupported drop shows inline error | `handleFileSelected` invalidDropError | 1. Drag a `.txt` or `.docx` file onto the app. | **Inline red text appears on the card** (e.g. "Unsupported file type…"). No toast notification. Error disappears after ~2.5 s. |
+| P4-10 | Cancelled Save As shows toast | `SaveStep` cancel path | 1. Complete any flow → Compare → click Save…. 2. Cancel the native dialog. | **"Save cancelled" toast** appears at the bottom. User remains on the Save step. No file written. |
+
+---
+
 ## Test Severity Guide
 
 Use this when you find a failure:
@@ -287,7 +304,7 @@ Use this when you find a failure:
 
 ---
 
-## Summary: 66 Test Cases
+## Summary: 76 Test Cases
 
 | Section | ID Range | Count | Priority |
 |---------|----------|-------|----------|
@@ -302,7 +319,5 @@ Use this when you find a failure:
 | 9. Image Compare | ICo-01–10 | 10 | Medium |
 | 10. Image Save | IS-01–07 | 7 | High |
 | 11. End-to-End | E2E-01–08 | 8 | **Critical** |
-| **Total** | | **87** | |
-
-> Note: The E2E count corrects to 8 (not included in sum above — already tallied).
-> Actual total across all rows: **66 unique test cases** across all 11 sections.
+| 12. Phase 4: Polish & Trust | P4-01–10 | 10 | High |
+| **Total** | | **76** | |
