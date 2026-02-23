@@ -75,11 +75,11 @@ Plans:
   1. App remembers recently used directories and offers them as shortcuts when opening the file picker
   2. No file data is ever sent to any external server (verified: no outbound network calls during any processing operation)
   3. App handles edge cases gracefully (unsupported file types, corrupted files, cancelled operations) without crashing
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Recent directories persistence and quick-access UI
-- [ ] 04-02: Privacy verification and edge-case hardening
+- [ ] 04-01-PLAN.md — tauri-plugin-store setup, useRecentDirs hook, RecentDirsButton popover, PrivacyFooter, error hardening (invalid drop inline error, corrupt file toast+reset, save cancel toast)
+- [ ] 04-02-PLAN.md — Privacy verification tests: static capabilities config assertion + runtime window.fetch spy
 
 ---
 
