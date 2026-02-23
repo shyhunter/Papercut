@@ -93,12 +93,12 @@ Plans:
   3. The existing test `[PC-02/PC-03] all 4 quality levels produce identical output size` now FAILS — confirming real compression works — and is then updated to assert a real size difference
   4. The "structural only" notice in CompareStep is removed or updated to reflect real compression now exists
   5. Processing time is acceptable (< 30 s for a 10 MB PDF on a modern Mac)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Research Rust PDF compression options (Ghostscript via subprocess, lopdf, pdfium, poppler-rs) and choose approach
-- [ ] 05-02: Implement Rust compression command and wire into existing PDF pipeline
-- [ ] 05-03: Update tests (PC-02/03 now assert real size differences), update CompareStep UI notice
+- [ ] 05-01-PLAN.md — GS sidecar setup (tauri-plugin-shell, gs binary, tauri.conf.json), compress_pdf Rust command, photo-heavy PDF fixture
+- [ ] 05-02-PLAN.md — TypeScript pipeline update: PdfQualityLevel rename (web/screen/print/archive), pdfProcessor.ts GS invocation + pre-scan, quality recommendation logic, updated tests
+- [ ] 05-03-PLAN.md — UI update: ConfigureStep quality labels + target-driven recommendation, CompareStep structural notice removal + percentage display, CompareStep tests, TEST_PLAN.md
 
 ---
 
@@ -148,6 +148,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. PDF Processing | 3/3 | Complete | 2026-02-20 |
 | 3. Image Processing | 3/3 | Complete | 2026-02-21 |
 | 4. Polish & Trust | 2/2 | Complete    | 2026-02-23 |
-| 5. PDF Real Compression ⚠️ | 0/3 | Not started | - |
+| 5. PDF Real Compression ⚠️ | 0/3 | Planned | - |
 | 6. Safety & Hardening 🟠 | 0/3 | Not started | - |
 | 7. E2E Test Automation 🟠 | 0/3 | Not started | - |
