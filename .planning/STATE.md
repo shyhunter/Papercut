@@ -9,14 +9,14 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 
 ## Current Position
 
-Phase: 4 in progress
-**Current Plan:** 04-01 complete — ready for 04-02
+Phase: 4 complete
+**Current Plan:** 04-02 complete — phase done
 **Total Plans in Phase:** 2
-Plan: 04-01-PLAN.md done
-**Status:** In progress
+Plan: 04-02-PLAN.md done
+**Status:** Phase 4 complete — all plans executed
 **Last Activity:** 2026-02-23
 
-Progress: [█████████░] 87%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -45,6 +45,7 @@ Progress: [█████████░] 87%
 | Phase 03-image-processing P02 | 3 | 2 tasks | 2 files |
 | Phase 03-image-processing P03 | 5 | 2 tasks | 3 files |
 | Phase 04-polish-trust P01 | 4 | 3 tasks | 10 files |
+| Phase 04-polish-trust P02 | 2 | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase 04-polish-trust]: fs:allow-exists must have allow scope ($HOME/**) or Tauri throws forbidden path at runtime
 - [Phase 04-polish-trust]: Invalid drop error: inline text on LandingCard (not toast) — auto-clears in 2.5s
 - [Phase 04-polish-trust]: Corrupt-file useEffect watchers intentionally omit exhaustive deps to match existing App.tsx pattern
+- [Phase 04-polish-trust]: capPath resolved via path.join(__dirname, '../../../src-tauri/capabilities/default.json') — relative to test file for consistent resolution
+- [Phase 04-polish-trust]: Privacy tests: vi.unstubAllGlobals() in afterAll ensures fetch mock never leaks to other test files
 
 ### Pending Todos
 
@@ -103,5 +106,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 04-polish-trust 04-01-PLAN.md — recent dirs, privacy footer, error UX complete
+Stopped at: Completed 04-polish-trust 04-02-PLAN.md — privacy verification tests complete, phase 04 done
 Resume file: None
