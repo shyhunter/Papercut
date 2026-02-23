@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: App Shell & File Input** - Tauri + React scaffold with file picker, drag-and-drop, and step navigation (completed 2026-02-19)
 - [x] **Phase 2: PDF Processing** - Compress, resize, and preview PDFs with save-to-disk output (completed 2026-02-20)
 - [x] **Phase 3: Image Processing** - Compress, resize, convert, and compare images before saving (completed 2026-02-21)
-- [ ] **Phase 4: Polish & Trust** - Recent directory shortcuts and privacy verification
+- [x] **Phase 4: Polish & Trust** - Recent directory shortcuts and privacy verification (completed 2026-02-23)
 
 ## Phase Details
 
@@ -75,11 +75,11 @@ Plans:
   1. App remembers recently used directories and offers them as shortcuts when opening the file picker
   2. No file data is ever sent to any external server (verified: no outbound network calls during any processing operation)
   3. App handles edge cases gracefully (unsupported file types, corrupted files, cancelled operations) without crashing
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Recent directories persistence and quick-access UI
-- [ ] 04-02: Privacy verification and edge-case hardening
+- [ ] 04-01-PLAN.md — tauri-plugin-store setup, useRecentDirs hook, RecentDirsButton popover, PrivacyFooter, error hardening (invalid drop inline error, corrupt file toast+reset, save cancel toast)
+- [ ] 04-02-PLAN.md — Privacy verification tests: static capabilities config assertion + runtime window.fetch spy
 
 ---
 
@@ -147,7 +147,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. App Shell & File Input | 3/3 | Complete | 2026-02-19 |
 | 2. PDF Processing | 3/3 | Complete | 2026-02-20 |
 | 3. Image Processing | 3/3 | Complete | 2026-02-21 |
-| 4. Polish & Trust | 0/2 | Not started | - |
+| 4. Polish & Trust | 2/2 | Complete    | 2026-02-23 |
 | 5. PDF Real Compression ⚠️ | 0/3 | Not started | - |
 | 6. Safety & Hardening 🟠 | 0/3 | Not started | - |
 | 7. E2E Test Automation 🟠 | 0/3 | Not started | - |
