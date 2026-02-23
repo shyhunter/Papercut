@@ -86,6 +86,8 @@ You can skip manual verification of these unless you suspect a regression:
 | `CompareStep` — target-not-met banner | Shows when `targetMet=false`; hidden when `targetMet=true` | `CompareStep.test.tsx` |
 | `CompareStep` — zoom controls | 100%→150%→200%; min/max disabled states; out decrements | `CompareStep.test.tsx` |
 | `fileValidation` | Extension detection, MIME mapping, format detection, path validation | `fileValidation.test.ts` |
+| **[PV-01] Privacy — capabilities config** | `capabilities/default.json` contains zero `http:` permission identifiers | `privacy.test.ts` |
+| **[PV-02] Privacy — runtime fetch isolation** | `processImage` never calls `window.fetch` during processing (fetch spy confirms) | `privacy.test.ts` |
 
 **Focus your manual testing on:** UI interactions, navigation state, dialog filters, stale overlay, visual quality differences in the rendered panels.
 
