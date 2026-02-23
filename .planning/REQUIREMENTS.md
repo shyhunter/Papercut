@@ -9,7 +9,7 @@
 
 - [x] **FINP-01**: User can open a PDF or image file via a file picker dialog
 - [x] **FINP-02**: User can open a file by dragging and dropping it onto the app window
-- [ ] **FINP-03**: App remembers recently used directories and offers them as shortcuts in the file picker
+- [x] **FINP-03**: App remembers recently used directories and offers them as shortcuts in the file picker
 
 ### PDF Processing
 
@@ -28,7 +28,7 @@
 
 - [x] **UX-01**: App shows a step progress indicator highlighting the current step (Pick → Configure → Compare → Save)
 - [ ] **UX-02**: User can save the processed file to a chosen local path (Save As dialog)
-- [ ] **UX-03**: No file data is ever sent to any external server or service (verified: no outbound network calls for processing)
+- [x] **UX-03**: No file data is ever sent to any external server or service (verified: no outbound network calls for processing)
 
 ## v2 Requirements
 
@@ -64,7 +64,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | FINP-01 | Phase 1 | Complete |
 | FINP-02 | Phase 1 | Complete |
-| FINP-03 | Phase 4 | Pending |
+| FINP-03 | Phase 4 | Complete |
 | PDF-01 | Phase 2 | Complete |
 | PDF-02 | Phase 2 | Complete |
 | PDF-03 | Phase 2 | Complete |
@@ -74,7 +74,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IMG-04 | Phase 3 | Complete |
 | UX-01 | Phase 1 | Complete |
 | UX-02 | Phase 2 | Pending |
-| UX-03 | Phase 4 | Pending |
+| UX-03 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 13 total
