@@ -5,25 +5,25 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 4: Polish & Trust (Phases 1-3 complete)
+**Current focus:** Phase 5: PDF Real Compression (Phase 5 in progress)
 
 ## Current Position
 
-Phase: 4 complete
-**Current Plan:** Not started
-**Total Plans in Phase:** 2
-Plan: 04-02-PLAN.md done
-**Status:** Milestone complete
+Phase: 05-pdf-real-compression-critical (in progress)
+**Current Plan:** 05-02 complete, 05-03 next
+**Total Plans in Phase:** 3
+Plan: 05-02-PLAN.md done
+**Status:** In progress
 **Last Activity:** 2026-02-23
 
-Progress: [██████████] 100%
+Progress: [████░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: 8 min
-- Total execution time: 0.13 hours
+- Total execution time: 0.14 hours
 
 **By Phase:**
 
@@ -32,7 +32,7 @@ Progress: [██████████] 100%
 | 01-app-shell-file-input | 3/3 (complete) | 38 min | 13 min |
 
 **Recent Trend:**
-- Last 5 plans: 8 min, 10 min
+- Last 5 plans: 8 min, 10 min, 6 min
 - Trend: -
 
 *Updated after each plan completion*
@@ -46,6 +46,8 @@ Progress: [██████████] 100%
 | Phase 03-image-processing P03 | 5 | 2 tasks | 3 files |
 | Phase 04-polish-trust P01 | 4 | 3 tasks | 10 files |
 | Phase 04-polish-trust P02 | 2 | 1 tasks | 2 files |
+| Phase 05-pdf-real-compression-critical P01 | 6 | 3 tasks | 9 files |
+| Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -85,6 +87,14 @@ Recent decisions affecting current work:
 - [Phase 04-polish-trust]: Corrupt-file useEffect watchers intentionally omit exhaustive deps to match existing App.tsx pattern
 - [Phase 04-polish-trust]: capPath resolved via path.join(__dirname, '../../../src-tauri/capabilities/default.json') — relative to test file for consistent resolution
 - [Phase 04-polish-trust]: Privacy tests: vi.unstubAllGlobals() in afterAll ensures fetch mock never leaks to other test files
+- [Phase 05-pdf-real-compression-critical]: Ghostscript installed via Homebrew and binary copied to src-tauri/binaries/gs-aarch64-apple-darwin for Tauri sidecar
+- [Phase 05-pdf-real-compression-critical]: Temp file lifecycle in compress_pdf managed via Rust stdlib (std::fs), not Tauri FS plugin — no JS-side TEMP permissions needed for the Rust command
+- [Phase 05-pdf-real-compression-critical]: fs:allow-write-file and fs:allow-remove scoped to $TEMP/** added for Plan 02 JS-side temp PDF operations
+- [Phase 05-pdf-real-compression-critical]: photo_heavy.pdf generated via Node.js pdf-lib script (not Rust/lopdf) — simpler, uses existing pdf-lib dep
+- [Phase 05-pdf-real-compression-critical]: compress_pdf preset allow-list: screen, ebook, printer, prepress (GS native -dPDFSETTINGS values)
+- [Phase 05-pdf-real-compression-critical]: Type-safe pdf-lib scan uses Resources()+lookupMaybe() — PDFObject has no resolve(); lookupMaybe handles ref resolution automatically
+- [Phase 05-pdf-real-compression-critical]: Dimension tests use compressionEnabled=false — GS mock output is not a parseable PDF; resize tests verify geometry not compression
+- [Phase 05-pdf-real-compression-critical]: Post-resize bytes passed to GS — pdfDoc.save({ useObjectStreams: false }) when resizeEnabled=true so GS receives resized bytes, not sourceBytes
 
 ### Pending Todos
 
@@ -96,7 +106,7 @@ None.
 
 | Priority | Concern | Phase |
 |----------|---------|-------|
-| Critical | PDF quality levels produce identical output — pdf-lib has no image recompression API | Phase 5 |
+| Critical | PDF quality levels produce identical output — pdf-lib has no image recompression API | Phase 5 (in progress) |
 | High | No file size guard or cancellation — large/corrupt files cause silent hang | Phase 6 |
 | High | Zero automated E2E coverage — full open->configure->compare->save path is manual-only | Phase 7 |
 | Low | Connected integration test missing — tests verify params passed to Rust but not Rust output | Phase 6 |
@@ -106,5 +116,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 04-polish-trust 04-02-PLAN.md — privacy verification tests complete, phase 04 done
+Stopped at: Completed 05-pdf-real-compression-critical 05-02-PLAN.md — GS wired into pdfProcessor, quality labels updated to web/screen/print/archive, pre-scan added, all 194 tests green
 Resume file: None

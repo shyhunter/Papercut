@@ -1,6 +1,6 @@
 # Manual Test Plan — Papercut
 
-**Last updated:** 2026-02-23
+**Last updated:** 2026-02-24
 **Coverage:** PDF pipeline + Image pipeline — all user-facing functionality
 **Automated test coverage note:** See [Automated vs Manual](#automated-vs-manual-coverage) section before starting.
 
@@ -27,14 +27,13 @@ These are **real decodable files** (not synthetic byte stubs). The automated tes
 | A PNG with transparency | Logo or icon with transparent background |
 | Any WebP image | Download one from the web if needed |
 
-> **Critical known limitation — PDF quality levels:**
-> PDF "Quality Level" (Maximum / High / Medium / Low) does **nothing** to the actual output bytes.
-> pdf-lib has no image recompression API. All four levels produce the **exact same output**.
-> Only structural re-packing happens. Real-world reduction on text PDFs is typically **0–5%**.
-> This is a known library limitation — not a bug in the code.
+> **Phase 5 update — PDF quality levels now use Ghostscript:**
+> PDF quality levels (Web / Screen / Print / Archive) map to Ghostscript `-dPDFSETTINGS` presets.
+> Real image recompression now occurs — quality levels produce different output sizes.
+> On photo-heavy PDFs, Web vs Archive should differ by ≥ 20%. On text-only PDFs, differences are smaller.
 >
-> Image quality, by contrast, IS real — JPEG and WebP use actual lossy compression.
-> You should see large, visible differences between quality extremes.
+> Image quality, by contrast, IS also real — JPEG and WebP use actual lossy compression.
+> You should see large, visible differences between quality extremes for both PDF and image processing.
 
 ---
 
@@ -61,9 +60,10 @@ You can skip manual verification of these unless you suspect a regression:
 | `processPdf` resize | A4→A3, A4→Letter, custom mm, per-page, multi-page — all verified | `pdfProcessor.test.ts` |
 | `processPdf` target size | targetMet flag, bestAchievableSizeBytes — all edge cases tested | `pdfProcessor.test.ts` |
 | **Real PDF fixture** | `sample.pdf` processes without error; 3-page count; resize to A3 verified | `pdfProcessor.test.ts` |
-| PDF quality limitation | All 4 quality levels produce identical output — documented test | `pdfProcessor.test.ts` |
 | **[PC-01] warnock_camelot.pdf** | Valid PDF output; 6 pages; inputSizeBytes = committed file size | `pdfProcessor.test.ts` |
-| **[PC-02/03] warnock_camelot.pdf** | All 4 quality levels → identical output size (limitation confirmed on real file) | `pdfProcessor.test.ts` |
+| **[PC-02/03] web vs archive quality** | web vs archive quality levels produce ≥ 20% size difference on photo_heavy.pdf fixture | `pdfProcessor.test.ts` |
+| **[PC-REGRESSION-01] text-only PDF** | Text-only PDF processes without error, GS runs, structural-only notice absent from UI | `pdfProcessor.test.ts` |
+| **Pre-scan results** | imageCount and compressibilityScore populated in PdfProcessingResult for all PDFs | `pdfProcessor.test.ts` |
 | **[PC-04] warnock_camelot.pdf** | Achievable target 100 MB → targetMet=true | `pdfProcessor.test.ts` |
 | **[PC-05] warnock_camelot.pdf** | Impossible target 1 byte → targetMet=false, bestAchievableSizeBytes > 0 | `pdfProcessor.test.ts` |
 | **[PR-01] warnock_camelot.pdf** | All 6 pages → A3 (841.89 × 1190.55 pt) verified | `pdfProcessor.test.ts` |
@@ -82,14 +82,24 @@ You can skip manual verification of these unless you suspect a regression:
 | `ImageConfigureStep` — no slider auto-submit | mouseUp and onChange do NOT call `onGeneratePreview` | `ImageConfigureStep.test.tsx` |
 | `ImageConfigureStep` — buttons | Generate Preview, Back, format switching — all interactions | `ImageConfigureStep.test.tsx` |
 | `CompareStep` — stats bar | Byte reduction, growth, page count, dimensions display correctly | `CompareStep.test.tsx` |
-| `CompareStep` — structural notice | Appears when size delta < 2%; hidden when targetMet=false | `CompareStep.test.tsx` |
+| `CompareStep` — no structural notice | Never appears (structural-only notice removed); all 4 test cases verify it is absent | `CompareStep.test.tsx` |
 | `CompareStep` — target-not-met banner | Shows when `targetMet=false`; hidden when `targetMet=true` | `CompareStep.test.tsx` |
 | `CompareStep` — zoom controls | 100%→150%→200%; min/max disabled states; out decrements | `CompareStep.test.tsx` |
 | `fileValidation` | Extension detection, MIME mapping, format detection, path validation | `fileValidation.test.ts` |
 | **[PV-01] Privacy — capabilities config** | `capabilities/default.json` contains zero `http:` permission identifiers | `privacy.test.ts` |
 | **[PV-02] Privacy — runtime fetch isolation** | `processImage` never calls `window.fetch` during processing (fetch spy confirms) | `privacy.test.ts` |
 
-**Focus your manual testing on:** UI interactions, navigation state, dialog filters, stale overlay, visual quality differences in the rendered panels.
+| **Integration — File Input** | FI-01 to FI-08: landing renders, privacy footer, file picker invoked, PDF/JPEG/PNG/WebP routing, cancel stays on landing | `01-file-input.test.tsx` |
+| **Integration — PDF Configure** | PC-01 to PC-08: filename header, default quality, 4 quality options, tile click, target → Suggested badge, invalid target error, progress state, Back button | `02-pdf-configure.test.tsx` |
+| **Integration — PDF Configure (Resize)** | PR-01 to PR-05: resize toggle OFF by default, enabling shows combobox, Custom reveals dimension inputs, page range input, button disabled while processing | `02-pdf-configure.test.tsx` |
+| **Integration — PDF Compare** | PCo-01 to PCo-07: Compare appears, stats format, page count, no structural notice, target-not-met warning, Back → Configure, Save → Save step | `03-pdf-compare.test.tsx` |
+| **Integration — Image Configure** | IC-01 to IC-08: slider default 80%, PNG compression label, no auto-submit, WebP/PNG format switch, resize toggle, resize inputs, Back button | `04-image-flow.test.tsx` |
+| **Integration — Image Compare** | ICo-01 to ICo-05: Before/After panels, stats bar (size + quality), dimensions when resized, Back → Configure, Save → Save step | `04-image-flow.test.tsx` |
+| **Integration — E2E Flows** | E2E-01 to E2E-08: full PDF flow, full image flow, Process Another (PDF/image), PDF back-chain, image back-chain, quality passed through, target-not-met end-to-end | `05-e2e-flows.test.tsx` |
+| **[BUG-01] GS bloat regression** | BUG-01: source bytes returned when GS inflates; BUG-01b: targetMet=true when original fits target; BUG-01c: bestAchievableSizeBytes=inputSizeBytes when original exceeds target | `pdfProcessor.test.ts` |
+| **[BUG-01-UI] Already-optimal messaging** | BUG-01-UI: "already optimal" notice shown when wasAlreadyOptimal=true; BUG-01-UI-b: target banner says "fully optimised" | `CompareStep.test.tsx` |
+
+**Focus your manual testing on:** visual quality differences in the rendered panels, drag-and-drop file input, actual file save dialog, stale overlay behavior with re-processing, zoom controls.
 
 ---
 
@@ -112,13 +122,13 @@ You can skip manual verification of these unless you suspect a regression:
 
 ### Section 2 — PDF Compression (Quality Level)
 
-> **These tests expose the core limitation.** All four quality levels should produce the same output size.
+> **Phase 5 update:** Ghostscript is now wired in. Quality levels produce REAL differences in output size. The "known limitation" note below no longer applies — Web vs Archive quality should differ by ≥ 20% on photo-heavy PDFs.
 
 | ID | Test Name | Function | Steps | Expected Result |
 |----|-----------|----------|-------|-----------------|
-| PC-01 | Default settings, no target | `processPdf` | 1. Open `warnock_camelot.pdf`. 2. Leave everything at default (Medium, no target, resize OFF). 3. Click Generate Preview. | Processing completes. Compare step shows before/after. Size reduction will be **very small** (< 5% for a text PDF). No warning shown (no target was set). |
-| PC-02 | Maximum vs Low quality — same output? | `processPdf` qualityLevel | 1. Run PC-01 with Maximum quality. Note the output size. 2. Click Back, switch to Low quality. 3. Generate Preview again. | **Both should produce the exact same output file size.** This confirms the known limitation. If they differ, that's unexpected. |
-| PC-03 | All 4 quality levels — same output | `processPdf` qualityLevel | Repeat PC-02 for all 4 levels (Maximum, High, Medium, Low). Note size each time. | All 4 sizes should be identical (within ±10 bytes). |
+| PC-01 | Default settings, no target | `processPdf` | 1. Open `warnock_camelot.pdf`. 2. Leave everything at default (Screen, no target, resize OFF). 3. Click Generate Preview. | Processing completes. Compare step shows before/after in `X MB → Y MB (Z% smaller)` format. Size reduction for text PDFs may be small but format is correct. |
+| PC-02 | Web vs Archive quality — real size difference | `processPdf` qualityLevel + GS | 1. Open `photo_heavy.pdf` (or any PDF with embedded images). 2. Select "Web" quality. 3. Generate Preview — note the output size. 4. Click Back, select "Archive". 5. Generate Preview again. | **Web output should be meaningfully smaller than Archive** (≥ 20% difference expected on photo-heavy PDFs). This verifies real Ghostscript compression is working. |
+| PC-03 | All 4 quality levels — different outputs | `processPdf` qualityLevel + GS | Open `photo_heavy.pdf`. Run all 4 levels: Web, Screen, Print, Archive. Note size each time. | Sizes should increase from Web (smallest) → Screen → Print → Archive (largest/lossless). Web should be noticeably smaller than Archive. |
 | PC-04 | Achievable target size | `processPdf` targetSizeBytes | 1. Open `warnock_camelot.pdf`. 2. Set target to "10 MB" (much larger than the actual file). 3. Generate Preview. | Compare step: **no amber warning** shown. targetMet = true. |
 | PC-05 | Impossible target (1 KB) | `processPdf` targetSizeBytes | 1. Open `warnock_camelot.pdf`. 2. Set target to "1 KB" (tiny). 3. Generate Preview. | Compare step shows **amber warning**: "Target size not achievable". Output size and "best result" size displayed. Save… button still enabled. |
 | PC-06 | Invalid target input | `parseSizeInput` | 1. Type "abc" in the target size field. 2. Click Generate Preview. | Error message shown near the input. Processing does NOT start. |
@@ -149,7 +159,7 @@ You can skip manual verification of these unless you suspect a regression:
 |----|-----------|----------|-------|-----------------|
 | PCo-01 | Before panel shows original | `renderAllPdfPages` sourceBytes | 1. Run PC-01. 2. Look at left (Before) panel. | Shows original PDF content — the Camelot document, readable text. |
 | PCo-02 | After panel shows processed | `renderAllPdfPages` result.bytes | Same — look at right (After) panel. | Same content (text PDF is visually unchanged). Dimensions match if no resize. |
-| PCo-03 | Stats bar — size reduction | Stats display | 1. Run PC-01. 2. Read stats bar at bottom. | Shows something like "−X KB (Y%)" in green, or "+X KB" in amber if size grew. |
+| PCo-03 | Stats bar — size reduction | Stats display | 1. Run PC-01. 2. Read stats bar at bottom. | Shows `X MB → Y MB (Z% smaller)` format in green, or `X MB → Y MB (Z% larger)` in amber if size grew. |
 | PCo-04 | Stats bar — page count | Stats display | Same setup. | Shows "6 pages" for the Camelot PDF. |
 | PCo-05 | Zoom to 150% | Zoom controls | 1. Click Zoom-in twice (100% → 150%). | Pages appear larger. Horizontal scrollbar appears. Content is readable at higher zoom. |
 | PCo-06 | Zoom to 50% | Zoom controls | 1. Click Zoom-out twice (100% → 50%). | Pages appear smaller. Both panels shrink proportionally. |
