@@ -89,7 +89,15 @@ You can skip manual verification of these unless you suspect a regression:
 | **[PV-01] Privacy — capabilities config** | `capabilities/default.json` contains zero `http:` permission identifiers | `privacy.test.ts` |
 | **[PV-02] Privacy — runtime fetch isolation** | `processImage` never calls `window.fetch` during processing (fetch spy confirms) | `privacy.test.ts` |
 
-**Focus your manual testing on:** UI interactions, navigation state, dialog filters, stale overlay, visual quality differences in the rendered panels.
+| **Integration — File Input** | FI-01 to FI-08: landing renders, privacy footer, file picker invoked, PDF/JPEG/PNG/WebP routing, cancel stays on landing | `01-file-input.test.tsx` |
+| **Integration — PDF Configure** | PC-01 to PC-08: filename header, default quality, 4 quality options, tile click, target → Suggested badge, invalid target error, progress state, Back button | `02-pdf-configure.test.tsx` |
+| **Integration — PDF Configure (Resize)** | PR-01 to PR-05: resize toggle OFF by default, enabling shows combobox, Custom reveals dimension inputs, page range input, button disabled while processing | `02-pdf-configure.test.tsx` |
+| **Integration — PDF Compare** | PCo-01 to PCo-07: Compare appears, stats format, page count, no structural notice, target-not-met warning, Back → Configure, Save → Save step | `03-pdf-compare.test.tsx` |
+| **Integration — Image Configure** | IC-01 to IC-08: slider default 80%, PNG compression label, no auto-submit, WebP/PNG format switch, resize toggle, resize inputs, Back button | `04-image-flow.test.tsx` |
+| **Integration — Image Compare** | ICo-01 to ICo-05: Before/After panels, stats bar (size + quality), dimensions when resized, Back → Configure, Save → Save step | `04-image-flow.test.tsx` |
+| **Integration — E2E Flows** | E2E-01 to E2E-08: full PDF flow, full image flow, Process Another (PDF/image), PDF back-chain, image back-chain, quality passed through, target-not-met end-to-end | `05-e2e-flows.test.tsx` |
+
+**Focus your manual testing on:** visual quality differences in the rendered panels, drag-and-drop file input, actual file save dialog, stale overlay behavior with re-processing, zoom controls.
 
 ---
 
