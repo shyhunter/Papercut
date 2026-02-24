@@ -112,12 +112,12 @@ Plans:
   3. React error boundaries catch unexpected render failures and show a recoverable error state (not a blank screen)
   4. A corrupt or zero-byte file shows an explicit error message instead of a silent failure or crash
   5. All error paths are covered by automated tests (unit-level at minimum)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 06-01: File size guard (pre-processing warning for large files) + corrupt/empty file error handling
-- [ ] 06-02: Rust processing cancellation (abort signal from TypeScript → Rust)
-- [ ] 06-03: React error boundaries + connected integration test (real file in → measured real output)
+- [ ] 06-01-PLAN.md — File size guard (hard cap at 100 MB with blocking modal) + zero-byte and corrupt-file inline errors
+- [ ] 06-02-PLAN.md — Rust processing cancellation (cancel_processing command, tokio::select! GS kill, Cancel button in Configure steps, Cancelled state in CompareStep)
+- [ ] 06-03-PLAN.md — React error boundaries (StepErrorBoundary + AppErrorBoundary) wrapping all steps in App.tsx
 
 ---
 
