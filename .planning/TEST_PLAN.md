@@ -96,6 +96,8 @@ You can skip manual verification of these unless you suspect a regression:
 | **Integration — Image Configure** | IC-01 to IC-08: slider default 80%, PNG compression label, no auto-submit, WebP/PNG format switch, resize toggle, resize inputs, Back button | `04-image-flow.test.tsx` |
 | **Integration — Image Compare** | ICo-01 to ICo-05: Before/After panels, stats bar (size + quality), dimensions when resized, Back → Configure, Save → Save step | `04-image-flow.test.tsx` |
 | **Integration — E2E Flows** | E2E-01 to E2E-08: full PDF flow, full image flow, Process Another (PDF/image), PDF back-chain, image back-chain, quality passed through, target-not-met end-to-end | `05-e2e-flows.test.tsx` |
+| **[BUG-01] GS bloat regression** | BUG-01: source bytes returned when GS inflates; BUG-01b: targetMet=true when original fits target; BUG-01c: bestAchievableSizeBytes=inputSizeBytes when original exceeds target | `pdfProcessor.test.ts` |
+| **[BUG-01-UI] Already-optimal messaging** | BUG-01-UI: "already optimal" notice shown when wasAlreadyOptimal=true; BUG-01-UI-b: target banner says "fully optimised" | `CompareStep.test.tsx` |
 
 **Focus your manual testing on:** visual quality differences in the rendered panels, drag-and-drop file input, actual file save dialog, stale overlay behavior with re-processing, zoom controls.
 
