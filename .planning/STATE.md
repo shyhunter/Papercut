@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 05-pdf-real-compression-critical (in progress)
-**Current Plan:** 05-01 complete, 05-02 next
+**Current Plan:** 05-02 complete, 05-03 next
 **Total Plans in Phase:** 3
-Plan: 05-01-PLAN.md done
+Plan: 05-02-PLAN.md done
 **Status:** In progress
 **Last Activity:** 2026-02-23
 
@@ -47,6 +47,7 @@ Progress: [████░░░░░░] 33%
 | Phase 04-polish-trust P01 | 4 | 3 tasks | 10 files |
 | Phase 04-polish-trust P02 | 2 | 1 tasks | 2 files |
 | Phase 05-pdf-real-compression-critical P01 | 6 | 3 tasks | 9 files |
+| Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,9 @@ Recent decisions affecting current work:
 - [Phase 05-pdf-real-compression-critical]: fs:allow-write-file and fs:allow-remove scoped to $TEMP/** added for Plan 02 JS-side temp PDF operations
 - [Phase 05-pdf-real-compression-critical]: photo_heavy.pdf generated via Node.js pdf-lib script (not Rust/lopdf) — simpler, uses existing pdf-lib dep
 - [Phase 05-pdf-real-compression-critical]: compress_pdf preset allow-list: screen, ebook, printer, prepress (GS native -dPDFSETTINGS values)
+- [Phase 05-pdf-real-compression-critical]: Type-safe pdf-lib scan uses Resources()+lookupMaybe() — PDFObject has no resolve(); lookupMaybe handles ref resolution automatically
+- [Phase 05-pdf-real-compression-critical]: Dimension tests use compressionEnabled=false — GS mock output is not a parseable PDF; resize tests verify geometry not compression
+- [Phase 05-pdf-real-compression-critical]: Post-resize bytes passed to GS — pdfDoc.save({ useObjectStreams: false }) when resizeEnabled=true so GS receives resized bytes, not sourceBytes
 
 ### Pending Todos
 
@@ -112,5 +116,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-02-23
-Stopped at: Completed 05-pdf-real-compression-critical 05-01-PLAN.md — GS sidecar configured, compress_pdf command implemented, photo_heavy.pdf fixture committed
+Stopped at: Completed 05-pdf-real-compression-critical 05-02-PLAN.md — GS wired into pdfProcessor, quality labels updated to web/screen/print/archive, pre-scan added, all 194 tests green
 Resume file: None
