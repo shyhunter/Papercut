@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 5: PDF Real Compression (Phase 5 in progress)
+**Current focus:** Phase 6: Safety Hardening (in progress)
 
 ## Current Position
 
-Phase: 05-pdf-real-compression-critical (in progress)
-**Current Plan:** 05-02 complete, 05-03 next
+Phase: 06-safety-hardening-high (in progress)
+**Current Plan:** 06-02 complete, 06-03 next
 **Total Plans in Phase:** 3
-Plan: 05-02-PLAN.md done
-**Status:** Phase complete — ready for verification
+Plan: 06-02-PLAN.md done
+**Status:** In progress
 **Last Activity:** 2026-02-24
 
 Progress: [████░░░░░░] 33%
@@ -49,6 +49,7 @@ Progress: [████░░░░░░] 33%
 | Phase 05-pdf-real-compression-critical P01 | 6 | 3 tasks | 9 files |
 | Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
 | Phase 06-safety-hardening-high P1 | 10 | 1 tasks | 7 files |
+| Phase 06-safety-hardening-high P06-02 | 7 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,10 @@ Recent decisions affecting current work:
 - [Phase 06-safety-hardening-high]: getFileSizeBytes uses readFile (not stat API) — readFile already permitted, no new capability needed
 - [Phase 06-safety-hardening-high]: File size limit modal is a plain Tailwind fixed overlay — shadcn Dialog not installed in this project
 - [Phase 06-safety-hardening-high]: Load-time failures (zero-byte, >100MB, readFile error) show inline errors; mid-flow processing failures keep toasts
+- [Phase 06-safety-hardening-high]: ProcessState uses Mutex<Option<CommandChild>> — CommandChild.kill(self) consumes so Option+take() pattern required; oneshot channel not needed
+- [Phase 06-safety-hardening-high]: compress_pdf uses .spawn() + event loop instead of .output() to enable real GS kill; returns Err('CANCELLED') on kill
+- [Phase 06-safety-hardening-high]: CompareStep result prop made optional — isCancelled guard renders cancelled view before any result field access
+- [Phase 06-safety-hardening-high]: lastPdfOptionsRef stores last PDF options enabling Retry to re-run with identical settings without user re-entering them
 
 ### Pending Todos
 
@@ -119,6 +124,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-02-23
-Stopped at: Completed 05-pdf-real-compression-critical 05-02-PLAN.md — GS wired into pdfProcessor, quality labels updated to web/screen/print/archive, pre-scan added, all 194 tests green
+Last session: 2026-02-24
+Stopped at: Completed 06-safety-hardening-high 06-02-PLAN.md — cancellation support: GS subprocess kill via ProcessState Mutex, Cancel button in Configure steps, CompareStep cancelled state with Retry, 257 tests green
 Resume file: None
