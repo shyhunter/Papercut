@@ -13,8 +13,8 @@ Phase: 05-pdf-real-compression-critical (in progress)
 **Current Plan:** 05-02 complete, 05-03 next
 **Total Plans in Phase:** 3
 Plan: 05-02-PLAN.md done
-**Status:** In progress
-**Last Activity:** 2026-02-23
+**Status:** Phase complete — ready for verification
+**Last Activity:** 2026-02-24
 
 Progress: [████░░░░░░] 33%
 
@@ -48,6 +48,7 @@ Progress: [████░░░░░░] 33%
 | Phase 04-polish-trust P02 | 2 | 1 tasks | 2 files |
 | Phase 05-pdf-real-compression-critical P01 | 6 | 3 tasks | 9 files |
 | Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
+| Phase 06-safety-hardening-high P1 | 10 | 1 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,9 @@ Recent decisions affecting current work:
 - [Phase 05-pdf-real-compression-critical]: Type-safe pdf-lib scan uses Resources()+lookupMaybe() — PDFObject has no resolve(); lookupMaybe handles ref resolution automatically
 - [Phase 05-pdf-real-compression-critical]: Dimension tests use compressionEnabled=false — GS mock output is not a parseable PDF; resize tests verify geometry not compression
 - [Phase 05-pdf-real-compression-critical]: Post-resize bytes passed to GS — pdfDoc.save({ useObjectStreams: false }) when resizeEnabled=true so GS receives resized bytes, not sourceBytes
+- [Phase 06-safety-hardening-high]: getFileSizeBytes uses readFile (not stat API) — readFile already permitted, no new capability needed
+- [Phase 06-safety-hardening-high]: File size limit modal is a plain Tailwind fixed overlay — shadcn Dialog not installed in this project
+- [Phase 06-safety-hardening-high]: Load-time failures (zero-byte, >100MB, readFile error) show inline errors; mid-flow processing failures keep toasts
 
 ### Pending Todos
 
