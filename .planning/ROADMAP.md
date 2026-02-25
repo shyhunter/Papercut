@@ -130,12 +130,12 @@ Plans:
   2. At least one full image flow (open → configure → compare → save) runs as an automated test
   3. Save dialog file-type filter is verified automatically (PDF flow uses PDF filter, image flow uses correct image filter)
   4. Tests run in CI without a display server (headless)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 07-01: Research and scaffold E2E test framework (Tauri WebDriver / Playwright with tauri-driver)
-- [ ] 07-02: Full PDF flow E2E test (E2E-01 from TEST_PLAN.md)
-- [ ] 07-03: Full image flow E2E test (E2E-02, E2E-03 from TEST_PLAN.md) and save dialog filter assertions
+- [ ] 07-01-PLAN.md — WebDriverIO + tauri-driver scaffold, wdio.conf.ts, E2E fixtures (sparse large files + corrupt stubs), shared helpers (driver lifecycle + dialog.save() mock)
+- [ ] 07-02-PLAN.md — PDF E2E tests: 4 quality levels × 3 resize modes + 3 error paths + save dialog filter assertion (data-testid additions to PDF components)
+- [ ] 07-03-PLAN.md — Image E2E tests: quality-only + format conversion + resize (aspect lock + custom) + 2 error paths + 3 save dialog filter assertions (data-testid additions to image components)
 
 ## Progress
 
