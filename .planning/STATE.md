@@ -13,7 +13,7 @@ Phase: 06-safety-hardening-high (complete)
 **Current Plan:** 06-03 complete — all 3 plans done
 **Total Plans in Phase:** 3
 Plan: 06-03-PLAN.md done
-**Status:** Phase complete — all plans executed
+**Status:** Phase complete — ready for verification
 **Last Activity:** 2026-02-25
 
 Progress: [██████████] 100%
@@ -51,6 +51,7 @@ Progress: [██████████] 100%
 | Phase 06-safety-hardening-high P1 | 10 | 1 tasks | 7 files |
 | Phase 06-safety-hardening-high P06-02 | 7 | 2 tasks | 8 files |
 | Phase 06-safety-hardening-high P06-03 | 10 | 1 tasks | 3 files |
+| Phase 05 P03 | 5 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,7 @@ Recent decisions affecting current work:
 - [Phase 06-safety-hardening-high]: CompareStep result prop made optional — isCancelled guard renders cancelled view before any result field access
 - [Phase 06-safety-hardening-high]: lastPdfOptionsRef stores last PDF options enabling Retry to re-run with identical settings without user re-entering them
 - [Phase 06-safety-hardening-high]: ErrorBoundary: class components required (React API); StepErrorBoundary reset preserves file state; AppErrorBoundary uses window.location.reload(); shared BoundaryFallback component for DRY UI
+- [Phase 05]: Neutral compressibilityScore 0.5 used for pre-processing quality hint — real score only available after GS processes the PDF
 
 ### Pending Todos
 
