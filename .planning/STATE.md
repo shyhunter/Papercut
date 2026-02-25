@@ -5,18 +5,18 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 5: PDF Real Compression (Phase 5 in progress)
+**Current focus:** Phase 6: Safety Hardening (complete)
 
 ## Current Position
 
-Phase: 05-pdf-real-compression-critical (in progress)
-**Current Plan:** 05-02 complete, 05-03 next
+Phase: 06-safety-hardening-high (complete)
+**Current Plan:** Not started
 **Total Plans in Phase:** 3
-Plan: 05-02-PLAN.md done
-**Status:** In progress
-**Last Activity:** 2026-02-23
+Plan: 06-03-PLAN.md done
+**Status:** Milestone complete
+**Last Activity:** 2026-02-25
 
-Progress: [████░░░░░░] 33%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -48,6 +48,10 @@ Progress: [████░░░░░░] 33%
 | Phase 04-polish-trust P02 | 2 | 1 tasks | 2 files |
 | Phase 05-pdf-real-compression-critical P01 | 6 | 3 tasks | 9 files |
 | Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
+| Phase 06-safety-hardening-high P1 | 10 | 1 tasks | 7 files |
+| Phase 06-safety-hardening-high P06-02 | 7 | 2 tasks | 8 files |
+| Phase 06-safety-hardening-high P06-03 | 10 | 1 tasks | 3 files |
+| Phase 05 P03 | 5 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -95,6 +99,15 @@ Recent decisions affecting current work:
 - [Phase 05-pdf-real-compression-critical]: Type-safe pdf-lib scan uses Resources()+lookupMaybe() — PDFObject has no resolve(); lookupMaybe handles ref resolution automatically
 - [Phase 05-pdf-real-compression-critical]: Dimension tests use compressionEnabled=false — GS mock output is not a parseable PDF; resize tests verify geometry not compression
 - [Phase 05-pdf-real-compression-critical]: Post-resize bytes passed to GS — pdfDoc.save({ useObjectStreams: false }) when resizeEnabled=true so GS receives resized bytes, not sourceBytes
+- [Phase 06-safety-hardening-high]: getFileSizeBytes uses readFile (not stat API) — readFile already permitted, no new capability needed
+- [Phase 06-safety-hardening-high]: File size limit modal is a plain Tailwind fixed overlay — shadcn Dialog not installed in this project
+- [Phase 06-safety-hardening-high]: Load-time failures (zero-byte, >100MB, readFile error) show inline errors; mid-flow processing failures keep toasts
+- [Phase 06-safety-hardening-high]: ProcessState uses Mutex<Option<CommandChild>> — CommandChild.kill(self) consumes so Option+take() pattern required; oneshot channel not needed
+- [Phase 06-safety-hardening-high]: compress_pdf uses .spawn() + event loop instead of .output() to enable real GS kill; returns Err('CANCELLED') on kill
+- [Phase 06-safety-hardening-high]: CompareStep result prop made optional — isCancelled guard renders cancelled view before any result field access
+- [Phase 06-safety-hardening-high]: lastPdfOptionsRef stores last PDF options enabling Retry to re-run with identical settings without user re-entering them
+- [Phase 06-safety-hardening-high]: ErrorBoundary: class components required (React API); StepErrorBoundary reset preserves file state; AppErrorBoundary uses window.location.reload(); shared BoundaryFallback component for DRY UI
+- [Phase 05]: Neutral compressibilityScore 0.5 used for pre-processing quality hint — real score only available after GS processes the PDF
 
 ### Pending Todos
 
@@ -115,6 +128,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-02-23
-Stopped at: Completed 05-pdf-real-compression-critical 05-02-PLAN.md — GS wired into pdfProcessor, quality labels updated to web/screen/print/archive, pre-scan added, all 194 tests green
+Last session: 2026-02-25
+Stopped at: Completed 06-safety-hardening-high 06-03-PLAN.md — React error boundaries: StepErrorBoundary + AppErrorBoundary (class components), EB-01/EB-02/EB-03 tests pass, 260 tests green, phase 06 complete
 Resume file: None
