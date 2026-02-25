@@ -5,18 +5,18 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 6: Safety Hardening (in progress)
+**Current focus:** Phase 6: Safety Hardening (complete)
 
 ## Current Position
 
-Phase: 06-safety-hardening-high (in progress)
-**Current Plan:** 06-02 complete, 06-03 next
+Phase: 06-safety-hardening-high (complete)
+**Current Plan:** 06-03 complete — all 3 plans done
 **Total Plans in Phase:** 3
-Plan: 06-02-PLAN.md done
-**Status:** In progress
-**Last Activity:** 2026-02-24
+Plan: 06-03-PLAN.md done
+**Status:** Phase complete — all plans executed
+**Last Activity:** 2026-02-25
 
-Progress: [████░░░░░░] 33%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Progress: [████░░░░░░] 33%
 | Phase 05-pdf-real-compression-critical P02 | 8 | 3 tasks | 4 files |
 | Phase 06-safety-hardening-high P1 | 10 | 1 tasks | 7 files |
 | Phase 06-safety-hardening-high P06-02 | 7 | 2 tasks | 8 files |
+| Phase 06-safety-hardening-high P06-03 | 10 | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,7 @@ Recent decisions affecting current work:
 - [Phase 06-safety-hardening-high]: compress_pdf uses .spawn() + event loop instead of .output() to enable real GS kill; returns Err('CANCELLED') on kill
 - [Phase 06-safety-hardening-high]: CompareStep result prop made optional — isCancelled guard renders cancelled view before any result field access
 - [Phase 06-safety-hardening-high]: lastPdfOptionsRef stores last PDF options enabling Retry to re-run with identical settings without user re-entering them
+- [Phase 06-safety-hardening-high]: ErrorBoundary: class components required (React API); StepErrorBoundary reset preserves file state; AppErrorBoundary uses window.location.reload(); shared BoundaryFallback component for DRY UI
 
 ### Pending Todos
 
@@ -124,6 +126,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-02-24
-Stopped at: Completed 06-safety-hardening-high 06-02-PLAN.md — cancellation support: GS subprocess kill via ProcessState Mutex, Cancel button in Configure steps, CompareStep cancelled state with Retry, 257 tests green
+Last session: 2026-02-25
+Stopped at: Completed 06-safety-hardening-high 06-03-PLAN.md — React error boundaries: StepErrorBoundary + AppErrorBoundary (class components), EB-01/EB-02/EB-03 tests pass, 260 tests green, phase 06 complete
 Resume file: None

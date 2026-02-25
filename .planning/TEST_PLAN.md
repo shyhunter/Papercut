@@ -98,6 +98,9 @@ You can skip manual verification of these unless you suspect a regression:
 | **Integration — E2E Flows** | E2E-01 to E2E-08: full PDF flow, full image flow, Process Another (PDF/image), PDF back-chain, image back-chain, quality passed through, target-not-met end-to-end | `05-e2e-flows.test.tsx` |
 | **[BUG-01] GS bloat regression** | BUG-01: source bytes returned when GS inflates; BUG-01b: targetMet=true when original fits target; BUG-01c: bestAchievableSizeBytes=inputSizeBytes when original exceeds target | `pdfProcessor.test.ts` |
 | **[BUG-01-UI] Already-optimal messaging** | BUG-01-UI: "already optimal" notice shown when wasAlreadyOptimal=true; BUG-01-UI-b: target banner says "fully optimised" | `CompareStep.test.tsx` |
+| **[EB-01] StepErrorBoundary — step throw shows fallback** | EB-01: StepErrorBoundary catches child render throw, shows "Configure encountered an unexpected error." message | `ErrorBoundary.test.tsx` |
+| **[EB-02] StepErrorBoundary — Reset clears boundary** | EB-02: "Reset this step" button clears boundary state (boundary performs reset cycle) | `ErrorBoundary.test.tsx` |
+| **[EB-03] AppErrorBoundary — app throw shows Restart app** | EB-03: AppErrorBoundary catches throw, shows "The app encountered an unexpected error." + "Restart app" button | `ErrorBoundary.test.tsx` |
 
 **Focus your manual testing on:** visual quality differences in the rendered panels, drag-and-drop file input, actual file save dialog, stale overlay behavior with re-processing, zoom controls.
 
