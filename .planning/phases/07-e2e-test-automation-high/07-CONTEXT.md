@@ -24,7 +24,7 @@ Automate the critical user flows (open → configure → compare → save) for b
   - web-only (compression, no resize)
   - web + resize (preset page size)
   - web + resize + custom width×height input
-  - All 4 quality levels (screen / ebook / printer / prepress)
+  - All 4 quality levels (web / screen / print / archive)
 - **Image matrix** — same matrix approach:
   - quality slider only
   - quality + format conversion (JPG/PNG/WebP)
@@ -37,14 +37,14 @@ Automate the critical user flows (open → configure → compare → save) for b
 - **Output verification:** File saved to disk + format/type verified (output exists, is the right format, is smaller than input for compression flows). Not byte-level content inspection.
 
 ### Test fixtures & file handling
-- **Input fixtures:** New dedicated E2E fixtures (not reusing existing `test-fixtures/`). Purpose-built for E2E scenarios (e.g. photo-heavy PDF, large PNG, corrupt file stub).
+- **Input fixtures:** Reuse existing `test-fixtures/` for real PDF/image inputs (photo_heavy.pdf, warnock_camelot.pdf, pexels-pixabay-459225.jpg, sample.png). These are already committed, real binary files. Use new `test-fixtures-e2e/` only for error-path stubs that do NOT exist in `test-fixtures/`: corrupt files (zero-byte) and oversize sparse files (>100 MB).
 - **Output location:** Claude's discretion — use whatever is cleanest for assertions and CI cleanup (temp dir or dedicated `e2e-output/` in .gitignore)
 - **Oversized-file test:** Use an actual large file (sparse/generated via script) — not mocked
 - **Save dialog:** Mock/intercept the Tauri `dialog.save()` call — tests provide a fixed output path without OS dialog interaction
 
 ### CI & headless execution
 - **Platform:** Local only for now — no GitHub Actions workflow file in this phase
-- **Cross-platform support:** Tests should work on both macOS (no virtual display) and Linux (Xvfb), for future CI on Ubuntu runners
+- **Cross-platform support:** Tests should work on both macOS (no virtual display) and Linux (Xvfb), for future CI on Ubuntu runners. `wdio.conf.ts` must include a `before` hook that sets `DISPLAY=:99` on Linux when no `DISPLAY` env var is set, so tests can run under Xvfb without manual setup.
 - **Window visibility:** Visible window during tests (not forced headless) — useful for local debugging
 - **Failure reporting:** Screenshots + video recording on test failure
 
