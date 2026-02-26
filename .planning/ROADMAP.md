@@ -133,9 +133,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — WebDriverIO + tauri-driver scaffold, wdio.conf.ts, E2E fixtures (sparse large files + corrupt stubs), shared helpers (driver lifecycle + dialog.save() mock)
-- [ ] 07-02-PLAN.md — PDF E2E tests: 4 quality levels × 3 resize modes + 3 error paths + save dialog filter assertion (data-testid additions to PDF components)
-- [ ] 07-03-PLAN.md — Image E2E tests: quality-only + format conversion + resize (aspect lock + custom) + 2 error paths + 3 save dialog filter assertions (data-testid additions to image components)
+- [x] 07-01-PLAN.md — WebDriverIO + tauri-driver scaffold, wdio.conf.ts, E2E fixtures (sparse large files + corrupt stubs), shared helpers (driver lifecycle + dialog.save() mock)
+- [x] 07-02-PLAN.md — PDF E2E tests: 4 quality levels × 3 resize modes + 3 error paths + save dialog filter assertion (data-testid additions to PDF components)
+- [x] 07-03-PLAN.md — Image E2E tests: quality-only + format conversion + resize (aspect lock + custom) + 2 error paths + 3 save dialog filter assertions (data-testid additions to image components)
 
 ## Progress
 
@@ -150,4 +150,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 4. Polish & Trust | 2/2 | Complete    | 2026-02-23 |
 | 5. PDF Real Compression ⚠️ | 3/3 | Complete | 2026-02-24 |
 | 6. Safety & Hardening 🟠 | 3/3 | Complete   | 2026-02-25 |
-| 7. E2E Test Automation 🟠 | 1/3 | In Progress|  |
+| 7. E2E Test Automation 🟠 | 3/3 | Complete | 2026-02-26 |
