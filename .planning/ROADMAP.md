@@ -130,10 +130,14 @@ Plans:
   5. Save confirmation stays visible with X close button and clickable link to open the saved file
   6. "Process Another" renamed to "Start Over" in Compare step
   7. All UI elements (fonts, buttons, inputs, panels) scale proportionally with window size
-**Plans**: 0 plans
+**Plans**: 5 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 8 to break down)
+- [ ] 08-01-PLAN.md — ConfigureStep: compressibility feedback (inline warning + threshold info) + Custom quality option with MB/KB target size
+- [ ] 08-02-PLAN.md — CompareStep + ImageCompareStep: stats row above panels, floating zoom toolbar, synced scrolling, "Start Over" label
+- [ ] 08-03-PLAN.md — SaveStep: persistent confirmation card with file link, X close, animated success checkmark
+- [ ] 08-04-PLAN.md — Responsive scaling: CSS clamp() root font-size + component-level viewport-aware sizing
+- [ ] 08-05-PLAN.md — Visual verification checkpoint for all 7 success criteria
 
 ---
 
