@@ -119,6 +119,22 @@ Plans:
 - [ ] 06-02-PLAN.md — Rust processing cancellation (cancel_processing command, tokio::select! GS kill, Cancel button in Configure steps, Cancelled state in CompareStep)
 - [ ] 06-03-PLAN.md — React error boundaries (StepErrorBoundary + AppErrorBoundary) wrapping all steps in App.tsx
 
+### Phase 8: UX Polish & Refinements
+**Goal**: The app communicates compression limits clearly, offers custom target sizes, scales responsively with window size, and provides a polished save experience with file links and delight animations
+**Depends on**: Phase 7
+**Success Criteria** (what must be TRUE):
+  1. Non-compressible files show an inline warning in Configure step and block progression to Compare
+  2. Compressibility threshold info is always visible in Configure step
+  3. A "Custom" 5th radio option lets users enter a target file size in MB or KB with validation
+  4. Compare step shows full stats above panels with floating zoom toolbar and synced panel scrolling
+  5. Save confirmation stays visible with X close button and clickable link to open the saved file
+  6. "Process Another" renamed to "Start Over" in Compare step
+  7. All UI elements (fonts, buttons, inputs, panels) scale proportionally with window size
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 8 to break down)
+
 ---
 
 ### Phase 7: E2E Test Automation 🟠 High
