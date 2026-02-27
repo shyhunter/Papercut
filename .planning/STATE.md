@@ -116,6 +116,10 @@ Recent decisions affecting current work:
 - [Phase 07-e2e-test-automation-high]: Magic byte verification (readFileSync) used for format assertions — confirms actual output format not just filename extension
 - [Phase 07-e2e-test-automation-high]: Radio click pattern used for quality options (quality-option-{value} click, not selectByAttribute) — ConfigureStep uses fieldset/radio not a select element
 
+### Roadmap Evolution
+
+- Phase 8 added: NewFeatures
+
 ### Pending Todos
 
 None.
@@ -135,6 +139,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-02-26
-Stopped at: Completed 07-03-PLAN.md — Phase 7 complete: image E2E suite (12 tests), image component data-testid annotations, 260 unit tests green
-Resume file: None
+Last session: 2026-02-27
+Stopped at: Phase 8 context gathered
+Resume file: .planning/phases/08-newfeatures/08-CONTEXT.md
