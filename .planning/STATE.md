@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 7: E2E Test Automation (complete)
+**Current focus:** Phase 8: UX Polish / New Features
 
 ## Current Position
 
-Phase: 07-e2e-test-automation-high (complete)
-**Current Plan:** 3 (complete)
-**Total Plans in Phase:** 3
-**Status:** Phase complete
-**Last Activity:** 2026-02-26
+Phase: 08-newfeatures
+**Current Plan:** 4 (complete)
+**Total Plans in Phase:** 5
+**Status:** In progress
+**Last Activity:** 2026-03-01
 
-Progress: [██████████] 100%
+Progress: [████░░░░░░] 20%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [██████████] 100%
 | Phase 07-e2e-test-automation-high P07-01 | 11 | 2 tasks | 10 files |
 | Phase 07-e2e-test-automation-high P07-02 | 8 | 2 tasks | 6 files |
 | Phase 07-e2e-test-automation-high P07-03 | 8 | 2 tasks | 3 files |
+| Phase 08 P04 | 3 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -115,6 +116,7 @@ Recent decisions affecting current work:
 - [Phase 07-e2e-test-automation-high]: navigateToImageCompare polls 'image-compare-step' not 'compare-step' — image and PDF compare steps have distinct testids
 - [Phase 07-e2e-test-automation-high]: Magic byte verification (readFileSync) used for format assertions — confirms actual output format not just filename extension
 - [Phase 07-e2e-test-automation-high]: Radio click pattern used for quality options (quality-option-{value} click, not selectByAttribute) — ConfigureStep uses fieldset/radio not a select element
+- [Phase 08]: Root font-size drives all rem-based Tailwind scaling via clamp(14px, 1.2vw + 0.4vh, 20px)
 
 ### Roadmap Evolution
 
