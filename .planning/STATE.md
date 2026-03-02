@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 09-dashboard-multi-tool-architecture
-**Current Plan:** 2
+**Current Plan:** 3
 **Total Plans in Phase:** 5
-**Status:** In progress
+**Status:** Ready to execute
 **Last Activity:** 2026-03-02
 
 Progress: [████░░░░░░] 20%
@@ -56,6 +56,7 @@ Progress: [████░░░░░░] 20%
 | Phase 07-e2e-test-automation-high P07-03 | 8 | 2 tasks | 3 files |
 | Phase 08 P04 | 3 | 2 tasks | 6 files |
 | Phase 09 P01 | 8 | 2 tasks | 10 files |
+| Phase 09 P02 | 3 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,9 @@ Recent decisions affecting current work:
 - [Phase 08]: Root font-size drives all rem-based Tailwind scaling via clamp(14px, 1.2vw + 0.4vh, 20px)
 - [Phase 09]: Dashboard is app entry point; ToolProvider context tracks activeTool (null = dashboard)
 - [Phase 09]: TOOL_REGISTRY pattern: constant mapping ToolId to ToolDefinition with steps, category, icon, acceptsFormats
+- [Phase 09]: StepBar accepts steps: ToolStep[] and current: number — no longer tied to AppStep enum
+- [Phase 09]: ToolHeader wraps breadcrumb + StepBar; Dashboard uses own drag-drop listener for tool picker overlay
+- [Phase 09]: pendingFile in ToolContext forwards dashboard-dropped files to tool flows on mount
 
 ### Roadmap Evolution
 
