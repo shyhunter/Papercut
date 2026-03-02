@@ -157,6 +157,23 @@ Plans:
 - [x] 07-02-PLAN.md — PDF E2E tests: 4 quality levels × 3 resize modes + 3 error paths + save dialog filter assertion (data-testid additions to PDF components)
 - [x] 07-03-PLAN.md — Image E2E tests: quality-only + format conversion + resize (aspect lock + custom) + 2 error paths + 3 save dialog filter assertions (data-testid additions to image components)
 
+---
+
+### Phase 9: Dashboard & Multi-Tool Architecture
+**Goal**: Transform Papercut from a single-purpose compression tool into a full document toolkit (like iLovePDF, but local and private) — starting with a dashboard entry point and the first batch of PDF tools (merge, split, rotate)
+**Depends on**: Phase 8 (UX polish complete)
+**Origin**: Feature backlog F9 — user vision for iLovePDF-style desktop app
+**Success Criteria** (what must be TRUE):
+  1. App launches to a dashboard showing available tools as cards/panels (compression is the first tool)
+  2. Selecting a tool enters the existing Pick → Configure → Compare → Save flow (or a tool-specific flow)
+  3. Users can merge multiple PDFs into one output file
+  4. Users can split a PDF by page ranges or into individual pages
+  5. Users can rotate selected pages (90°, 180°, 270°)
+  6. Navigation allows returning to the dashboard from any tool
+  7. Existing compression and image processing flows are fully preserved (no regressions)
+
+---
+
 ## Progress
 
 **Execution Order:**
