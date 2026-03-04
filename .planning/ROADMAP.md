@@ -174,6 +174,30 @@ Plans:
 
 ---
 
+### Phase 10: Quick-Win Tools + Compress Improvements
+**Goal**: Double the dashboard from 5 to 11 tools with quick-win features, and improve the compress pipeline with new format support and metadata stripping
+**Depends on**: Phase 9 (dashboard and multi-tool architecture)
+**Origin**: iLovePDF feature analysis — prioritized by value/effort ratio
+**Success Criteria** (what must be TRUE):
+  1. PDF to JPG: User can export each page of a PDF as JPEG or PNG images
+  2. JPG to PDF: User can convert one or more images into a single PDF with page size options
+  3. Protect PDF: User can add password encryption to a PDF
+  4. Unlock PDF: User can remove password protection from a PDF (given the password)
+  5. Rotate Image: User can rotate images 90°/180°/270°
+  6. Convert Image: User can convert images between JPG/PNG/WebP formats
+  7. Compress accepts BMP, TIFF, and GIF as input image formats
+  8. PDF compress has a metadata stripping toggle
+
+Plans:
+- [ ] 10-01-PLAN.md — Tool registry expansion (6 new ToolIds), Dashboard icon mapping, App.tsx routing stubs
+- [ ] 10-02-PLAN.md — PDF to JPG: pdfjs page rendering to JPEG/PNG with DPI options, multi-file SaveStep output
+- [ ] 10-03-PLAN.md — JPG to PDF: multi-image picker, pdf-lib embedding, page size/orientation/margin options
+- [ ] 10-04-PLAN.md — Protect + Unlock PDF: GS sidecar encryption commands, password UI, injection prevention
+- [ ] 10-05-PLAN.md — Rotate Image + Convert Image: Rust rotate command, format conversion flow
+- [ ] 10-06-PLAN.md — Compress improvements: BMP/TIFF/GIF input support, PDF metadata stripping toggle
+
+---
+
 ## Progress
 
 **Execution Order:**
@@ -190,3 +214,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 7. E2E Test Automation 🟠 | 3/3 | Complete | 2026-02-26 |
 | 8. UX Polish & Refinements | 5/5 | Complete | — |
 | 9. Dashboard & Multi-Tool | 6/6 | Complete | 2026-03-04 |
+| 10. Quick-Win Tools + Compress | 0/6 | In Progress | — |
