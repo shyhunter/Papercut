@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 09-dashboard-multi-tool-architecture
 source: 09-01-SUMMARY.md, 09-02-SUMMARY.md, 09-03-PLAN.md, 09-04-PLAN.md, 09-05-PLAN.md
 started: 2026-03-03T10:00:00Z
@@ -77,8 +77,22 @@ skipped: 0
   reason: "User reported: Multi-file drag-and-drop not supported on dashboard. Single file drop into merge duplicates the file. Tools should be filtered based on whether they accept single vs multiple files. Need cleverer handling of single vs multi-file drops."
   severity: major
   test: 4
-  artifacts: []
-  missing: []
+  root_cause: "Three issues: (1) Dashboard.tsx line 70 explicitly rejects multi-file drops with `paths.length === 1` guard; (2) ToolContext pendingFile is singular string, not array; (3) ToolDefinition has no acceptsMultipleFiles flag to filter tools by file count"
+  artifacts:
+    - path: "src/components/Dashboard.tsx"
+      issue: "Drag-drop listener rejects paths.length > 1; getCompatibleTools has no multi-file awareness"
+    - path: "src/context/ToolContext.tsx"
+      issue: "pendingFile is string|null, needs to be string[] for multi-file support"
+    - path: "src/types/tools.ts"
+      issue: "ToolDefinition missing acceptsMultipleFiles flag"
+    - path: "src/components/merge/MergePickStep.tsx"
+      issue: "Uses useState for side-effect (should be useEffect); initialFile is singular"
+  missing:
+    - "Add acceptsMultipleFiles?: boolean to ToolDefinition; set true for merge-pdf"
+    - "Change pendingFile to pendingFiles: string[] in ToolContext"
+    - "Update Dashboard drag-drop to accept multiple files and filter tool picker accordingly"
+    - "Update MergePickStep to accept initialFiles array via useEffect"
+    - "Update all flows (Split, Rotate, App.tsx) to use pendingFiles[0] for single-file tools"
 
 ## Notes
 
