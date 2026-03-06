@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 9: Dashboard & Multi-Tool Architecture
+**Current focus:** Phase 12 complete — Advanced PDF Tools delivered
 
 ## Current Position
 
-Phase: 09-dashboard-multi-tool-architecture
-**Current Plan:** 6 (complete)
-**Total Plans in Phase:** 6
-**Status:** All plans executed
-**Last Activity:** 2026-03-04
+Phase: 12-advanced-pdf-tools
+**Current Plan:** 5/5
+**Total Plans in Phase:** 5
+**Status:** Complete
+**Last Activity:** 2026-03-06
 
 Progress: [██████████] 100%
 
@@ -58,6 +58,10 @@ Progress: [██████████] 100%
 | Phase 09 P01 | 8 | 2 tasks | 10 files |
 | Phase 09 P02 | 3 | 3 tasks | 5 files |
 | Phase 09 P06 | 2 | 2 tasks | 9 files |
+| Phase 12 P01 | 3 | 2 tasks | 8 files |
+| Phase 12 P05 | 3 | 2 tasks | 5 files |
+| Phase 12 P03 | 3 | 2 tasks | 5 files |
+| Phase 12 P04 | 3 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -127,6 +131,13 @@ Recent decisions affecting current work:
 - [Phase 09]: pendingFile in ToolContext forwards dashboard-dropped files to tool flows on mount
 - [Phase 09]: pendingFiles (array) replaces pendingFile — multi-file drop filters tool picker to acceptsMultipleFiles tools only
 - [Phase 09]: useState-as-side-effect replaced with useEffect in MergePickStep, SplitPickStep, RotateFlow
+- [Phase 12]: Signature fonts bundled as static woff2 from @fontsource, not runtime CDN
+- [Phase 12]: PagePreview component uses pdfBytes.slice() and cancelled flag for StrictMode safety
+- [Phase 12]: Render-to-image approach for true permanent redaction -- pages with redactions flattened to PNG, guaranteeing no extractable text
+- [Phase 12]: Percentage-based coordinates (0-100) for resolution-independent redaction rectangles
+- [Phase 12]: Canvas freehand uses quadraticCurveTo with midpoint averaging, DPR capped at 2x, paths in React state for StrictMode safety
+- [Phase 12]: useSavedSignatures shares papercut-settings.json LazyStore with useRecentDirs; all creation methods crop to bounding box before PNG export
+- [Phase 12]: Screen-to-PDF Y coordinate flip for bottom-left origin signature placement
 
 ### Roadmap Evolution
 
@@ -151,6 +162,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-03-04
-Stopped at: Completed 09-06-PLAN.md (gap closure)
-Resume file: Phase 9 complete — all plans executed
+Last session: 2026-03-06
+Stopped at: Phase 12 complete — all 5 plans executed across 3 waves
+Resume file: .planning/phases/12-advanced-pdf-tools/12-04-SUMMARY.md
