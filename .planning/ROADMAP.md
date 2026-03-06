@@ -198,6 +198,48 @@ Plans:
 
 ---
 
+### Phase 11: P2 Visual PDF Tools
+**Goal**: Add visual PDF manipulation tools — page numbers, watermark, crop, and organize pages
+**Depends on**: Phase 9 (dashboard architecture)
+**Origin**: iLovePDF feature analysis — P2 visual tools
+**Success Criteria** (what must be TRUE):
+  1. User can add page numbers with configurable position, format, and font size
+  2. User can add text watermarks with opacity, rotation, and color options
+  3. User can crop PDF pages by adjusting margins
+  4. User can organize PDF pages (reorder, delete, duplicate)
+  5. All 4 tools accessible from dashboard and fully functional
+
+Plans:
+- [x] 11-01-PLAN.md — Register 4 new P2 visual tools with routing stubs
+- [x] 11-02-PLAN.md — Page Numbers tool with position/format/size options
+- [x] 11-03-PLAN.md — Watermark tool with text/opacity/rotation/color
+- [x] 11-04-PLAN.md — Crop PDF tool with margin-based cropping
+- [x] 11-05-PLAN.md — Organize PDF tool with reorder/delete/duplicate
+- [x] 11-06-PLAN.md — Wire all P2 visual tools into App.tsx routing
+
+---
+
+### Phase 12: Advanced PDF Tools
+**Goal**: Add advanced PDF tools — sign, redact, PDF/A conversion, and repair — completing Papercut's professional PDF toolkit
+**Depends on**: Phase 9 (dashboard architecture), Phase 5 (GS sidecar for PDF/A and repair)
+**Origin**: Feature backlog P4 — advanced PDF tools
+**Success Criteria** (what must be TRUE):
+  1. User can add a visual signature stamp (draw/type/upload) to any page of a PDF
+  2. User can redact (permanently remove) selected text or areas from a PDF
+  3. User can convert a PDF to PDF/A archival format via Ghostscript
+  4. User can repair a corrupted or malformed PDF via Ghostscript re-processing
+  5. All 4 tools accessible from dashboard and fully functional
+**Plans**: 5 plans
+
+Plans:
+- [ ] 12-01-PLAN.md — Registry expansion (4 new ToolIds), routing stubs, signature fonts, shared PagePreview component
+- [ ] 12-02-PLAN.md — PDF/A conversion + Repair PDF: GS sidecar Rust commands and flow UIs
+- [ ] 12-03-PLAN.md — Sign PDF signature creation: canvas drawing, typed text, image upload, persistence
+- [ ] 12-04-PLAN.md — Sign PDF placement: drag-and-drop on page preview, resize handles, page range, full flow wiring
+- [ ] 12-05-PLAN.md — Redact PDF: rectangle drawing overlay, text search, render-to-image redaction, full flow
+
+---
+
 ## Progress
 
 **Execution Order:**
@@ -214,4 +256,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 7. E2E Test Automation 🟠 | 3/3 | Complete | 2026-02-26 |
 | 8. UX Polish & Refinements | 5/5 | Complete | — |
 | 9. Dashboard & Multi-Tool | 6/6 | Complete | 2026-03-04 |
-| 10. Quick-Win Tools + Compress | 0/6 | In Progress | — |
+| 10. Quick-Win Tools + Compress | 6/6 | Complete | 2026-03-04 |
+| 11. P2 Visual PDF Tools | 6/6 | Complete | 2026-03-04 |
+| 12. Advanced PDF Tools | 0/5 | Not Started | — |
