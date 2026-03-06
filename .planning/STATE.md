@@ -10,10 +10,10 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 10-quick-win-tools-compress-improvements
-**Current Plan:** 1
+**Current Plan:** 2
 **Total Plans in Phase:** 6
-**Status:** Starting execution
-**Last Activity:** 2026-03-04
+**Status:** Ready to execute
+**Last Activity:** 2026-03-06
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 09 P01 | 8 | 2 tasks | 10 files |
 | Phase 09 P02 | 3 | 3 tasks | 5 files |
 | Phase 09 P06 | 2 | 2 tasks | 9 files |
+| Phase 12 P01 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -127,6 +128,8 @@ Recent decisions affecting current work:
 - [Phase 09]: pendingFile in ToolContext forwards dashboard-dropped files to tool flows on mount
 - [Phase 09]: pendingFiles (array) replaces pendingFile — multi-file drop filters tool picker to acceptsMultipleFiles tools only
 - [Phase 09]: useState-as-side-effect replaced with useEffect in MergePickStep, SplitPickStep, RotateFlow
+- [Phase 12]: Signature fonts bundled as static woff2 from @fontsource, not runtime CDN
+- [Phase 12]: PagePreview component uses pdfBytes.slice() and cancelled flag for StrictMode safety
 
 ### Roadmap Evolution
 
