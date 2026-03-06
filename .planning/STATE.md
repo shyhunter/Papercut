@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 10-quick-win-tools-compress-improvements
-**Current Plan:** 3
+**Current Plan:** 4
 **Total Plans in Phase:** 6
 **Status:** Ready to execute
 **Last Activity:** 2026-03-06
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 09 P06 | 2 | 2 tasks | 9 files |
 | Phase 12 P01 | 3 | 2 tasks | 8 files |
 | Phase 12 P05 | 3 | 2 tasks | 5 files |
+| Phase 12 P03 | 3 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -133,6 +134,8 @@ Recent decisions affecting current work:
 - [Phase 12]: PagePreview component uses pdfBytes.slice() and cancelled flag for StrictMode safety
 - [Phase 12]: Render-to-image approach for true permanent redaction -- pages with redactions flattened to PNG, guaranteeing no extractable text
 - [Phase 12]: Percentage-based coordinates (0-100) for resolution-independent redaction rectangles
+- [Phase 12]: Canvas freehand uses quadraticCurveTo with midpoint averaging, DPR capped at 2x, paths in React state for StrictMode safety
+- [Phase 12]: useSavedSignatures shares papercut-settings.json LazyStore with useRecentDirs; all creation methods crop to bounding box before PNG export
 
 ### Roadmap Evolution
 
