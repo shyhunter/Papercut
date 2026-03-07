@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 12 complete — Advanced PDF Tools delivered
+**Current focus:** Phase 13 — Edit and Convert PDF to DOC and Kindle ebook formats
 
 ## Current Position
 
-Phase: 12-advanced-pdf-tools
-**Current Plan:** 5/5
+Phase: 13-edit-and-convert-pdf-to-doc-and-kindle-ebook-formats
+**Current Plan:** 1/5
 **Total Plans in Phase:** 5
-**Status:** Complete
-**Last Activity:** 2026-03-06
+**Status:** In progress
+**Last Activity:** 2026-03-07
 
-Progress: [██████████] 100%
+Progress: [██--------] 20%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Progress: [██████████] 100%
 | Phase 12 P05 | 3 | 2 tasks | 5 files |
 | Phase 12 P03 | 3 | 2 tasks | 5 files |
 | Phase 12 P04 | 3 | 2 tasks | 4 files |
+| Phase 13 P01 | 3 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -138,6 +139,9 @@ Recent decisions affecting current work:
 - [Phase 12]: Canvas freehand uses quadraticCurveTo with midpoint averaging, DPR capped at 2x, paths in React state for StrictMode safety
 - [Phase 12]: useSavedSignatures shares papercut-settings.json LazyStore with useRecentDirs; all creation methods crop to bounding box before PNG export
 - [Phase 12]: Screen-to-PDF Y coordinate flip for bottom-left origin signature placement
+- [Phase 13]: shell().command() for LibreOffice/Calibre (system-installed, not bundled — too large at 200-500MB each)
+- [Phase 13]: macOS app bundle path fallback for soffice and ebook-convert system binaries
+- [Phase 13]: 'document' as third SupportedFormat alongside 'pdf' and 'image'
 
 ### Roadmap Evolution
 
@@ -164,5 +168,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-03-07
-Stopped at: Phase 13 context gathered
-Resume file: .planning/phases/13-edit-and-convert-pdf-to-doc-and-kindle-ebook-formats/13-CONTEXT.md
+Stopped at: Completed 13-01-PLAN.md
+Resume file: .planning/phases/13-edit-and-convert-pdf-to-doc-and-kindle-ebook-formats/13-02-PLAN.md

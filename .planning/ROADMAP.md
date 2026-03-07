@@ -238,6 +238,27 @@ Plans:
 - [ ] 12-04-PLAN.md — Sign PDF placement: drag-and-drop on page preview, resize handles, page range, full flow wiring
 - [ ] 12-05-PLAN.md — Redact PDF: rectangle drawing overlay, text search, render-to-image redaction, full flow
 
+### Phase 13: Edit and convert PDF to DOC and Kindle ebook formats
+
+**Goal:** Users can edit PDF text and images in a side-panel editor, and convert documents bidirectionally between PDF and DOCX/DOC/ODT/EPUB/MOBI/AZW3/TXT/RTF — all locally
+**Depends on:** Phase 12
+**Success Criteria** (what must be TRUE):
+  1. User can open a PDF in the Edit PDF tool and see a side-panel editor with thumbnail navigation
+  2. User can click on text to edit inline, change font/size/color/alignment, add new text blocks, and delete text
+  3. User can insert, move, resize, rotate, flip, replace, and delete images on PDF pages
+  4. User can convert/export the current PDF to other formats from within the editor
+  5. User can use the standalone Convert Document tool to convert between PDF and DOCX/DOC/ODT/EPUB/MOBI/AZW3/TXT/RTF
+  6. User can configure font, margins, and spacing during conversion
+  7. EPUB conversion offers reflowable vs fixed-layout choice
+**Plans:** 1/5 plans executed
+
+Plans:
+- [ ] 13-01-PLAN.md — Foundation: types, format detection, tool registry, Rust sidecar commands (LibreOffice + Calibre)
+- [ ] 13-02-PLAN.md — Convert Document tool: full Pick -> Configure -> Compare -> Save flow with format/typography controls
+- [ ] 13-03-PLAN.md — Edit PDF shell: editor layout, collapsible thumbnail sidebar, page canvas, text extraction engine, App.tsx routing
+- [ ] 13-04-PLAN.md — PDF text editing: text overlay, inline editing, formatting toolbar, overlay+redraw save engine
+- [ ] 13-05-PLAN.md — PDF image editing: image extraction, drag/resize/rotate overlays, insert/delete, in-editor Export panel
+
 ---
 
 ## Progress
