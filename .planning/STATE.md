@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 13-edit-and-convert-pdf-to-doc-and-kindle-ebook-formats
-**Current Plan:** 2
+**Current Plan:** 3
 **Total Plans in Phase:** 5
 **Status:** Ready to execute
 **Last Activity:** 2026-03-07
@@ -64,6 +64,7 @@ Progress: [██--------] 20%
 | Phase 12 P04 | 3 | 2 tasks | 4 files |
 | Phase 13 P01 | 3 | 2 tasks | 8 files |
 | Phase 13 P03 | 3 | 2 tasks | 6 files |
+| Phase 13 P02 | 3 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -145,6 +146,7 @@ Recent decisions affecting current work:
 - [Phase 13]: 'document' as third SupportedFormat alongside 'pdf' and 'image'
 - [Phase 13]: LazyThumbnail uses IntersectionObserver with 200px rootMargin for lazy loading
 - [Phase 13]: PageCanvas auto-fits to container width when scale prop omitted
+- [Phase 13]: Typography controls (font, margins, spacing) shown only for Calibre-routed ebook conversions
 
 ### Roadmap Evolution
 
