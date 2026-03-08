@@ -250,7 +250,7 @@ Plans:
   5. User can use the standalone Convert Document tool to convert between PDF and DOCX/DOC/ODT/EPUB/MOBI/AZW3/TXT/RTF
   6. User can configure font, margins, and spacing during conversion
   7. EPUB conversion offers reflowable vs fixed-layout choice
-**Plans:** 3/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 - [ ] 13-01-PLAN.md — Foundation: types, format detection, tool registry, Rust sidecar commands (LibreOffice + Calibre)
