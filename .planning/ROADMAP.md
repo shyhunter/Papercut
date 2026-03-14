@@ -261,6 +261,23 @@ Plans:
 
 ---
 
+### Phase 14: Security & Privacy Hardening 🔒
+**Goal**: The app is safe against all known security vulnerabilities and provides strong, verifiable privacy guarantees to users — no data leaks, no injection vectors, no unsafe file handling
+**Depends on**: Phase 13 (all features complete)
+**Origin**: Pre-release security audit — closed beta preparation
+**Success Criteria** (what must be TRUE):
+  1. All shell command invocations are sanitized against injection (especially AppleScript/PowerShell string interpolation in convert_with_word)
+  2. All Tauri IPC commands validate arguments server-side (path traversal, format allow-lists, size limits)
+  3. Tauri capability scopes are tightened to minimum required permissions
+  4. Temp files are reliably cleaned up — no sensitive user data lingers in temp directories
+  5. Content Security Policy (CSP) is configured to lock down the webview (no inline scripts, no external connections)
+  6. npm and Cargo dependency audit passes with zero known critical/high vulnerabilities
+  7. PDF password handling in protect/unlock flows never logs or persists plaintext passwords
+  8. A user-facing Privacy Policy / data handling statement is accessible from the app
+  9. All security measures are covered by automated tests
+
+---
+
 ## Progress
 
 **Execution Order:**
@@ -280,3 +297,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 10. Quick-Win Tools + Compress | 6/6 | Complete | 2026-03-04 |
 | 11. P2 Visual PDF Tools | 6/6 | Complete | 2026-03-04 |
 | 12. Advanced PDF Tools | 5/5 | Complete   | 2026-03-06 |
+| 13. Edit & Convert PDF | 5/5 | Complete | 2026-03-08 |
+| 14. Security & Privacy 🔒 | 0/? | In Progress | — |
