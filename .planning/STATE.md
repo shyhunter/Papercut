@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 13 — Edit and Convert PDF to DOC and Kindle ebook formats
+**Current focus:** Phase 14 — Security & Privacy Hardening
 
 ## Current Position
 
-Phase: 13-edit-and-convert-pdf-to-doc-and-kindle-ebook-formats
-**Current Plan:** 5
-**Total Plans in Phase:** 5
-**Status:** Complete
-**Last Activity:** 2026-03-08
+Phase: 14-security-privacy-hardening
+**Current Plan:** 0
+**Total Plans in Phase:** ?
+**Status:** Context gathered
+**Last Activity:** 2026-03-14
 
 Progress: [██████████] 100%
 
@@ -174,6 +174,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-03-08
-Stopped at: Phase 13 complete — all 5 plans executed
-Resume file: N/A (phase complete)
+Last session: 2026-03-14
+Stopped at: Phase 14 context gathered
+Resume file: .planning/phases/14-security-privacy-hardening/14-CONTEXT.md
