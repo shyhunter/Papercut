@@ -276,6 +276,15 @@ Plans:
   8. A user-facing Privacy Policy / data handling statement is accessible from the app
   9. All security measures are covered by automated tests
 
+### Phase 15: Release Preparation
+
+**Goal:** [To be planned]
+**Depends on:** Phase 14
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 15 to break down)
+
 ---
 
 ## Progress
