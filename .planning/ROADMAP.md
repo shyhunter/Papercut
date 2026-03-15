@@ -278,12 +278,20 @@ Plans:
 
 ### Phase 15: Release Preparation
 
-**Goal:** [To be planned]
+**Goal:** Prepare Papercut for closed beta release — build pipeline for all 4 platforms, distribution via GitHub Releases, branding (icon, splash, version bump), CI/CD automation, auto-update, UI polish, in-app feedback, crash reporting, repo setup, and monetization strategy documentation
 **Depends on:** Phase 14
-**Plans:** 0 plans
+**Requirements:** BUILD-PACKAGING, BRANDING, GITHUB-REPO, CI-CD, AUTO-UPDATE, UI-POLISH, FEEDBACK, CRASH-REPORTS, MONETIZATION-PLAN
+**Plans:** 8 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 15 to break down)
+- [ ] 15-01-PLAN.md — Remove GS sidecar bundling, refactor to system Ghostscript
+- [ ] 15-02-PLAN.md — Version bump to 1.0.0-beta.1, custom app icon, splash screen
+- [ ] 15-03-PLAN.md — README, MIT license, issue/PR templates, CHANGELOG
+- [ ] 15-04-PLAN.md — CI workflow (push/PR validation) + Linux target in release workflow
+- [ ] 15-05-PLAN.md — Tauri auto-update system (updater + process plugins)
+- [ ] 15-06-PLAN.md — UI polish (dark mode, dashboard, loading states, animations)
+- [ ] 15-07-PLAN.md — In-app feedback, About dialog, opt-in crash reports
+- [ ] 15-08-PLAN.md — Monetization strategy document + final release verification
 
 ---
 
