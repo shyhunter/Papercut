@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 14-security-privacy-hardening
-**Current Plan:** 0
+**Current Plan:** 1
 **Total Plans in Phase:** 4
-**Status:** Planned — ready for execution
+**Status:** Ready to execute
 **Last Activity:** 2026-03-15
 
 Progress: [██████████] 100%
@@ -67,6 +67,7 @@ Progress: [██████████] 100%
 | Phase 13 P02 | 3 | 2 tasks | 6 files |
 | Phase 13 P04 | 2 | 2 tasks | 4 files |
 | Phase 13 P05 | 2 | 3 tasks | 5 files |
+| Phase 14 P01 | 3 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -149,6 +150,7 @@ Recent decisions affecting current work:
 - [Phase 13]: LazyThumbnail uses IntersectionObserver with 200px rootMargin for lazy loading
 - [Phase 13]: PageCanvas auto-fits to container width when scale prop omitted
 - [Phase 13]: Typography controls (font, margins, spacing) shown only for Calibre-routed ebook conversions
+- [Phase 14]: Allow-list character validation for filenames: alphanumeric (Unicode-aware) + safe punctuation; path traversal blocked via component iteration
 
 ### Roadmap Evolution
 
