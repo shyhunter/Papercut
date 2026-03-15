@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 14-security-privacy-hardening
-**Current Plan:** 3
+**Current Plan:** 4
 **Total Plans in Phase:** 4
 **Status:** Ready to execute
 **Last Activity:** 2026-03-15
@@ -70,6 +70,7 @@ Progress: [██████████] 100%
 | Phase 14 P01 | 3 | 2 tasks | 3 files |
 | Phase 14 P02 | 4 | 2 tasks | 3 files |
 | Phase 14 P03 | 4 | 2 tasks | 1 files |
+| Phase 14 P04 | 4 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -156,6 +157,7 @@ Recent decisions affecting current work:
 - [Phase 14]: CSP style-src unsafe-inline for Tailwind v4 + React; remaining npm high vulns are dev-only @wdio deps
 - [Phase 14]: Generic user-facing error messages for protect_pdf/unlock_pdf -- prevents password leakage in GS stderr
 - [Phase 14]: UUID-only temp naming for calibre/textutil/word -- avoids leaking source filename into temp paths
+- [Phase 14]: Self-contained modal pattern: PrivacyFooter and FirstLaunchBanner each render their own PrivacyModal instance
 
 ### Roadmap Evolution
 
