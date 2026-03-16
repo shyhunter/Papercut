@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 15-release-preparation
-**Current Plan:** 5
+**Current Plan:** 6
 **Total Plans in Phase:** 8
 **Status:** Ready to execute
 **Last Activity:** 2026-03-16
@@ -73,6 +73,7 @@ Progress: [███-------] 38%
 | Phase 14 P04 | 4 | 3 tasks | 7 files |
 | Phase 15 P03 | 2 | 2 tasks | 6 files |
 | Phase 15-release-preparation P01 | 3 | 2 tasks | 3 files |
+| Phase 15 P08 | 1 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -162,6 +163,7 @@ Recent decisions affecting current work:
 - [Phase 14]: Self-contained modal pattern: PrivacyFooter and FirstLaunchBanner each render their own PrivacyModal instance
 - [Phase 15]: Copyright holder set to 'Papercut Contributors' for MIT license
 - [Phase 15-release-preparation]: System GS via PATH lookup instead of sidecar bundling; find_ghostscript() helper with cross-platform resolution
+- [Phase 15]: One-time purchase monetization model; all pricing/tier decisions deferred to post-beta
 
 ### Roadmap Evolution
 
