@@ -177,6 +177,7 @@ Recent decisions affecting current work:
 - Phase 8 added: NewFeatures
 - Phase 13 added: Edit and convert PDF to DOC and Kindle ebook formats
 - Phase 15 added: Release Preparation
+- Phase 16 added: PDF Editor & GS Bundling
 
 ### Pending Todos
 

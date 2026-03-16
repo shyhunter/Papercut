@@ -293,6 +293,24 @@ Plans:
 - [ ] 15-07-PLAN.md — In-app feedback, About dialog, opt-in crash reports
 - [ ] 15-08-PLAN.md — Monetization strategy document + final release verification
 
+### Phase 16: PDF Editor & GS Bundling
+
+**Goal:** Full-page PDF editor with text editing, tool sidebar, page panel, system file association, and Ghostscript bundling — making Papercut a complete, zero-install PDF editor
+**Depends on:** Phase 15
+**Success Criteria** (what must be TRUE):
+  1. User can open a PDF in a full-page editor view with the document rendered as a large sheet/canvas
+  2. User can edit text inline on PDF pages (select, modify, change font/size/color)
+  3. A tool sidebar (right) provides quick access to all existing tools (compress, sign, redact, watermark, etc.)
+  4. A page panel (left) shows thumbnails for navigation, supports drag-to-reorder, add, and delete pages
+  5. User can register Papercut as the system default PDF app or use "Open with Papercut"
+  6. When a PDF is opened via system file association, Papercut launches directly into the editor view (new flow)
+  7. Ghostscript is bundled as a sidecar binary — no external install required for PDF compression, protect, unlock, PDF/A, and repair
+  8. All existing step-by-step tool flows remain functional alongside the new editor
+**Plans:** 0 plans (run /gsd:plan-phase 16 to break down)
+
+Plans:
+- [ ] TBD
+
 ---
 
 ## Progress
