@@ -281,7 +281,7 @@ Plans:
 **Goal:** Prepare Papercut for closed beta release — build pipeline for all 4 platforms, distribution via GitHub Releases, branding (icon, splash, version bump), CI/CD automation, auto-update, UI polish, in-app feedback, crash reporting, repo setup, and monetization strategy documentation
 **Depends on:** Phase 14
 **Requirements:** BUILD-PACKAGING, BRANDING, REPO-SETUP, CI-CD, DISTRIBUTION, AUTO-UPDATE, UI-POLISH, FEEDBACK, CRASH-REPORTS, MONETIZATION-STRATEGY
-**Plans:** 5/8 plans executed
+**Plans:** 6/8 plans executed
 
 Plans:
 - [ ] 15-01-PLAN.md — Remove GS sidecar bundling, refactor to system Ghostscript
