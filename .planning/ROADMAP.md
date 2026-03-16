@@ -306,10 +306,16 @@ Plans:
   6. When a PDF is opened via system file association, Papercut launches directly into the editor view (new flow)
   7. Ghostscript is bundled as a sidecar binary — no external install required for PDF compression, protect, unlock, PDF/A, and repair
   8. All existing step-by-step tool flows remain functional alongside the new editor
-**Plans:** 0 plans (run /gsd:plan-phase 16 to break down)
+**Plans:** 7 plans
 
 Plans:
-- [ ] TBD
+- [ ] 16-01-PLAN.md — GS sidecar bundling (revert system PATH to bundled binary)
+- [ ] 16-02-PLAN.md — Editor canvas with continuous scroll, zoom controls, EditorContext
+- [ ] 16-03-PLAN.md — Text editing layer (click-to-select, inline edit, formatting toolbar)
+- [ ] 16-04-PLAN.md — Page panel (thumbnails, drag-reorder, add/delete/duplicate, multi-select)
+- [ ] 16-05-PLAN.md — Tool sidebar (icon strip, inline tool execution for all PDF tools)
+- [ ] 16-06-PLAN.md — File association, save model (Cmd+S / Save As), unsaved changes guard
+- [ ] 16-07-PLAN.md — Integration verification and visual checkpoint
 
 ---
 
