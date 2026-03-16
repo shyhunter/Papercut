@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 15 — Release Preparation
+**Current focus:** Phase 16 — PDF Editor & GS Bundling
 
 ## Current Position
 
-Phase: 15-release-preparation
-**Current Plan:** 8
-**Total Plans in Phase:** 8
+Phase: 16-pdf-editor-gs-bundling
+**Current Plan:** 3
+**Total Plans in Phase:** 7
 **Status:** Ready to execute
 **Last Activity:** 2026-03-16
 
-Progress: [███-------] 38%
+Progress: [██--------] 29%
 
 ## Performance Metrics
 
@@ -76,6 +76,7 @@ Progress: [███-------] 38%
 | Phase 15 P08 | 1 | 1 tasks | 1 files |
 | Phase 15 P05 | 2 | 2 tasks | 7 files |
 | Phase 15 P07 | 4 | 2 tasks | 6 files |
+| Phase 16-pdf-editor-gs-bundling P02 | 4 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -171,6 +172,9 @@ Recent decisions affecting current work:
 - [Phase 15]: UpdateChecker renders at top of AppContent; returns null when no update; silent failures only
 - [Phase 15]: CrashReporter replaces BoundaryFallback -- single crash UI pattern with opt-in GitHub issue reporting
 - [Phase 15]: TODO placeholder for GitHub repo URL in FeedbackButton, AboutDialog, CrashReporter
+- [Phase 16-pdf-editor-gs-bundling]: useReducer for EditorContext state -- complex state with many interdependent fields
+- [Phase 16-pdf-editor-gs-bundling]: Virtualized rendering: only current page +/- 2 rendered to canvas, others placeholder divs
+- [Phase 16-pdf-editor-gs-bundling]: initState action on EditorContext for atomic full-state initialization from EditorView
 
 ### Roadmap Evolution
 
@@ -199,5 +203,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-03-16
-Stopped at: Completed 15-03-PLAN.md
-Resume file: .planning/phases/15-release-preparation/15-04-PLAN.md
+Stopped at: Completed 16-02-PLAN.md
+Resume file: .planning/phases/16-pdf-editor-gs-bundling/16-03-PLAN.md
