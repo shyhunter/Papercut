@@ -5,17 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-02-19)
 
 **Core value:** Users can reduce, resize, and convert documents locally in seconds -- zero uploads, zero privacy compromise.
-**Current focus:** Phase 14 — Security & Privacy Hardening
+**Current focus:** Phase 15 — Release Preparation
 
 ## Current Position
 
-Phase: 14-security-privacy-hardening
-**Current Plan:** Not started
-**Total Plans in Phase:** 4
-**Status:** Milestone complete
-**Last Activity:** 2026-03-15
+Phase: 15-release-preparation
+**Current Plan:** 4 of 8
+**Total Plans in Phase:** 8
+**Status:** In progress
+**Last Activity:** 2026-03-16
 
-Progress: [██████████] 100%
+Progress: [███-------] 38%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Progress: [██████████] 100%
 | Phase 14 P02 | 4 | 2 tasks | 3 files |
 | Phase 14 P03 | 4 | 2 tasks | 1 files |
 | Phase 14 P04 | 4 | 3 tasks | 7 files |
+| Phase 15 P03 | 2 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -158,6 +159,7 @@ Recent decisions affecting current work:
 - [Phase 14]: Generic user-facing error messages for protect_pdf/unlock_pdf -- prevents password leakage in GS stderr
 - [Phase 14]: UUID-only temp naming for calibre/textutil/word -- avoids leaking source filename into temp paths
 - [Phase 14]: Self-contained modal pattern: PrivacyFooter and FirstLaunchBanner each render their own PrivacyModal instance
+- [Phase 15]: Copyright holder set to 'Papercut Contributors' for MIT license
 
 ### Roadmap Evolution
 
@@ -184,6 +186,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-03-15
-Stopped at: Phase 14 planned — 4 plans ready for execution
-Resume file: .planning/phases/14-security-privacy-hardening/14-01-PLAN.md
+Last session: 2026-03-16
+Stopped at: Completed 15-03-PLAN.md
+Resume file: .planning/phases/15-release-preparation/15-04-PLAN.md
