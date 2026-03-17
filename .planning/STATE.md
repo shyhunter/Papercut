@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 16-pdf-editor-gs-bundling
-**Current Plan:** 4
+**Current Plan:** 6
 **Total Plans in Phase:** 7
 **Status:** Ready to execute
 **Last Activity:** 2026-03-17
@@ -78,6 +78,8 @@ Progress: [██--------] 29%
 | Phase 15 P07 | 4 | 2 tasks | 6 files |
 | Phase 16-pdf-editor-gs-bundling P02 | 4 | 2 tasks | 6 files |
 | Phase 16 P05 | 5 | 2 tasks | 6 files |
+| Phase 16 P04 | 8 | 2 tasks | 5 files |
+| Phase 16 P03 | 8 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -178,6 +180,11 @@ Recent decisions affecting current work:
 - [Phase 16-pdf-editor-gs-bundling]: initState action on EditorContext for atomic full-state initialization from EditorView
 - [Phase 16]: useDebouncedPreview hook for 500ms debounced live preview of pdf-lib tools in sidebar
 - [Phase 16]: GS-backed sidebar tools skip live preview due to temp-file overhead; apply directly on click
+- [Phase 16]: scrollToPageRef on context for cross-component scroll-to-page (PagePanel triggers, EditorCanvas implements)
+- [Phase 16]: pdf-lib copyPages + new document for all structural page operations (reorder, delete, duplicate) -- pdfBytes always reflect actual page structure
+- [Phase 16]: contentEditable div for inline text editing (not textarea) in PDF editor
+- [Phase 16]: Extraction cache keyed by pdfBytes.byteLength + pageIndex to avoid repeated PDF text extraction
+- [Phase 16]: Two-row top toolbar layout: breadcrumb + formatting toolbar (Google Docs style)
 
 ### Roadmap Evolution
 
@@ -206,5 +213,5 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 ## Session Continuity
 
 Last session: 2026-03-17
-Stopped at: Wave 1 complete (16-01, 16-02). Wave 2 (16-03, 16-04, 16-05) blocked by rate limit.
-Resume file: .planning/phases/16-pdf-editor-gs-bundling/16-03-PLAN.md
+Stopped at: Completed 16-04-PLAN.md (Page Panel). Plans 16-05 through 16-07 remaining.
+Resume file: .planning/phases/16-pdf-editor-gs-bundling/16-05-PLAN.md
