@@ -10,10 +10,10 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 16-pdf-editor-gs-bundling
-**Current Plan:** 3
+**Current Plan:** 4
 **Total Plans in Phase:** 7
 **Status:** Ready to execute
-**Last Activity:** 2026-03-16
+**Last Activity:** 2026-03-17
 
 Progress: [██--------] 29%
 
@@ -77,6 +77,7 @@ Progress: [██--------] 29%
 | Phase 15 P05 | 2 | 2 tasks | 7 files |
 | Phase 15 P07 | 4 | 2 tasks | 6 files |
 | Phase 16-pdf-editor-gs-bundling P02 | 4 | 2 tasks | 6 files |
+| Phase 16 P05 | 5 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -175,6 +176,8 @@ Recent decisions affecting current work:
 - [Phase 16-pdf-editor-gs-bundling]: useReducer for EditorContext state -- complex state with many interdependent fields
 - [Phase 16-pdf-editor-gs-bundling]: Virtualized rendering: only current page +/- 2 rendered to canvas, others placeholder divs
 - [Phase 16-pdf-editor-gs-bundling]: initState action on EditorContext for atomic full-state initialization from EditorView
+- [Phase 16]: useDebouncedPreview hook for 500ms debounced live preview of pdf-lib tools in sidebar
+- [Phase 16]: GS-backed sidebar tools skip live preview due to temp-file overhead; apply directly on click
 
 ### Roadmap Evolution
 
@@ -202,6 +205,6 @@ Note: Rust toolchain required — installed via rustup during plan 01-01 executi
 
 ## Session Continuity
 
-Last session: 2026-03-16
-Stopped at: Completed 16-02-PLAN.md
+Last session: 2026-03-17
+Stopped at: Wave 1 complete (16-01, 16-02). Wave 2 (16-03, 16-04, 16-05) blocked by rate limit.
 Resume file: .planning/phases/16-pdf-editor-gs-bundling/16-03-PLAN.md
