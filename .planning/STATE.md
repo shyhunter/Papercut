@@ -10,7 +10,7 @@ See: .planning/PROJECT.md (updated 2026-02-19)
 ## Current Position
 
 Phase: 16-pdf-editor-gs-bundling
-**Current Plan:** 6
+**Current Plan:** 7
 **Total Plans in Phase:** 7
 **Status:** Ready to execute
 **Last Activity:** 2026-03-17
@@ -80,6 +80,7 @@ Progress: [██--------] 29%
 | Phase 16 P05 | 5 | 2 tasks | 6 files |
 | Phase 16 P04 | 8 | 2 tasks | 5 files |
 | Phase 16 P03 | 8 | 2 tasks | 6 files |
+| Phase 16 P06 | 5 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -185,6 +186,9 @@ Recent decisions affecting current work:
 - [Phase 16]: contentEditable div for inline text editing (not textarea) in PDF editor
 - [Phase 16]: Extraction cache keyed by pdfBytes.byteLength + pageIndex to avoid repeated PDF text extraction
 - [Phase 16]: Two-row top toolbar layout: breadcrumb + formatting toolbar (Google Docs style)
+- [Phase 16]: run_with_file(Option<String>) pattern: main.rs parses CLI args, lib.rs emits file-opened event with delay for webview mount
+- [Phase 16]: editorFilePath in ToolContext takes routing priority over activeTool and dashboard
+- [Phase 16]: SaveController invisible component for shortcuts; useSaveActions hook for imperative save from UI
 
 ### Roadmap Evolution
 
