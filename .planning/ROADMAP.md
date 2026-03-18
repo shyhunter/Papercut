@@ -306,16 +306,18 @@ Plans:
   6. When a PDF is opened via system file association, Papercut launches directly into the editor view (new flow)
   7. Ghostscript is bundled as a sidecar binary — no external install required for PDF compression, protect, unlock, PDF/A, and repair
   8. All existing step-by-step tool flows remain functional alongside the new editor
-**Plans:** 6/7 plans executed
+**Plans:** 6/9 plans executed
 
 Plans:
-- [ ] 16-01-PLAN.md — GS sidecar bundling (revert system PATH to bundled binary)
-- [ ] 16-02-PLAN.md — Editor canvas with continuous scroll, zoom controls, EditorContext
-- [ ] 16-03-PLAN.md — Text editing layer (click-to-select, inline edit, formatting toolbar)
-- [ ] 16-04-PLAN.md — Page panel (thumbnails, drag-reorder, add/delete/duplicate, multi-select)
-- [ ] 16-05-PLAN.md — Tool sidebar (icon strip, inline tool execution for all PDF tools)
-- [ ] 16-06-PLAN.md — File association, save model (Cmd+S / Save As), unsaved changes guard
-- [ ] 16-07-PLAN.md — Integration verification and visual checkpoint
+- [x] 16-01-PLAN.md — GS sidecar bundling (revert system PATH to bundled binary)
+- [x] 16-02-PLAN.md — Editor canvas with continuous scroll, zoom controls, EditorContext
+- [x] 16-03-PLAN.md — Text editing layer (click-to-select, inline edit, formatting toolbar)
+- [x] 16-04-PLAN.md — Page panel (thumbnails, drag-reorder, add/delete/duplicate, multi-select)
+- [x] 16-05-PLAN.md — Tool sidebar (icon strip, inline tool execution for all PDF tools)
+- [x] 16-06-PLAN.md — File association, save model (Cmd+S / Save As), unsaved changes guard
+- [x] 16-07-PLAN.md — Integration verification and visual checkpoint
+- [ ] 16-08-PLAN.md — Bug fixes: 10 editor bugs from UAT (layout, text editing, page panel, stability, sidebar)
+- [ ] 16-09-PLAN.md — New features: line spacing, compass rotate, live comparison editing, save link, pinch zoom
 
 ---
 
