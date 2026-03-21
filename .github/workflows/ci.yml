@@ -79,12 +79,11 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Build Tauri app
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: --target x86_64-unknown-linux-gnu
+      - name: Install tauri-wd WebDriver
+        run: cargo install tauri-webdriver-automation
+
+      - name: Build Tauri app (debug, for webdriver-automation plugin)
+        run: npx tauri build --debug
 
       - name: Run E2E tests
         run: xvfb-run npm run test:e2e

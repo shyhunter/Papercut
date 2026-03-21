@@ -12,10 +12,10 @@ function getTauriBinaryPath(): string {
     return join(__dirname, '../../src-tauri/target/debug/bundle/macos/Papercut.app/Contents/MacOS/tauri-app');
   }
   if (process.platform === 'win32') {
-    return join(__dirname, '../../src-tauri/target/debug/Papercut.exe');
+    return join(__dirname, '../../src-tauri/target/debug/tauri-app.exe');
   }
   // Linux
-  return join(__dirname, '../../src-tauri/target/debug/papercut');
+  return join(__dirname, '../../src-tauri/target/debug/tauri-app');
 }
 
 // Poll until something is listening on the given port (TCP connect succeeds).
