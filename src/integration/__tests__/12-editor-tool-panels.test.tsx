@@ -7,12 +7,11 @@
  * Each test opens the panel and verifies its controls render correctly.
  */
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { render, screen, cleanup, act, within } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useEffect, useRef } from 'react';
 import { EditorProvider, useEditorContext, createEditorViewState } from '@/context/EditorContext';
 import { ToolSidebar } from '@/components/pdf-editor/ToolSidebar';
-import { ToolSidebarPanel } from '@/components/pdf-editor/ToolSidebarPanel';
 
 // ── Mocks ─────────────────────────────────────────────────────────────────────
 

@@ -7,7 +7,7 @@
  * delete, duplicate, move up/down, and page count display.
  */
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import { render, screen, cleanup, act } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useEffect, useRef } from 'react';
 import { EditorProvider, useEditorContext, createEditorViewState } from '@/context/EditorContext';
@@ -207,10 +207,9 @@ describe('Suite 11 — PDF Editor: Page Panel', () => {
   });
 
   it('PP-07 — Selecting a page enables Duplicate and conditionally enables Delete', async () => {
-    let latestCtx: EditorCtx | null = null;
     const user = userEvent.setup();
 
-    render(<PagePanelHarness pageCount={3} onContextReady={(ctx) => { latestCtx = ctx; }} />);
+    render(<PagePanelHarness pageCount={3} />);
 
     await screen.findByText('3 pages');
 

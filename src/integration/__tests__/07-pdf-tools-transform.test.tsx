@@ -7,7 +7,7 @@
  * through file selection, configuration, processing, and save step.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen, cleanup, fireEvent, act } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { open } from '@tauri-apps/plugin-dialog';
 import App from '@/App';
@@ -93,9 +93,6 @@ Object.defineProperty(URL, 'createObjectURL', { value: vi.fn().mockReturnValue('
 Object.defineProperty(URL, 'revokeObjectURL', { value: vi.fn(), writable: true });
 
 afterEach(cleanup);
-
-// ── Fake bytes ────────────────────────────────────────────────────────────────
-const FAKE_PDF_BYTES = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x0a]);
 
 // ── Shared helpers ────────────────────────────────────────────────────────────
 
