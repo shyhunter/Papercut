@@ -7,6 +7,7 @@ import {
   waitForProcessingComplete,
   screenshotOnFailure,
   prepareOutputPath,
+  selectToolOnDashboard,
   FIXTURES_DIR,
   REAL_FIXTURES_DIR,
 } from '../helpers/driver';
@@ -15,6 +16,11 @@ const PHOTO_PDF  = join(REAL_FIXTURES_DIR, 'photo_heavy.pdf');
 const TEXT_PDF   = join(REAL_FIXTURES_DIR, 'warnock_camelot.pdf');
 const LARGE_PDF  = join(FIXTURES_DIR, 'large-sparse.pdf');
 const CORRUPT_PDF = join(FIXTURES_DIR, 'corrupt.pdf');
+
+// Navigate from Dashboard to Compress PDF tool once at session start.
+before(async () => {
+  await selectToolOnDashboard(browser, 'Compress PDF');
+});
 
 async function injectFile(filePath: string): Promise<void> {
   // Wait for window ready BEFORE applying mock (browser.execute requires a live window).

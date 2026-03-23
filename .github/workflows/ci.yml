@@ -79,8 +79,8 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Install WebKitWebDriver
-        run: sudo apt-get install -y webkit2gtk-driver
+      - name: Install tauri-wd WebDriver
+        run: cargo install tauri-webdriver-automation
 
       - name: Build Tauri app (debug, for webdriver-automation plugin)
         run: npx tauri build --debug

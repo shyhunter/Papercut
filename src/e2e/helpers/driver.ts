@@ -15,6 +15,22 @@ export function prepareOutputPath(filename: string): string {
   return outPath;
 }
 
+/**
+ * Navigate from the Dashboard to a specific tool.
+ * The app starts on the Dashboard (tool grid). Each tool flow begins only after
+ * clicking a tool card.  Call this once per session before the first injectFile().
+ */
+export async function selectToolOnDashboard(browser: Browser, toolName: string): Promise<void> {
+  // Wait for the Dashboard to render (tool cards are buttons with the tool name)
+  const toolCard = await browser.$(`button*=${toolName}`);
+  await toolCard.waitForExist({ timeout: 15000, timeoutMsg: `Dashboard tool card "${toolName}" not found` });
+  await toolCard.click();
+
+  // Wait for the LandingCard (file picker) to appear — the open-file-btn signals step 0
+  const openBtn = await browser.$('[data-testid="open-file-btn"]');
+  await openBtn.waitForExist({ timeout: 10000, timeoutMsg: 'LandingCard did not appear after selecting tool' });
+}
+
 /** Wait for the app's step bar to show the target step index (0=Pick, 1=Configure, 2=Compare, 3=Save). */
 export async function waitForStep(browser: Browser, stepIndex: number): Promise<void> {
   await browser.waitUntil(

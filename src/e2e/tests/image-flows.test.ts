@@ -7,6 +7,7 @@ import {
   waitForProcessingComplete,
   screenshotOnFailure,
   prepareOutputPath,
+  selectToolOnDashboard,
   FIXTURES_DIR,
   REAL_FIXTURES_DIR,
 } from '../helpers/driver';
@@ -15,6 +16,11 @@ const PHOTO_JPG   = join(REAL_FIXTURES_DIR, 'pexels-pixabay-459225.jpg');
 const SAMPLE_PNG  = join(REAL_FIXTURES_DIR, 'sample.png');
 const LARGE_JPG   = join(FIXTURES_DIR, 'large-sparse.jpg');
 const CORRUPT_JPG = join(FIXTURES_DIR, 'corrupt.jpg');
+
+// Navigate from Dashboard to Compress Image tool once at session start.
+before(async () => {
+  await selectToolOnDashboard(browser, 'Compress Image');
+});
 
 function detectMagicBytes(filePath: string): 'jpeg' | 'png' | 'webp' | 'unknown' {
   const buf = readFileSync(filePath);
