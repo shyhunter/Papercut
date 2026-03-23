@@ -21,58 +21,67 @@ export function prepareOutputPath(filename: string): string {
  * clicking a tool card.  Call this once per session before the first injectFile().
  */
 export async function selectToolOnDashboard(browser: Browser, toolName: string): Promise<void> {
-  // Wait for the Dashboard to render (tool cards are buttons with the tool name)
-  const toolCard = await browser.$(`button*=${toolName}`);
-  await toolCard.waitForExist({ timeout: 15000, timeoutMsg: `Dashboard tool card "${toolName}" not found` });
-  await toolCard.click();
-
-  // Wait for the LandingCard (file picker) to appear — the open-file-btn signals step 0
-  const openBtn = await browser.$('[data-testid="open-file-btn"]');
-  await openBtn.waitForExist({ timeout: 10000, timeoutMsg: 'LandingCard did not appear after selecting tool' });
-}
-
-/** Wait for the app's step bar to show the target step index (0=Pick, 1=Configure, 2=Compare, 3=Save). */
-export async function waitForStep(browser: Browser, stepIndex: number): Promise<void> {
+  // Wait for the Dashboard to render.  Tool cards are <button> elements
+  // whose textContent includes the tool name (e.g. "Compress PDF").
+  // We use browser.execute because WebDriver text selectors may be unreliable
+  // in WebKitGTK.
   await browser.waitUntil(
-    async () => {
-      const active = await browser.$(`[data-testid="step-bar-item"][data-active="true"]`);
-      if (!active) return false;
-      const idx = await active.getAttribute('data-step-index');
-      return idx === String(stepIndex);
-    },
-    { timeout: 15000, interval: 200, timeoutMsg: `Timed out waiting for step ${stepIndex}` }
+    async () =>
+      browser.execute((name: string) => {
+        const btns = document.querySelectorAll('button');
+        for (const btn of btns) {
+          if (btn.textContent?.includes(name)) return true;
+        }
+        return false;
+      }, toolName),
+    { timeout: 15000, timeoutMsg: `Dashboard tool card "${toolName}" not found` },
   );
+
+  await browser.execute((name: string) => {
+    const btns = document.querySelectorAll('button');
+    for (const btn of btns) {
+      if (btn.textContent?.includes(name)) {
+        btn.click();
+        return;
+      }
+    }
+  }, toolName);
 }
 
 /** Wait for the loading overlay to disappear (file is loaded). */
 export async function waitForFileLoaded(browser: Browser): Promise<void> {
   await browser.waitUntil(
-    async () => {
-      const spinner = await browser.$('[data-testid="loading-spinner"]');
-      return !(await spinner.isDisplayed().catch(() => false));
-    },
-    { timeout: 10000, interval: 100, timeoutMsg: 'Timed out waiting for file load' }
+    async () =>
+      browser.execute(() => {
+        const spinner = document.querySelector('[data-testid="loading-spinner"]') as HTMLElement | null;
+        if (!spinner) return true;
+        const style = getComputedStyle(spinner);
+        return style.display === 'none' || style.visibility === 'hidden' || spinner.offsetParent === null;
+      }),
+    { timeout: 10000, interval: 100, timeoutMsg: 'Timed out waiting for file load' },
   );
 }
 
 /**
  * Wait for processing to complete by polling for the compare step container.
  *
- * @param browser - WebDriverIO browser instance
  * @param compareTestId - data-testid of the compare step root element.
  *   Use 'compare-step' for PDF tests (default).
  *   Use 'image-compare-step' for image tests.
  */
 export async function waitForProcessingComplete(
   browser: Browser,
-  compareTestId: 'compare-step' | 'image-compare-step' = 'compare-step'
+  compareTestId: 'compare-step' | 'image-compare-step' = 'compare-step',
 ): Promise<void> {
   await browser.waitUntil(
-    async () => {
-      const compare = await browser.$(`[data-testid="${compareTestId}"]`);
-      return await compare.isDisplayed().catch(() => false);
-    },
-    { timeout: 90000, interval: 500, timeoutMsg: `Timed out waiting for ${compareTestId} to appear` }
+    async () =>
+      browser.execute((id: string) => {
+        const el = document.querySelector(`[data-testid="${id}"]`) as HTMLElement | null;
+        if (!el) return false;
+        const style = getComputedStyle(el);
+        return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
+      }, compareTestId),
+    { timeout: 90000, interval: 500, timeoutMsg: `Timed out waiting for ${compareTestId} to appear` },
   );
 }
 

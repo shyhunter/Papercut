@@ -3,7 +3,6 @@ import { existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { mockOpenDialog, mockSaveDialog } from '../helpers/dialogs';
 import {
-  waitForStep,
   waitForProcessingComplete,
   screenshotOnFailure,
   prepareOutputPath,
@@ -11,6 +10,16 @@ import {
   FIXTURES_DIR,
   REAL_FIXTURES_DIR,
 } from '../helpers/driver';
+import {
+  clickTestId,
+  testIdDisplayed,
+  waitForTestId,
+  waitForTestIdDisplayed,
+  waitForStep,
+  getTestIdText,
+  selectTestIdByText,
+  clearAndSetTestIdValue,
+} from '../helpers/testid';
 
 const PHOTO_PDF  = join(REAL_FIXTURES_DIR, 'photo_heavy.pdf');
 const TEXT_PDF   = join(REAL_FIXTURES_DIR, 'warnock_camelot.pdf');
@@ -23,19 +32,17 @@ before(async () => {
 });
 
 async function injectFile(filePath: string): Promise<void> {
-  // Wait for window ready BEFORE applying mock (browser.execute requires a live window).
-  const openBtn = await browser.$('[data-testid="open-file-btn"]');
-  await openBtn.waitForExist({ timeout: 15000 });
+  // Wait for the file-picker button to appear.
+  await waitForTestId(browser, 'open-file-btn');
   // Apply IPC mock AFTER window is confirmed ready.
   await mockOpenDialog(browser, filePath);
-  await openBtn.click();
+  await clickTestId(browser, 'open-file-btn');
 }
 
 async function navigateToCompare(): Promise<void> {
   await waitForStep(browser, 1);
-  const generateBtn = await browser.$('[data-testid="generate-preview-btn"]');
-  await generateBtn.waitForDisplayed({ timeout: 5000 });
-  await generateBtn.click();
+  await waitForTestIdDisplayed(browser, 'generate-preview-btn', { timeout: 5000 });
+  await clickTestId(browser, 'generate-preview-btn');
   // PDF compare step uses the default 'compare-step' testid
   await waitForProcessingComplete(browser, 'compare-step');
   await waitForStep(browser, 2);
@@ -46,9 +53,8 @@ afterEach(async function (this: Mocha.Context) {
     await screenshotOnFailure(browser, this.currentTest.fullTitle());
   }
   try {
-    const processAnother = await browser.$('[data-testid="process-another-btn"]');
-    if (await processAnother.isDisplayed().catch(() => false)) {
-      await processAnother.click();
+    if (await testIdDisplayed(browser, 'process-another-btn')) {
+      await clickTestId(browser, 'process-another-btn');
     }
   } catch { /* already on landing */ }
 });
@@ -62,17 +68,26 @@ describe('PDF compression — quality levels', () => {
       await injectFile(PHOTO_PDF);
       await waitForStep(browser, 1);
 
-      const qualityOption = await browser.$(`[data-testid="quality-option-${quality}"]`);
-      await qualityOption.click();
+      // The ConfigureStep uses a slider for quality — set the slider value
+      // to the midpoint of each zone: web=12, screen=37, print=62, archive=87
+      const zoneValues: Record<string, number> = { web: 12, screen: 37, print: 62, archive: 87 };
+      await browser.execute((val: number) => {
+        const slider = document.querySelector('[data-testid="compression-slider"]') as HTMLInputElement;
+        if (!slider) return;
+        const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+        if (nativeSetter) nativeSetter.call(slider, String(val));
+        else slider.value = String(val);
+        slider.dispatchEvent(new Event('input', { bubbles: true }));
+        slider.dispatchEvent(new Event('change', { bubbles: true }));
+        slider.dispatchEvent(new Event('mouseup', { bubbles: true }));
+      }, zoneValues[quality]);
 
       await mockSaveDialog(browser, outPath);
       await navigateToCompare();
 
-      const compareStep = await browser.$('[data-testid="compare-step"]');
-      await expect(compareStep).toBeDisplayed();
+      expect(await testIdDisplayed(browser, 'compare-step')).toBe(true);
 
-      const saveBtn = await browser.$('[data-testid="save-btn"]');
-      await saveBtn.click();
+      await clickTestId(browser, 'save-btn');
       await browser.waitUntil(() => existsSync(outPath), { timeout: 30000, interval: 100, timeoutMsg: `output file not written: ${outPath}` });
 
       expect(existsSync(outPath)).toBe(true);
@@ -97,21 +112,16 @@ describe('PDF resize', () => {
     await injectFile(TEXT_PDF);
     await waitForStep(browser, 1);
 
-    const resizeToggle = await browser.$('[data-testid="resize-toggle"]');
-    await resizeToggle.click();
-
-    const presetSelect = await browser.$('[data-testid="page-preset-select"]');
-    await presetSelect.selectByVisibleText('A3');
+    await clickTestId(browser, 'resize-toggle');
+    await selectTestIdByText(browser, 'page-preset-select', 'A3');
 
     await mockSaveDialog(browser, outPath);
     await navigateToCompare();
 
-    const statsBar = await browser.$('[data-testid="stats-bar"]');
-    const statsText = await statsBar.getText();
+    const statsText = await getTestIdText(browser, 'stats-bar');
     expect(statsText).toBeTruthy();
 
-    const saveBtn = await browser.$('[data-testid="save-btn"]');
-    await saveBtn.click();
+    await clickTestId(browser, 'save-btn');
     await browser.waitUntil(() => existsSync(outPath), { timeout: 30000, interval: 100, timeoutMsg: `output file not written: ${outPath}` });
 
     expect(existsSync(outPath)).toBe(true);
@@ -123,28 +133,17 @@ describe('PDF resize', () => {
     await injectFile(TEXT_PDF);
     await waitForStep(browser, 1);
 
-    const resizeToggle = await browser.$('[data-testid="resize-toggle"]');
-    await resizeToggle.click();
-
-    const presetSelect = await browser.$('[data-testid="page-preset-select"]');
-    await presetSelect.selectByVisibleText('Custom');
-
-    const widthInput = await browser.$('[data-testid="custom-width-input"]');
-    await widthInput.clearValue();
-    await widthInput.setValue('100');
-
-    const heightInput = await browser.$('[data-testid="custom-height-input"]');
-    await heightInput.clearValue();
-    await heightInput.setValue('150');
+    await clickTestId(browser, 'resize-toggle');
+    await selectTestIdByText(browser, 'page-preset-select', 'Custom');
+    await clearAndSetTestIdValue(browser, 'custom-width-input', '100');
+    await clearAndSetTestIdValue(browser, 'custom-height-input', '150');
 
     await mockSaveDialog(browser, outPath);
     await navigateToCompare();
 
-    const compareStep = await browser.$('[data-testid="compare-step"]');
-    await expect(compareStep).toBeDisplayed();
+    expect(await testIdDisplayed(browser, 'compare-step')).toBe(true);
 
-    const saveBtn = await browser.$('[data-testid="save-btn"]');
-    await saveBtn.click();
+    await clickTestId(browser, 'save-btn');
     await browser.waitUntil(() => existsSync(outPath), { timeout: 30000, interval: 100, timeoutMsg: `output file not written: ${outPath}` });
 
     expect(existsSync(outPath)).toBe(true);
@@ -156,20 +155,25 @@ describe('PDF resize', () => {
     await injectFile(PHOTO_PDF);
     await waitForStep(browser, 1);
 
-    const qualityOption = await browser.$('[data-testid="quality-option-web"]');
-    await qualityOption.click();
+    // Set to web zone (slider midpoint = 12)
+    await browser.execute(() => {
+      const slider = document.querySelector('[data-testid="compression-slider"]') as HTMLInputElement;
+      if (!slider) return;
+      const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+      if (nativeSetter) nativeSetter.call(slider, '12');
+      else slider.value = '12';
+      slider.dispatchEvent(new Event('input', { bubbles: true }));
+      slider.dispatchEvent(new Event('change', { bubbles: true }));
+      slider.dispatchEvent(new Event('mouseup', { bubbles: true }));
+    });
 
-    const resizeToggle = await browser.$('[data-testid="resize-toggle"]');
-    await resizeToggle.click();
-
-    const presetSelect = await browser.$('[data-testid="page-preset-select"]');
-    await presetSelect.selectByVisibleText('A3');
+    await clickTestId(browser, 'resize-toggle');
+    await selectTestIdByText(browser, 'page-preset-select', 'A3');
 
     await mockSaveDialog(browser, outPath);
     await navigateToCompare();
 
-    const saveBtn = await browser.$('[data-testid="save-btn"]');
-    await saveBtn.click();
+    await clickTestId(browser, 'save-btn');
     await browser.waitUntil(() => existsSync(outPath), { timeout: 30000, interval: 100, timeoutMsg: `output file not written: ${outPath}` });
 
     expect(existsSync(outPath)).toBe(true);
@@ -183,43 +187,36 @@ describe('PDF error paths', () => {
   it('[PDF-ERR-OVERSIZE] >100 MB file shows blocking modal', async () => {
     await injectFile(LARGE_PDF);
     await browser.pause(1500); // allow async size check to complete
-    const modal = await browser.$('[data-testid="file-size-limit-modal"]');
-    await expect(modal).toBeDisplayed();
-    const dismissBtn = await browser.$('[data-testid="file-size-limit-dismiss"]');
-    await dismissBtn.click();
+    expect(await testIdDisplayed(browser, 'file-size-limit-modal')).toBe(true);
+    await clickTestId(browser, 'file-size-limit-dismiss');
     await browser.pause(500);
-    await expect(modal).not.toBeDisplayed();
+    expect(await testIdDisplayed(browser, 'file-size-limit-modal')).toBe(false);
   });
 
   it('[PDF-ERR-CORRUPT] zero-byte file shows inline error', async () => {
     await injectFile(CORRUPT_PDF);
     await browser.pause(1500);
-    const emptyErr  = await browser.$('[data-testid="empty-file-error"]');
-    const corruptErr = await browser.$('[data-testid="corrupt-file-error"]');
-    const oneVisible =
-      (await emptyErr.isDisplayed().catch(() => false)) ||
-      (await corruptErr.isDisplayed().catch(() => false));
-    expect(oneVisible).toBe(true); // Expected an inline error for zero-byte file
-    const configureStep = await browser.$('[data-testid="configure-step"]');
-    expect(await configureStep.isDisplayed().catch(() => false)).toBe(false);
+    const emptyVisible  = await testIdDisplayed(browser, 'empty-file-error');
+    const corruptVisible = await testIdDisplayed(browser, 'corrupt-file-error');
+    expect(emptyVisible || corruptVisible).toBe(true); // Expected an inline error for zero-byte file
+    expect(await testIdDisplayed(browser, 'configure-step')).toBe(false);
   });
 
   it('[PDF-ERR-CANCEL] cancel mid-processing returns to Configure or Compare step', async () => {
     await injectFile(PHOTO_PDF);
     await waitForStep(browser, 1);
 
-    const generateBtn = await browser.$('[data-testid="generate-preview-btn"]');
-    await generateBtn.click();
+    await clickTestId(browser, 'generate-preview-btn');
     await browser.pause(300);
 
-    const cancelBtn = await browser.$('[data-testid="cancel-btn"]');
-    if (await cancelBtn.isDisplayed().catch(() => false)) {
-      await cancelBtn.click();
+    const cancelVisible = await testIdDisplayed(browser, 'cancel-btn');
+    if (cancelVisible) {
+      await clickTestId(browser, 'cancel-btn');
     }
     await browser.pause(2000);
 
-    const configureVisible = await browser.$('[data-testid="configure-step"]').isDisplayed().catch(() => false);
-    const compareVisible   = await browser.$('[data-testid="compare-step"]').isDisplayed().catch(() => false);
+    const configureVisible = await testIdDisplayed(browser, 'configure-step');
+    const compareVisible   = await testIdDisplayed(browser, 'compare-step');
     // After cancel, app must show either Configure or Compare step (not blank)
     expect(configureVisible || compareVisible).toBe(true);
   });
@@ -239,8 +236,7 @@ describe('PDF save dialog filter', () => {
     });
 
     await navigateToCompare();
-    const saveBtn = await browser.$('[data-testid="save-btn"]');
-    await saveBtn.click();
+    await clickTestId(browser, 'save-btn');
     await browser.pause(500);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
