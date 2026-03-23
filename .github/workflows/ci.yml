@@ -56,6 +56,22 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm run test
+
+  rust-checks:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
@@ -71,15 +87,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-
-      - name: Install frontend dependencies
-        run: npm ci
-
-      - name: TypeScript type check
-        run: npx tsc --noEmit
-
-      - name: Unit tests
-        run: npm run test
 
       - name: Cargo check
         run: cd src-tauri && cargo check
@@ -121,7 +128,7 @@ jobs:
 
   e2e-pdf:
     runs-on: ubuntu-22.04
-    needs: [validate, detect-changes]
+    needs: [validate, rust-checks, detect-changes]
     if: |
       (github.event_name == 'pull_request' && needs.detect-changes.outputs.pdf-changed == 'true') ||
       github.event_name == 'workflow_dispatch' ||
@@ -201,7 +208,7 @@ jobs:
 
   e2e-image:
     runs-on: ubuntu-22.04
-    needs: [validate, detect-changes]
+    needs: [validate, rust-checks, detect-changes]
     if: |
       (github.event_name == 'pull_request' && needs.detect-changes.outputs.image-changed == 'true') ||
       github.event_name == 'workflow_dispatch' ||
