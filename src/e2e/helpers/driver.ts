@@ -2,9 +2,12 @@ import type { Browser } from 'webdriverio';
 import { mkdirSync, rmSync, existsSync } from 'fs';
 import { join } from 'path';
 
-export const E2E_OUTPUT_DIR = join(process.cwd(), 'e2e-output');
-export const FIXTURES_DIR = join(process.cwd(), 'test-fixtures-e2e');
-export const REAL_FIXTURES_DIR = join(process.cwd(), 'test-fixtures');
+// Fixture directories — overridable via env vars so CI can place them inside
+// /tmp (within Tauri's $TEMP fs scope, which is required for the frontend
+// readFile API to succeed).
+export const E2E_OUTPUT_DIR = process.env.E2E_OUTPUT_DIR ?? join(process.cwd(), 'e2e-output');
+export const FIXTURES_DIR = process.env.E2E_FIXTURES_DIR ?? join(process.cwd(), 'test-fixtures-e2e');
+export const REAL_FIXTURES_DIR = process.env.E2E_REAL_FIXTURES_DIR ?? join(process.cwd(), 'test-fixtures');
 
 /** Ensure e2e-output dir exists and return a unique output path for this test. */
 export function prepareOutputPath(filename: string): string {
