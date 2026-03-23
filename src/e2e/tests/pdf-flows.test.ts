@@ -19,6 +19,7 @@ import {
   getTestIdText,
   selectTestIdByText,
   clearAndSetTestIdValue,
+  setSliderValue,
 } from '../helpers/testid';
 
 const PHOTO_PDF  = join(REAL_FIXTURES_DIR, 'photo_heavy.pdf');
@@ -71,16 +72,7 @@ describe('PDF compression — quality levels', () => {
       // The ConfigureStep uses a slider for quality — set the slider value
       // to the midpoint of each zone: web=12, screen=37, print=62, archive=87
       const zoneValues: Record<string, number> = { web: 12, screen: 37, print: 62, archive: 87 };
-      await browser.execute((val: number) => {
-        const slider = document.querySelector('[data-testid="compression-slider"]') as HTMLInputElement;
-        if (!slider) return;
-        const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-        if (nativeSetter) nativeSetter.call(slider, String(val));
-        else slider.value = String(val);
-        slider.dispatchEvent(new Event('input', { bubbles: true }));
-        slider.dispatchEvent(new Event('change', { bubbles: true }));
-        slider.dispatchEvent(new Event('mouseup', { bubbles: true }));
-      }, zoneValues[quality]);
+      await setSliderValue(browser, 'compression-slider', zoneValues[quality]);
 
       await mockSaveDialog(browser, outPath);
       await navigateToCompare();
@@ -156,16 +148,7 @@ describe('PDF resize', () => {
     await waitForStep(browser, 1);
 
     // Set to web zone (slider midpoint = 12)
-    await browser.execute(() => {
-      const slider = document.querySelector('[data-testid="compression-slider"]') as HTMLInputElement;
-      if (!slider) return;
-      const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-      if (nativeSetter) nativeSetter.call(slider, '12');
-      else slider.value = '12';
-      slider.dispatchEvent(new Event('input', { bubbles: true }));
-      slider.dispatchEvent(new Event('change', { bubbles: true }));
-      slider.dispatchEvent(new Event('mouseup', { bubbles: true }));
-    });
+    await setSliderValue(browser, 'compression-slider', 12);
 
     await clickTestId(browser, 'resize-toggle');
     await selectTestIdByText(browser, 'page-preset-select', 'A3');
