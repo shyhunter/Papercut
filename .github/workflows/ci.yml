@@ -108,10 +108,10 @@ jobs:
         with:
           workspaces: src-tauri -> target
 
-      - name: Install minimal system dependencies
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pkg-config libssl-dev
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf pkg-config libssl-dev
 
       - name: Run Rust integration tests
         run: cd src-tauri && cargo test --lib -- --test-threads=4
