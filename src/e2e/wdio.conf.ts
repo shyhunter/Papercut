@@ -30,9 +30,12 @@ function waitForPort(port: number, host = '127.0.0.1', retryIntervalMs = 200): P
   });
 }
 
-// Keep track of the tauri-wd child process
-let tauriWd: ChildProcess | undefined;
-let killedTauriWd = false;
+// Keep track of the tauri-driver child process
+let tauriDriver: ChildProcess | undefined;
+let killedTauriDriver = false;
+
+// Resolve the tauri-driver binary from node_modules
+const TAURI_DRIVER_BIN = join(__dirname, '../../node_modules/.bin/tauri-driver');
 
 /**
  * `tauri:options` is a vendor capability not yet declared in @wdio/types.
@@ -40,7 +43,8 @@ let killedTauriWd = false;
  * on the rest of the config object.
  */
 interface TauriCapability {
-  'tauri:options': { binary: string };
+  browserName: string;
+  'tauri:options': { application: string };
 }
 
 export const config: WebdriverIO.Config = {
@@ -50,9 +54,9 @@ export const config: WebdriverIO.Config = {
   exclude: [],
   maxInstances: 1, // Tauri apps are single-instance; never run in parallel
 
-  capabilities: [{ 'tauri:options': { binary: getTauriBinaryPath() } } as unknown as TauriCapability & WebdriverIO.Capabilities],
+  capabilities: [{ browserName: '', 'tauri:options': { application: getTauriBinaryPath() } } as unknown as TauriCapability & WebdriverIO.Capabilities],
 
-  // Connect to tauri-wd which starts in beforeSession on port 4444
+  // Connect to tauri-driver which starts in beforeSession on port 4444
   hostname: '127.0.0.1',
   port: 4444,
 
@@ -77,42 +81,50 @@ export const config: WebdriverIO.Config = {
     }
   },
 
-  // Start tauri-wd before each WebDriverIO session so it can manage the Tauri app.
-  // tauri-wd is the open-source WebDriver server for Tauri (no cloud key needed).
+  // Start tauri-driver before each WebDriverIO session.
+  // @crabnebula/tauri-driver wraps the platform-native WebDriver
+  // (WebKitWebDriver on Linux, safaridriver on macOS, msedgedriver on Windows).
   beforeSession: async (): Promise<void> => {
-    // Kill any leftover tauri-wd from a previous run (frees port 4444).
-    spawnSync('pkill', ['-f', 'tauri-wd'], { stdio: 'ignore' });
+    // Kill any leftover tauri-driver/WebKitWebDriver from a previous run (frees port 4444).
+    spawnSync('pkill', ['-f', 'tauri-driver'], { stdio: 'ignore' });
+    spawnSync('pkill', ['-f', 'WebKitWebDriver'], { stdio: 'ignore' });
     // Wait for the OS to release port 4444 before binding again.
     await new Promise<void>((r) => setTimeout(r, 500));
 
-    tauriWd = spawn('tauri-wd', ['--port', '4444'], {
+    tauriDriver = spawn(TAURI_DRIVER_BIN, ['--port', '4444'], {
       stdio: [null, process.stdout, process.stderr],
+      env: {
+        ...process.env,
+        // Headless CI environments may lack a GPU; disable DMA-BUF to prevent
+        // WebKitGTK rendering failures in Xvfb.
+        WEBKIT_DISABLE_DMABUF_RENDERER: '1',
+      },
     });
-    tauriWd.on('error', (error: Error) => {
-      console.error('tauri-wd error:', error);
+    tauriDriver.on('error', (error: Error) => {
+      console.error('tauri-driver error:', error);
       process.exit(1);
     });
-    tauriWd.on('exit', (code: number | null) => {
-      if (!killedTauriWd) {
-        console.error('tauri-wd exited unexpectedly with code:', code);
+    tauriDriver.on('exit', (code: number | null) => {
+      if (!killedTauriDriver) {
+        console.error('tauri-driver exited unexpectedly with code:', code);
         process.exit(1);
       }
     });
 
-    // Wait for tauri-wd to initialize its WebDriver server on port 4444
+    // Wait for tauri-driver to initialize its WebDriver server on port 4444
     await waitForPort(4444);
   },
 
   // Clean up after each session
   afterSession: (): void => {
-    killedTauriWd = true;
-    tauriWd?.kill();
-    killedTauriWd = false; // reset for next session
+    killedTauriDriver = true;
+    tauriDriver?.kill();
+    killedTauriDriver = false; // reset for next session
   },
 
   // Final cleanup
   onComplete: (): void => {
-    killedTauriWd = true;
-    tauriWd?.kill();
+    killedTauriDriver = true;
+    tauriDriver?.kill();
   },
 };

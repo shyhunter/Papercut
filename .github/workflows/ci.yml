@@ -79,11 +79,13 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
-      - name: Install tauri-wd WebDriver
-        run: cargo install tauri-webdriver-automation
+      - name: Install WebKitWebDriver
+        run: sudo apt-get install -y webkit2gtk-driver
 
       - name: Build Tauri app (debug, for webdriver-automation plugin)
         run: npx tauri build --debug
 
       - name: Run E2E tests
         run: xvfb-run npm run test:e2e
+        env:
+          WEBKIT_DISABLE_DMABUF_RENDERER: '1'
