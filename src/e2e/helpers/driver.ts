@@ -1,6 +1,7 @@
 import type { Browser } from 'webdriverio';
 import { mkdirSync, rmSync, existsSync } from 'fs';
 import { join } from 'path';
+import { testIdDisplayed, clickTestId, waitForTestId } from './testid';
 
 // Fixture directories — overridable via env vars so CI can place them inside
 // /tmp (within Tauri's $TEMP fs scope, which is required for the frontend
@@ -94,4 +95,35 @@ export async function screenshotOnFailure(browser: Browser, testTitle: string): 
   mkdirSync(dir, { recursive: true });
   const safe = testTitle.replace(/[^a-z0-9]/gi, '_').slice(0, 80);
   await browser.saveScreenshot(join(dir, `${safe}_${Date.now()}.png`));
+}
+
+/**
+ * Reset the app back to the open-file page for the given tool.
+ *
+ * Handles any state the app might be in after a test:
+ *   1. Already on open-file page → no-op
+ *   2. On compare step with "Start Over" button → click it
+ *   3. Stuck on any other step → refresh the page and re-navigate from Dashboard
+ */
+export async function resetAppState(browser: Browser, toolName: string): Promise<void> {
+  // Case 1: already on the open-file page
+  if (await testIdDisplayed(browser, 'open-file-btn')) return;
+
+  // Case 2: on compare/save step with "Start Over" link
+  try {
+    if (await testIdDisplayed(browser, 'process-another-btn')) {
+      await clickTestId(browser, 'process-another-btn');
+      await waitForTestId(browser, 'open-file-btn', { timeout: 5000 });
+      return;
+    }
+  } catch (_e) {
+    // Ignore click/wait failures — the button may have disappeared during a
+    // page transition or the app may be in a transient state.  Fall through
+    // to the hard-refresh recovery below.
+  }
+
+  // Case 3: stuck in an unknown state — hard refresh resets everything
+  await browser.refresh();
+  await selectToolOnDashboard(browser, toolName);
+  await waitForTestId(browser, 'open-file-btn', { timeout: 10000 });
 }

@@ -50,6 +50,14 @@ export const config: WebdriverIO.Config = {
   exclude: [],
   maxInstances: 1, // Tauri apps are single-instance; never run in parallel
 
+  // Named suites allow running a subset of specs:
+  //   npx wdio run src/e2e/wdio.conf.ts --suite pdf
+  //   npx wdio run src/e2e/wdio.conf.ts --suite image
+  suites: {
+    pdf:   [join(__dirname, 'tests/pdf-flows.test.ts')],
+    image: [join(__dirname, 'tests/image-flows.test.ts')],
+  },
+
   capabilities: [{ 'tauri:options': { binary: getTauriBinaryPath() } } as unknown as TauriCapability & WebdriverIO.Capabilities],
 
   // Connect to tauri-wd which starts in beforeSession on port 4444
