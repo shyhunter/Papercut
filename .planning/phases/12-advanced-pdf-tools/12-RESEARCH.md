@@ -643,12 +643,12 @@ Plus the system monospace font as a fallback. Total bundle size increase: ~150KB
 ## Sources
 
 ### Primary (HIGH confidence)
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src-tauri/src/lib.rs` -- GS sidecar pattern (compress_pdf, protect_pdf, unlock_pdf)
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src/types/tools.ts` -- Tool registry pattern
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src/lib/pdfWatermark.ts` -- pdf-lib page drawing pattern
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src/components/organize-pdf/OrganizePdfFlow.tsx` -- Custom step flow pattern with page thumbnails
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src/lib/pdfThumbnail.ts` -- pdfjs-dist rendering pattern
-- **Codebase analysis:** `/Users/erkanyilmaz/papercut/src/components/protect-pdf/ProtectPdfFlow.tsx` -- GS-based tool flow pattern
+- **Codebase analysis:** `./src-tauri/src/lib.rs` -- GS sidecar pattern (compress_pdf, protect_pdf, unlock_pdf)
+- **Codebase analysis:** `./src/types/tools.ts` -- Tool registry pattern
+- **Codebase analysis:** `./src/lib/pdfWatermark.ts` -- pdf-lib page drawing pattern
+- **Codebase analysis:** `./src/components/organize-pdf/OrganizePdfFlow.tsx` -- Custom step flow pattern with page thumbnails
+- **Codebase analysis:** `./src/lib/pdfThumbnail.ts` -- pdfjs-dist rendering pattern
+- **Codebase analysis:** `./src/components/protect-pdf/ProtectPdfFlow.tsx` -- GS-based tool flow pattern
 
 ### Secondary (MEDIUM confidence)
 - pdf-lib API for `embedPng`, `embedJpg`, `drawImage` -- based on training knowledge of pdf-lib v1.17; API is stable and well-documented
