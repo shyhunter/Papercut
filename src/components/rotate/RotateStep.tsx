@@ -194,11 +194,13 @@ export function RotateStep({ pdfBytes, pageCount, onApplied, onBack, isProcessin
           <div className={
             pageCount <= 1
               ? 'grid grid-cols-1 gap-4 max-w-[220px] mx-auto'
-              : pageCount <= 3
-                ? 'grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-md mx-auto'
-                : pageCount <= 6
-                  ? 'grid grid-cols-3 sm:grid-cols-4 gap-3 max-w-lg mx-auto'
-                  : 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3'
+              : pageCount <= 2
+                ? 'grid grid-cols-2 gap-4 max-w-sm mx-auto'
+                : pageCount <= 4
+                  ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-lg mx-auto'
+                  : pageCount <= 6
+                    ? 'grid grid-cols-3 sm:grid-cols-4 gap-3 max-w-lg mx-auto'
+                    : 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3'
           }>
             {thumbnails.map((url, i) => {
               const rotation = rotations.get(i) ?? 0;
