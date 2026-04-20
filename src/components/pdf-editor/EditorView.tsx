@@ -161,7 +161,7 @@ function EditorViewInner({ filePath }: EditorViewProps) {
             <p className="text-xs text-destructive">{error}</p>
           </div>
           <Button onClick={goToDashboard} variant="outline" className="w-full">
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Button>
         </div>
