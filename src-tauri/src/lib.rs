@@ -183,15 +183,18 @@ fn is_ghostscript_available(app: &tauri::AppHandle) -> bool {
 /// Build a user-friendly error message when Ghostscript crashes unexpectedly
 /// (signal termination, missing library, etc.) rather than exiting cleanly.
 fn format_gs_crash_error(stderr: &str) -> String {
+    const REINSTALL_HINT: &str =
+        "Try reinstalling the application or installing Ghostscript manually.";
+
     let hint = if stderr.contains("Library not loaded") || stderr.contains("dyld") {
-        "A required library is missing. Try reinstalling the application or installing Ghostscript manually."
+        format!("A required library is missing. {}", REINSTALL_HINT)
     } else if stderr.contains("not found") || stderr.contains("No such file") {
-        "Ghostscript could not be found. Try reinstalling the application or installing Ghostscript manually."
+        format!("Ghostscript could not be found. {}", REINSTALL_HINT)
     } else {
-        "Ghostscript crashed unexpectedly. Try reinstalling the application or installing Ghostscript manually."
+        format!("Ghostscript crashed unexpectedly. {}", REINSTALL_HINT)
     };
     if stderr.is_empty() {
-        hint.to_string()
+        hint
     } else {
         format!("{} Details: {}", hint, stderr)
     }
@@ -501,10 +504,14 @@ async fn compress_pdf(
                 return Err("CANCELLED".to_string());
             }
             let stderr = stderr_lines.join("\n");
+            let details = if stderr.is_empty() {
+                String::new()
+            } else {
+                format!(" Details: {}", stderr)
+            };
             return Err(format!(
-                "Ghostscript compression failed (exit code {}). {}",
-                _code,
-                if !stderr.is_empty() { format!("Details: {}", stderr) } else { String::new() }
+                "Ghostscript compression failed (exit code {}).{}",
+                _code, details
             ));
         }
     }
