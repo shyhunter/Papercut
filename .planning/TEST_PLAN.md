@@ -97,7 +97,27 @@ You can skip manual verification of these unless you suspect a regression:
 | **Integration — Image Compare** | ICo-01 to ICo-05: Before/After panels, stats bar (size + quality), dimensions when resized, Back → Configure, Save → Save step | `04-image-flow.test.tsx` |
 | **Integration — E2E Flows** | E2E-01 to E2E-08: full PDF flow, full image flow, Process Another (PDF/image), PDF back-chain, image back-chain, quality passed through, target-not-met end-to-end | `05-e2e-flows.test.tsx` |
 | **[BUG-01] GS bloat regression** | BUG-01: source bytes returned when GS inflates; BUG-01b: targetMet=true when original fits target; BUG-01c: bestAchievableSizeBytes=inputSizeBytes when original exceeds target | `pdfProcessor.test.ts` |
-| **[BUG-01-UI] Already-optimal messaging** | BUG-01-UI: "already optimal" notice shown when wasAlreadyOptimal=true; BUG-01-UI-b: target banner says "fully optimised" | `CompareStep.test.tsx` |
+| **[BUG-01-UI] Already-optimal messaging** | BUG-01-UI: "already optimal" notice shown when wasAlreadyOptimal=true; BUG-01-UI-b: target banner says "already at maximum compression" | `CompareStep.test.tsx` |
+| **[EST-01] estimateOutputSizeBytes** | EST-01a–EST-01e: web < archive, custom≈screen, boundary clamping, interpolation at extreme scores | `pdfProcessor.test.ts` |
+| **[CAS-01/02/03] Cascade compression** | CAS-01: cascade stops when target met; CAS-02: all-bloat → wasAlreadyOptimal; CAS-03: smallest non-bloating preset used as bestAchievable; CAS-NOCHANGE: null target = single GS call | `pdfProcessor.test.ts` |
+| **[CFG-EST-01] Zone size estimates** | All 4 slider zones show `data-testid="zone-estimate-*"` elements; web estimate < archive estimate | `ConfigureStep.test.tsx` |
+| **[CFG-WARN-01] Pre-estimate warning** | Amber warning appears when custom target is below min achievable; no warning when target achievable | `ConfigureStep.test.tsx` |
+| **[COR-01] isPdfHeader magic bytes** | COR-01a–COR-01f: valid %PDF- header → true; PNG/JPEG → false; empty → false; truncated → false; all-zeros → false | `fileValidation.test.ts` |
+| **[COR-02] Corrupt PDF modal (LandingCard)** | COR-02a–COR-02f: modal shown when corruptPdfBlock set; file name displayed; "Repair with Repair PDF" button calls onCorruptPdfRepair; "Pick a Different File" calls onCorruptPdfDismiss; no modal when null | `LandingCard.test.tsx` |
+| **[CMP-BACK-01/CMP-MSG-01] CompareStep recovery** | CMP-BACK-01: "Back and try again" button present when targetMet=false; CMP-BACK-01b: button calls onBack; CMP-MSG-01: message updated to "already at maximum compression" | `CompareStep.test.tsx` |
+| **[GS-CRASH-DISC-01] GS crash vs cancel discriminator** | GS signal-crash with missing-library stderr → `format_gs_crash_error` message produced (not "exit code N"); dyld stderr → reinstall message (not `CANCELLED`) | `lib.rs` |
+| **[GS-SIDECAR-01] GS sidecar binary present** | At least one `gs-*` file exists in `src-tauri/binaries/` — catches accidental stripping of bundled GS | `lib.rs` |
+| **[PC-CRASH-01] GS crash error propagation** | `processPdf` rejects with crash message (missing library) — does NOT contain `CANCELLED`; hook routes to `error`, not `isCancelled` | `pdfProcessor.test.ts` |
+| **[PC-CRASH-02] GS crash error is not CANCELLED** | Crash error message lacks `CANCELLED` string — ensures hook sets `error=message, isCancelled=false` | `pdfProcessor.test.ts` |
+| **`friendlyPdfError` — "No PDF header"** | Raw "No PDF header found" error → "This file is not a valid PDF document. Please select a valid PDF file." | `pdfUtils.test.ts` |
+| **`friendlyPdfError` — password-protected** | "PDF is encrypted with a password" → "This PDF is password-protected and could not be opened." | `pdfUtils.test.ts` |
+| **`friendlyPdfError` — corrupted/parse failure** | "Failed to parse PDF structure" → "This file appears to be corrupted or is not a valid PDF." | `pdfUtils.test.ts` |
+| **`friendlyPdfError` — unknown error fallback** | Unknown error message → generic "Failed to load PDF..." fallback | `pdfUtils.test.ts` |
+| **`friendlyPdfError` — non-Error value** | Non-Error (string) passed in → generic fallback; does not throw | `pdfUtils.test.ts` |
+| **[ED-16] EditorView error heading** | When `PDFDocument.load` throws invalid-header error, `EditorView` shows "Unable to open file" heading | `10-editor-load.test.tsx` |
+| **[ED-17] EditorView friendly error message** | Error card shows friendly message from `friendlyPdfError`; raw pdf-lib text is NOT rendered | `10-editor-load.test.tsx` |
+| **[ED-18] EditorView Back to Dashboard button** | Error card contains a "Back to Dashboard" button | `10-editor-load.test.tsx` |
+| **[WM-ERROR-01] Watermark friendly load error** | When `PDFDocument.load` throws "No PDF header found", WatermarkFlow shows friendly error; raw exception text not shown | `07-pdf-tools-transform.test.tsx` |
 | **[EB-01] StepErrorBoundary — step throw shows fallback** | EB-01: StepErrorBoundary catches child render throw, shows "Configure encountered an unexpected error." message | `ErrorBoundary.test.tsx` |
 | **[EB-02] StepErrorBoundary — Reset clears boundary** | EB-02: "Reset this step" button clears boundary state (boundary performs reset cycle) | `ErrorBoundary.test.tsx` |
 | **[EB-03] AppErrorBoundary — app throw shows Restart app** | EB-03: AppErrorBoundary catches throw, shows "The app encountered an unexpected error." + "Restart app" button | `ErrorBoundary.test.tsx` |
