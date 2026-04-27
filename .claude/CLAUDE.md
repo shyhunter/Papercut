@@ -17,7 +17,7 @@ See `.claude/project_rules_decisions.md` for all architectural decisions and rul
 
 **Always read `.claude/project_rules_decisions.md` before starting work.** Key rules P007–P010 apply to every change:
 
-- **P007 — Committed fixtures:** Any new processing pipeline must have a real binary fixture in `test-fixtures/` (not synthetic stubs). Generate with the Rust binary: `cd src-tauri && cargo run --bin generate_fixtures`.
+- **P007 — Committed fixtures:** Any new processing pipeline must have a real binary fixture in `test-fixtures/` (not synthetic stubs). Generate with the Rust binary: `cd src-tauri && cargo run --bin generate_fixtures --features fixtures`.
 - **P008 — Parallel TEST_PLAN.md entries:** When adding a test, add its ID to the "Automated vs Manual" table in `.planning/TEST_PLAN.md`.
 - **P009 — Bug-to-test:** Every bug fix must ship with a regression test that would have caught the original failure.
 - **P010 — TDD:** Write the failing test FIRST, confirm it is red, then implement the fix. Commit both together.
