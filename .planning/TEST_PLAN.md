@@ -88,6 +88,14 @@ You can skip manual verification of these unless you suspect a regression:
 | `fileValidation` | Extension detection, MIME mapping, format detection, path validation | `fileValidation.test.ts` |
 | **[PV-01] Privacy — capabilities config** | `capabilities/default.json` contains zero `http:` permission identifiers | `privacy.test.ts` |
 | **[PV-02] Privacy — runtime fetch isolation** | `processImage` never calls `window.fetch` during processing (fetch spy confirms) | `privacy.test.ts` |
+| **[VC-01] Version consistency — tauri.conf.json** | `tauri.conf.json` version matches `package.json` | `versionConsistency.test.ts` |
+| **[VC-02] Version consistency — Cargo.toml** | `Cargo.toml` version matches `package.json` | `versionConsistency.test.ts` |
+| **[VC-03] Version consistency — source fallbacks** | `SplashScreen`, `Dashboard`, `AboutDialog` fallback strings match `package.json` | `versionConsistency.test.ts` |
+| **[VC-04] Version consistency — git tag** | Git tag (when present) matches `package.json`; branch pushes skip tag check | CI only (`release.yml` test-gate) |
+| **[ST-01] Smoke test — macOS arm64** | DMG mounts, binary launches, stays running 8s, `Info.plist` version matches tag | `release.yml` smoke-test job |
+| **[ST-02] Smoke test — macOS x64** | DMG mounts, binary launches, stays running 8s, `Info.plist` version matches tag | `release.yml` smoke-test job |
+| **[ST-03] Smoke test — Windows x64** | Installer runs silently, exe launches, stays running 8s, `ProductVersion` matches tag | `release.yml` smoke-test job |
+| **[ST-04] Smoke test — Linux x64** | AppImage runs under Xvfb, stays running 8s | `release.yml` smoke-test job |
 
 | **Integration — File Input** | FI-01 to FI-10: landing renders, privacy footer, file picker invoked, PDF/JPEG/PNG/WebP routing, cancel stays on landing, FI-09 (>100 MB modal), FI-10 (zero-byte inline error) | `01-file-input.test.tsx` |
 | **Integration — PDF Configure** | PC-01 to PC-08: filename header, default quality, 4 quality options, tile click, target → Suggested badge, invalid target error, progress state, Back button | `02-pdf-configure.test.tsx` |
