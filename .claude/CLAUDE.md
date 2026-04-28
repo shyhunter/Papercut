@@ -37,3 +37,16 @@ Do NOT run in `yolo` mode on this project.
 ## Global Rules
 
 See `~/.claude/rules.md` for global rules that apply to all sessions.
+
+<!-- ============ SECURITY BASELINE (inserted by scaffold-project.sh) ============ -->
+## Security Baseline
+
+This project inherits the global security baseline (see `~/.claude/rules.md` rules **R005–R016** and `~/.claude/CLAUDE.md` → "Security Baseline"). Always-on Claude Code hooks (`~/.claude/hooks/security/`) enforce:
+
+- **Hard-blocked:** hardcoded secrets in writes (OpenAI/Anthropic/Stripe/AWS/GH/Slack/Google keys, JWTs, private keys, DB URLs with creds); dangerous bash (`git add .env`, `cat .env`, `curl|sh`, `chmod 777 /…`).
+- **Warned:** heuristic credential patterns; force-push to `main`; `--no-verify`; missing `.gitignore` env coverage.
+
+Project-specific security rules live in `.claude/project_rules_decisions.md` under the `Security` category.
+
+Every code/architecture proposal in this project must end with a `**Security notes**` block (R015): where secrets live, how auth/permissions are enforced, remaining risks.
+<!-- ========================================================================== -->

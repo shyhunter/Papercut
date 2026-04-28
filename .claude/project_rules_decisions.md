@@ -9,8 +9,23 @@ Managed via `/rules-manager` skill. See global rules in `~/.claude/rules.md`.
 | Field | Values |
 |---|---|
 | **Scope** | `project` |
-| **Category** | `Workflow` · `Tooling` · `Code Style` · `Architecture` · `Communication` |
+| **Category** | `Workflow` · `Tooling` · `Code Style` · `Architecture` · `Communication` · `Security` |
 | **Status** | `active` · `deprecated` |
+
+---
+
+## Security Baseline (inherited — do not modify, only extend)
+
+This project inherits the global security baseline: rules **R005–R016** in `~/.claude/rules.md`, enforced by global hooks in `~/.claude/hooks/security/`.
+
+**Papercut-specific extensions** (Tauri desktop app — RCE blast radius is on user machines, not on a server):
+
+- **P011 — Tauri capabilities are append-only via review.** Never broaden `src-tauri/capabilities/*.json` (especially `plugin-fs`, `plugin-shell`, `plugin-opener`, `plugin-process`, `plugin-updater`) without explicit user approval and a written reason. Each capability scope = potential arbitrary file/shell access from JS.
+- **P012 — Sidecar binaries require provenance.** Any binary in `src-tauri/binaries/` must have a documented source URL + SHA-256 in `src-tauri/binaries/README.md`. Compromised sidecar = full RCE on every user machine.
+- **P013 — Updater signing key never leaves CI secrets.** The Tauri updater private key (`TAURI_SIGNING_PRIVATE_KEY` / `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`) lives only in CI secret manager. Never in repo, never in `.env`, never in `tauri.conf.json`. A leaked signing key = ability to ship malicious updates to every installed user.
+- **P014 — Renderer untrust boundary.** Treat anything from the Vite/React renderer as user input when it crosses to Rust via Tauri commands. Validate paths (no `..`, no symlink escape), file types, and sizes inside the Rust handler — not in JS.
+- **P015 — Dependency audit gate.** `npm audit --omit=dev` MUST run in CI on every PR. High/critical advisories block merge. Pin direct deps; use lockfile.
+- **P016 — Secret scanning in CI.** `gitleaks detect --no-banner` MUST run in CI on every push. A failure blocks the build.
 
 ---
 
